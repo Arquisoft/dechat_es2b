@@ -1,0 +1,22 @@
+[[section-concepts]]
+== Conceptos Transversales (Cross-cutting)
+
+
+
+
+
+=== _<Concepto 1>_
+
+_<explicación>_
+
+
+
+=== _<Concepto 2>_
+
+_<explicación>_
+
+...
+
+=== _<Concepto n>_
+
+_<explicación>_

@@ -1,0 +1,23 @@
+[[section-introduction-and-goals]]
+== Introducción y Metas
+
+
+
+=== Vista de Requerimientos
+
+
+
+=== Metas de Calidad
+
+
+
+=== Partes interesadas (Stakeholders)
+
+
+
+[options="header",cols="1,2,2"]
+|===
+|Rol/Nombre|Contacto|Expectativas
+| _<Role-1>_ | _<Contact-1>_ | _<Expectation-1>_
+| _<Role-2>_ | _<Contact-2>_ | _<Expectation-2>_
+|===
