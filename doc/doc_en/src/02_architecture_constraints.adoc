@@ -1,5 +1,11 @@
 [[section-architecture-constraints]]
 == Architecture Constraints
-TODO
-
-
+.Arquitecture constraints with explanation
+[width="80%",cols="^1e,3",frame="topbot",options="header"]
+|======================
+| Constraint | Explanation
+| Decentralization | The first most obvious constraint of the project is the fact that the application has to use decentralized data. That means that the data can not be stored on any server, so each user will have control over their data.
+| SOLID | The decentralization of the data must be implemented using SOLID, so the data will be stored in personal PODs, and the rest of the people will use a linked data.
+| Time limit | Another important constraint of the project is the time, the last complete delivery of the project has to be done the week of April 29, 2019 to May 3, 2019. On that date the application must have a state as closing as possible. However, we also have to have a small functional prototype in the week of 12 March, 2019 to 18 March, 2019.
+| Organization of the project on GitHub | During the development, the project must be monitored using version control. The use of version control is constrained to the existing repository on GitHub, and any type of modification can be made to it.
+|======================
