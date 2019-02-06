@@ -1,5 +1,0 @@
-[[section-technical-risks]]
-== Riesgos y deuda técnica
-
-
-
