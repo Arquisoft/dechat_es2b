@@ -6,15 +6,13 @@
 
 
 === Business Context
-
+TODO
 
 
 **<Diagram or Table>**
 
-**<optionally: Explanation of external domain interfaces>**
-
 === Technical Context
-
+TODO
 
 
 **<Diagram or Table>**
