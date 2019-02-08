@@ -5,7 +5,7 @@
 
 
 === Business Context
-= image:./images/business-context.png[Business context representation]
+= image:images/business-context.png[Business context representation]
 
 {sp} +
 
