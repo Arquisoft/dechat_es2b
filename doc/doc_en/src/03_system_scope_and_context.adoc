@@ -1,13 +1,9 @@
 [[section-system-scope-and-context]]
 == System Scope and Context
 
-
-
-
 === Business Context
-= image:images/business-context.png[Business context representation]
 
-{sp} +
+image::../images/business-context.png[Business context representation]
 
 === Technical Context
 TODO
