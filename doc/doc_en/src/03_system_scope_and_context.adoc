@@ -4,12 +4,10 @@
 
 
 
-
 === Business Context
-TODO
+= image:./images/business-context.png[Business context representation]
 
-
-**<Diagram or Table>**
+{sp} +
 
 === Technical Context
 TODO
