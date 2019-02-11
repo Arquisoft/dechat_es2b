@@ -6,11 +6,6 @@
 image::../images/business-context.png[Business context representation]
 
 === Technical Context
-TODO
+image::../images/technical-context.png[Technical context representation]
 
-
-**<Diagram or Table>**
-
-**<optionally: Explanation of technical interfaces>**
-
-**<Mapping Input/Output to Channels>**
+The authentication is made using a request to a SOLID server. The rest of the information (contacts, messages...) are placed in the POD which is in possession of the user.
