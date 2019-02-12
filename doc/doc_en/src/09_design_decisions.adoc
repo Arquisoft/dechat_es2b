@@ -1,5 +1,10 @@
 [[section-design-decisions]]
 == Design Decisions
-TODO
-
-
+.Architectural Decisions
+[width="80%",cols="^1e,3,1,3",frame="topbot",options="header"]
+|======================
+| Aspecto | Descripción | Elección | Razonamiento
+| Programming Language | As it is not a constraint of the project, so the language which we are going to uso to develop it is a critical decision. As experience tells us, completely changing the programming language once started is expensive and can cause a project to fail | TypeScript | The main reason why we chose this language is the amount of documentation and libraries that we find about it. When we investigate about SOLID, almost all articles, forum queries and documentation are oriented on TypeScript or JavaScript
+| Framework | This project will have a large part of research to discover the new SOLID functionalities. It is important to have as much time as possible for this work and the best way is to save coding time in fragments that we have already programmed many times. A good framework will help us in this | Angular | Angular helps us in the development of the project for being a framework oriented to agile work methodologies. This will help us to achieve great advances with little amount of code. It is also a good option for the future, since applications successfully marketed for different platforms use it
+| Database | The databases are an important utility to save the data, but at the beginning of the development we consider whether to use a database that stores the messages, and this is stored in the POD, or to use the POD for storage | Do not use a database | You could use a database to store the messages, and then store the database in the SOLID POD, but we believe that this is done twice the work that is not necessary, and also could cause problems to read messages when the other user is not connected
+|======================
