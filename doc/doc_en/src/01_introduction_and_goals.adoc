@@ -13,7 +13,7 @@ Its requirements are to make an online chat with solid technology.
 |===
 |Nr.|Quality|Motivation
 | 1 |Understability|Since this is a qualifiable project it needs to be undersable from a programmer that isn't part of the development team
-| 2 |Eficiency|As a chat it's important that messages don't take a long time to reach the other side.
+| 2 |Efficiency|As a chat it's important that messages don't take a long time to reach the other side.
 | 3 |Security|A decentralized chat wouldn't be useful to the users if everyone that wanted to steal information could do it.
 |===
 
@@ -23,6 +23,7 @@ Its requirements are to make an online chat with solid technology.
 [options="header",cols="1,2,2"]
 |===
 |Role/Name|Contact|Expectations
-| SOLID team | |Their expectations are the same as the teachers' expectations, they want an application for PC that uses SOLID and that isn't centralized
-| ARQUISOFT teachers | | Their expectations are the same as the SOLID team's expectations, they want an application for PC that uses SOLID and that isn't centralized with the added hurdle of a time limit and a rigorous use of GitHub
+| SOLID team |https://solid.mit.edu/|Their expectations are the same as the teachers' expectations, they want an application for PC that uses SOLID and that isn't centralized.
+| ARQUISOFT teachers |https://arquisoft.github.io/| Their expectations are the same as the SOLID team's expectations, they want an application for PC that uses SOLID and that isn't centralized with the added hurdle of a time limit and a rigorous use of GitHub.
+| The developer team |this GitHub repository| Since we are trying to pass a subject we can consider that every aspect of this project is of most importance for us.
 |===
