@@ -17,7 +17,7 @@ TODO
 
 [options="header",cols="1,2,2"]
 |===
-|Role/Name|Contact|Expectations
+|Role/Name|Expectations
 | SOLID team | Their expectations are the same as the teachers' expectations, they want an application for PC that uses SOLID and that isn't centralized
 | ARQUISOFT teachers | Their expectations are the same as the SOLID team's expectations, they want an application for PC that uses SOLID and that isn't centralized with the added hurdle of a time limit and a rigorous use of GitHub
 |===
