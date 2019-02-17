@@ -4,12 +4,12 @@
 
 
 === Requirements Overview
-TODO
+The driving force behind this project is to pass the subject of Software architecture (https://arquisoft.github.io/) 
 
+Its requirements are to make an online chat with solid technology.
 
 === Quality Goals
-TODO
-
+The primary goals of the architecture is to be based on SOLID, and because of that to be decentralized, to adjust to the time limit laid out for us by our teachers and to keep our GitHub project in order.
 
 === Stakeholders
 TODO
@@ -18,6 +18,6 @@ TODO
 [options="header",cols="1,2,2"]
 |===
 |Role/Name|Contact|Expectations
-| _<Role-1>_ | _<Contact-1>_ | _<Expectation-1>_
-| _<Role-2>_ | _<Contact-2>_ | _<Expectation-2>_
+| SOLID team | Their expectations are the same as the teachers' expectations, they want an application for PC that uses SOLID and that isn't centralized
+| ARQUISOFT teachers | Their expectations are the same as the SOLID team's expectations, they want an application for PC that uses SOLID and that isn't centralized with the added hurdle of a time limit and a rigorous use of GitHub
 |===
