@@ -26,5 +26,6 @@ Its requirements are to make an on-line chat with solid technology.
 | SOLID team |https://solid.mit.edu/|Their expectations are the same as the teachers' expectations, they want an application for PC that uses SOLID and that isn't centralized.
 | ARQUISOFT teachers |https://arquisoft.github.io/| Their expectations are the same as the SOLID team's expectations, they want an application for PC that uses SOLID and that isn't centralized with the added hurdle of a time limit and a rigorous use of GitHub.
 | The developer team |this GitHub repository| Since we are trying to pass a subject we can consider that every aspect of this project is of most importance for us.
-| The final users | | The final users of the application will want it to be easy to use, for it to go at a decent speed and for their data to remain private.
+| Individual final users | | The final users of the application will want it to be easy to use, for it to go at a decent speed and for their data to remain private.
+| Groups of users | | Groups of users like companies may want conversations to be linked to their web page or to make automated messages in addition to the other requirements.
 |===
