@@ -8,7 +8,7 @@ image:https://api.codacy.com/project/badge/Grade/fc7dc1da60ee4e9fb67ccff78262579
 
 == Introduction
 
-Como alumnos de la asignatura de https://github.com/Arquisoft/[Arquitectura del Software de la Universidad de Oviedo], se nos encargó, como trabajo de clase, desarrollar un chat descentralizado, utilizando https://solid.inrupt.com[SOLID], la nueva tecnología que nos presenta https://twitter.com/timberners_lee?lang=es[Tim Berners Lee] para descentralizar la Web.
+As students of the https://github.com/Arquisoft/[Software Architecture course at the University of Oviedo], we were entrusted to develop a decentralized chat as classwork. This chat must be developed using https://solid.inrupt.com[SOLID], the new technology that https://twitter.com/timberners_lee[Tim Berners Lee] presents to us to decentralize the Social Networks in the Web.
 
 
 == Compile and run
