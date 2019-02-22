@@ -4,9 +4,9 @@
 
 
 === Requirements Overview
-The driving force behind this project is to pass the subject of Software architecture (https://arquisoft.github.io/) 
+The driving force behind this project is to pass the subject of Software architecture (https://arquisoft.github.io/) and trying to archive a decent qualification deserving of being looked at by professionals.
 
-Its requirements are to make an on-line chat with solid technology.
+Its requirements are to make an on-line chat with solid technology by ourselves and a little help from the corrections our teachers give us.
 
 === Quality Goals
 [options="header",cols="1,2,2"]
