@@ -6,64 +6,27 @@ image:https://coveralls.io/repos/github/Arquisoft/dechat_es2b/badge.svg["Coverag
 image:https://api.codacy.com/project/badge/Grade/fc7dc1da60ee4e9fb67ccff782625794["Codacy code quality", link="https://www.codacy.com/app/jelabra/dechat_es2b?utm_source=github.com&utm_medium=referral&utm_content=Arquisoft/dechat_es2b&utm_campaign=Badge_Grade"]
 
 
-== Build documentation
+== Introduction
 
-The documentation is done in http://asciidoc.org/[AsciiDoc]
-using the https://arc42.org/[arc42] templates.
-The source documents are located at
- https://github.com/Arquisoft/dechat_es2b/tree/master/src/docs[src/docs].
+As students of the https://github.com/Arquisoft/[Software Architecture course at the University of Oviedo], we were entrusted to develop a decentralized chat as classwork. This chat must be developed using https://solid.inrupt.com[SOLID], the new technology that https://twitter.com/timberners_lee[Tim Berners Lee] presents to us to decentralize the Social Networks in the Web.
 
-Using https://maven.apache.org/[Maven] and the
-https://asciidoctor.org/[AsciiDoctor plugin] it is possible to generate
-the documentation running:
-
-----
-mvn generate-resources
-----
 
 == Compile and run
 
-The skeleton project is a simple
- https://spring.io/projects/spring-boot[Spring-boot] application which can be run as:
-
+The skeleton project is a simple https://angular.io[Angular] application which can be run as:
 ----
- mvn spring-boot:run
+ ng serve
 ----
 
-Once executed, the application should be available at: http://localhost:8080
-
-== Testing
-
-There are some simple Unit tests at:
- https://github.com/Arquisoft/dechat_es2b/tree/master/src/test[src/test].
-
-There are also some
- https://cucumber.io/[Cucumber based tests]
- with a simple user story defined at:
- https://github.com/Arquisoft/dechat_es2b/tree/master/src/test/resources/features[src/test/resources/features].
-
-To run tests execute:
-
-----
-mvn test
-----
-
-== Site documentation
-
-The https://github.com/Arquisoft/dechat_es2b/tree/master/pom.xml[pom.xml] file
- has also been configured to generate site project documentation running:
-
-----
-mvn site
-----
+Once executed, the application should be available at: http://127.0.0.1:4200
 
 
+== Authors and Meetings
 
+The members that we develop in this repo are:
 
+* Enol García González
+* Andrés Casillas
+* Tomás Argüelles
 
-
-
-
-
-
-
+We make a meeting at least once a week. Every time we meet, we prepare a report with everything that was discussed. All the information can be found in our https://github.com/Arquisoft/dechat_es2b/wiki/Meeting-Book[English meeting book] and our https://github.com/Arquisoft/dechat_es2b/wiki/Libro-de-reuniones[Spanish meeting book]
