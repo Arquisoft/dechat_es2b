@@ -1,6 +1,6 @@
-# Dechat
+# SolidApp
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.2.3.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.8.
 
 ## Development server
 
@@ -25,3 +25,12 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+
+## Extra steps
+
+Go to tsconfig.app.json into paths add the following data : "paths": {
+      "zlib": ["node_modules/browserify-zlib/lib/index.js"],
+      "http": ["node_modules/@angular/http"],
+      "https": ["node_modules/@angular/http"],
+      "stream": ["node_modules/jszip/dist/jszip.min.js"]
+    }
