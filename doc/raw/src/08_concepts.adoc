@@ -1,0 +1,22 @@
+[[section-concepts]]
+== Cross-cutting Concepts
+
+
+
+
+
+=== _<Concept 1>_
+TODO
+_<explanation>_
+
+
+
+=== _<Concept 2>_
+TODO
+_<explanation>_
+
+...
+
+=== _<Concept n>_
+TODO
+_<explanation>_

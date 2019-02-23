@@ -1,0 +1,17 @@
+[[section-solution-strategy]]
+== Solution Strategy
+
+=== Contents
+To achieve a satisfactory solution we've decided to use Angular, because of the many libraries related to SOLID that Angulas has.
+
+=== Motivation
+These decisions form the cornerstones for our architecture. They are the basis for many other detailed decisions or implementation rules.
+
+=== Form
+
+[options="header",cols="1,2,3,2"]
+|===
+|Quality goal|Scenario|Solution approach|Link to Details
+|Send/recieve messages|A user sends a message to another user|The receptor gets a link to the message that the sender wanted him to read and access the message with that|TODO
+|Have a contacts list|A user has a list of all the peolpe they have had communication with|The other's person POD's link is registered and saved for future use|TODO
+|===
