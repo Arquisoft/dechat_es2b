@@ -1,7 +1,7 @@
 [[section-design-decisions]]
 == Design Decisions
 .Architectural Decisions
-[width="80%",cols="^1e,3,1,3",frame="topbot",options="header"]
+[width="100%",cols="^1e,3,1,3",frame="topbot",options="header"]
 |======================
 | Aspecto | Descripción | Elección | Razonamiento
 | Programming Language | The language used to develop the app is a critical decision due to the fact that it's not possible to change it in the future without causing too much problems. As experience tells us, completely changing the programming language once started is expensive and can cause a project to fail | TypeScript | The main reason why we have chosen this language is the large quantity of documentation and libraries available. While we were researching about SOLID, we realized that the vast majority of the information is related to TypeScript and JavaScript
