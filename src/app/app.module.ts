@@ -16,6 +16,8 @@ import { FormsModule } from '@angular/forms';
 import { RegisterComponent } from './register/register.component';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ContactosComponent } from './contactos/contactos.component';
+import { MensajesComponent } from './mensajes/mensajes.component';
 
 
 
@@ -55,7 +57,9 @@ const routes: Routes = [
     LoginPopupComponent,
     DashboardComponent,
     CardComponent,
-    RegisterComponent
+    RegisterComponent,
+    ContactosComponent,
+    MensajesComponent
   ],
   imports: [
     BrowserModule,
