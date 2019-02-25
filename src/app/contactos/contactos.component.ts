@@ -6,8 +6,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./contactos.component.css']
 })
 export class ContactosComponent implements OnInit {
+  contactos = ['Contacto1', 'Contacto2', 'Contacto3'];
 
-  constructor() { }
+  constructor() {
+
+  }
 
   ngOnInit() {
   }

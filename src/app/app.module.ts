@@ -18,6 +18,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ContactosComponent } from './contactos/contactos.component';
 import { MensajesComponent } from './mensajes/mensajes.component';
+import { ContactoComponent } from './contacto/contacto.component';
 
 
 
@@ -47,6 +48,10 @@ const routes: Routes = [
   {
     path: 'register',
     component: RegisterComponent
+  },
+  {
+    path: 'message',
+    component: AppComponent
   }
 ];
 
@@ -59,7 +64,8 @@ const routes: Routes = [
     CardComponent,
     RegisterComponent,
     ContactosComponent,
-    MensajesComponent
+    MensajesComponent,
+    ContactoComponent
   ],
   imports: [
     BrowserModule,
