@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {RdfService} from '../services/rdf.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-contactos',
@@ -8,8 +10,14 @@ import { Component, OnInit } from '@angular/core';
 export class ContactosComponent implements OnInit {
   contactos = ['Contacto1', 'Contacto2', 'Contacto3'];
 
-  constructor() {
-
+  constructor(private rdf: RdfService, private router: Router) {
+    const me = rdf.getMe();
+    if (me == null) {
+      console.log('Que ho?');
+      router.navigateByUrl('/login');
+    } else {
+      console.log(rdf.getContacts(me));
+    }
   }
 
   ngOnInit() {

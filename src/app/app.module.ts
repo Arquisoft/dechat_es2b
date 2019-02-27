@@ -19,12 +19,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ContactosComponent } from './contactos/contactos.component';
 import { MensajesComponent } from './mensajes/mensajes.component';
 import { ContactoComponent } from './contacto/contacto.component';
+import { MessageComponent } from './message/message.component';
 
 
 
 const routes: Routes = [
   {
-    path: '',
+    path: '**',
     component: LoginComponent
   },
   {
@@ -51,7 +52,7 @@ const routes: Routes = [
   },
   {
     path: 'message',
-    component: AppComponent
+    component: MessageComponent
   }
 ];
 
@@ -65,7 +66,8 @@ const routes: Routes = [
     RegisterComponent,
     ContactosComponent,
     MensajesComponent,
-    ContactoComponent
+    ContactoComponent,
+    MessageComponent
   ],
   imports: [
     BrowserModule,

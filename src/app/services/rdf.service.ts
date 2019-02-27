@@ -47,12 +47,20 @@ export class RdfService {
     this.getSession();
   }
 
+  getMe = (): any => {
+    return this.session == null ? null : $rdf.sym(this.session.webId);
+  }
+
+  getContacts = (me): [string] | any => {
+    this.store.any(me, VCARD('knows'), null, this.getProfile);
+  }
+
   /**
    * Fetches the session from Solid, and store results in localStorage
    */
   getSession = async() => {
     this.session = await solid.auth.currentSession(localStorage);
-  }
+  };
 
   /**
    * Gets a node that matches the specified pattern using the VCARD onthology
