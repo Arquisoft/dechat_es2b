@@ -47,12 +47,24 @@ export class RdfService {
     this.getSession();
   }
 
-  getMe = (): any => {
-    return this.session == null ? null : $rdf.sym(this.session.webId);
+   getMe = async() => {
+    const session = await solid.auth.currentSession(localStorage);
+    return session == null ? null : this.getPod(session.webId);
+  }
+
+  getPod = (url: string): any => {
+    const store = new $rdf.IndexedFormula;
+    return store.sym(url);
   }
 
   getContacts = (me): [string] | any => {
-    this.store.any(me, VCARD('knows'), null, this.getProfile);
+    const store = new $rdf.IndexedFormula;
+    return store.any(me, FOAF('knows'));
+  }
+
+  addContact = (me, podUrl): any => {
+    const store = new $rdf.IndexedFormula;
+    store.add(me, FOAF('knows'), this.getPod(podUrl), me.doc());
   }
 
   /**

@@ -16,16 +16,17 @@ import { FormsModule } from '@angular/forms';
 import { RegisterComponent } from './register/register.component';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ContactosComponent } from './contactos/contactos.component';
-import { MensajesComponent } from './mensajes/mensajes.component';
-import { ContactoComponent } from './contacto/contacto.component';
-import { MessageComponent } from './message/message.component';
+import { ContactsComponent } from './contacts/contacts.component';
+import { MessagesComponent } from './messages/messages.component';
+import { ContactComponent } from './contact/contact.component';
+import { MessagingComponent } from './message/messaging.component';
+import { ContactAddComponent } from './contact-add/contact-add.component';
 
 
 
 const routes: Routes = [
   {
-    path: '**',
+    path: '',
     component: LoginComponent
   },
   {
@@ -52,7 +53,11 @@ const routes: Routes = [
   },
   {
     path: 'message',
-    component: MessageComponent
+    component: MessagingComponent
+  },
+  {
+    path: 'contact-add',
+    component: ContactAddComponent
   }
 ];
 
@@ -64,10 +69,11 @@ const routes: Routes = [
     DashboardComponent,
     CardComponent,
     RegisterComponent,
-    ContactosComponent,
-    MensajesComponent,
-    ContactoComponent,
-    MessageComponent
+    ContactsComponent,
+    MessagesComponent,
+    ContactComponent,
+    MessagingComponent,
+    ContactAddComponent
   ],
   imports: [
     BrowserModule,
