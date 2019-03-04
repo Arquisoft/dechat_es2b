@@ -58,9 +58,8 @@ export class RdfService {
         return store.sym(url);
     }
     getContacts = async (me) => {
-        const url = me.uri;
         const store = new $rdf.graph();
-        const res = await solid.auth.fetch(url);
+        const res = await solid.auth.fetch(me.uri);
         $rdf.parse(await res.text(), store, me.doc().uri, 'text/turtle');
         return store.any(me, FOAF('knows'));
     };
