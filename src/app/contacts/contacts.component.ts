@@ -37,7 +37,7 @@ export class ContactsComponent {
     this.contacts.push(node.value);
   }
 
-  private addContact() {
+  addContact() {
     this.router.navigateByUrl('contact-add');
   }
 }
