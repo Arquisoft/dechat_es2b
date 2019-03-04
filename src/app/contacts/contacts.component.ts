@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {RdfService} from '../services/rdf.service';
 import {Router} from '@angular/router';
+import {NamedNode} from 'rdf-js';
 
 @Component({
   selector: 'app-contactos',
@@ -8,7 +9,7 @@ import {Router} from '@angular/router';
   styleUrls: ['./contacts.component.css']
 })
 export class ContactsComponent {
-  contacts = ['Contacto1', 'Contacto2', 'Contacto3'];
+  contacts = [];
 
   constructor(private rdf: RdfService, private router: Router) {
     this.loadContacts();
@@ -19,8 +20,21 @@ export class ContactsComponent {
     if (me == null) {
       this.router.navigateByUrl('/login');
     } else {
-      console.log(this.rdf.getContacts(me));
+      const contacts = await this.rdf.getContacts(me);
+      if ((<NamedNode>contacts).value) {
+        this.insertContact(contacts);
+      } else {
+        this.insertContacts(contacts);
+      }
     }
+  }
+
+  insertContacts(results: [NamedNode]) {
+    results.forEach(this.insertContact);
+  }
+
+  insertContact(node: NamedNode) {
+    this.contacts.push(node.value);
   }
 
   private addContact() {
