@@ -65,9 +65,17 @@ export class RdfService {
         return store.any(me, FOAF('knows'));
     };
 
-    addContact = (me, podUrl): any => {
-        const store = new $rdf.graph();
-        store.add(me, FOAF('knows'), this.getPod(podUrl), me.doc());
+    addContact = async (me, podUrl) => {
+        console.log(await solid.auth.fetch(me.uri));
+        const insertions = [];
+        insertions.push($rdf.st(me, FOAF('knows'), this.getPod(podUrl), me.doc()));
+        this.updateManager.update([], insertions, (response, success, message) => {
+            if (success) {
+                console.log('Contact added success');
+            } else {
+                console.error('Message: ' + message);
+            }
+        });
     };
 
     /**
