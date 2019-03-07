@@ -1,0 +1,13 @@
+<div class="container">
+    <div class="form-group">
+        <label for="name">Nombre</label>
+        <input type="text" [(ngModel)]="nick" class="form-control" id="name">
+    </div>
+
+    <div class="form-group">
+        <label for="url">Url del pod</label>
+        <input type="text" [(ngModel)]="podUrl" class="form-control" id="url">
+    </div>
+
+    <button class="btn btn-success" (click)="onSubmit()" [disabled]="podUrl.trim().length == 0">Agregar</button>
+</div>
