@@ -61,7 +61,7 @@ export class RdfService {
         const store = new $rdf.graph();
         const res = await solid.auth.fetch(me.uri);
         $rdf.parse(await res.text(), store, me.doc().uri, 'text/turtle');
-        return store.any(me, FOAF('knows'));
+        return store.match(me, FOAF('knows'));
     };
 
     addContact = async (me, podUrl) => {

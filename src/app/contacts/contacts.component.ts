@@ -30,6 +30,7 @@ export class ContactsComponent {
       this.router.navigateByUrl('/login');
     } else {
       const contacts = await this.rdf.getContacts(me);
+      console.log(contacts);
       if ((<NamedNode>contacts).value) {
         this.insertContact(contacts);
       } else {
@@ -39,7 +40,9 @@ export class ContactsComponent {
   }
 
   insertContacts(results: [NamedNode]) {
-    results.forEach(this.insertContact);
+    results.forEach(function (value) {
+      this.insertContact(value.object);
+    }.bind(this));
   }
 
   insertContact(node: NamedNode) {
