@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {RdfService} from '../services/rdf.service';
 import {Router} from '@angular/router';
 import {NamedNode} from 'rdf-js';
+import {Contact} from '../contact';
 
 @Component({
   selector: 'app-contactos',
@@ -9,10 +10,16 @@ import {NamedNode} from 'rdf-js';
   styleUrls: ['./contacts.component.css']
 })
 export class ContactsComponent {
-  contacts = [];
+  contacts: Contact[];
+  selectedContact: Contact;
 
   constructor(private rdf: RdfService, private router: Router) {
+    this.contacts = [];
     this.loadContacts();
+  }
+
+  selectContact(contact: Contact) {
+    this.selectedContact = contact;
   }
 
   async loadContacts() {
@@ -34,7 +41,7 @@ export class ContactsComponent {
   }
 
   insertContact(node: NamedNode) {
-    this.contacts.push(node.value);
+    this.contacts.push(new Contact(node.value, "Nombre"));
   }
 
   addContact() {

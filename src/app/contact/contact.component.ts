@@ -1,16 +1,14 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {Contact} from '../contact';
 
 @Component({
-  selector: 'app-contacto',
-  templateUrl: './contact.component.html',
-  styleUrls: ['./contact.component.css']
+    selector: 'app-contacto',
+    templateUrl: './contact.component.html',
+    styleUrls: ['./contact.component.css']
 })
-export class ContactComponent implements OnInit {
-  @Input('url') url: string;
+export class ContactComponent {
+    @Input('contact') contact: Contact;
 
-  constructor() { }
-
-  ngOnInit() {
-  }
-
+    constructor() {
+    }
 }
