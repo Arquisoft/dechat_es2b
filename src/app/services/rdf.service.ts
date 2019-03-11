@@ -76,6 +76,48 @@ export class RdfService {
             }
         });
     };
+	
+	async function createFolder() {
+		const doc = this.getMe().doc();
+		const url = doc + "dechat";
+		return new Promise((resolve, reject)=>{
+			readFile(url).then( res=> {
+				resolve();
+			},err=>{
+				add(doc, "dechat", null, "folder");
+			});
+		});
+	};
+	
+	add = async (parentFolder, url, content, contentType) => {
+		return new Promise((resolve, reject)=>{
+			let link = '<http://www.w3.org/ns/ldp#Resource>; rel="type"';
+			if (contentType === 'folder') {
+				link = '<http://www.w3.org/ns/ldp#BasicContainer>; rel="type"';
+				contentType = 'text/turtle';
+			}
+			const request = {
+				method: 'POST',
+				headers: { slug:url, link:link },
+				body: content
+			};
+			if( typeof(contentType)!="undefined" || typeof(window)!="undefined") 
+				request.headers["Content-Type"] = contentType;
+			solid.auth.fetch(parentFolder, request).then( res => {
+				var location = res.headers.get('location')
+				var file = location.substr(location.lastIndexOf('/') + 1)
+				resolve( parentFolder+file );
+			},err=>{reject(err)});
+		});
+	};
+	
+	readFile = async (url) => {
+		return new Promise((resolve, reject)=>{
+			fetch(url).then( result => {
+				resolve(result);
+			},err=>reject("fetch error "+err));
+		});
+	};
 
     /**
      * Fetches the session from Solid, and store results in localStorage
