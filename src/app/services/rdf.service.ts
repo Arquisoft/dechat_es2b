@@ -3,7 +3,7 @@ import {SolidSession} from '../models/solid-session.model';
 
 declare let solid: any;
 declare let $rdf: any;
-//import * as $rdf from 'rdflib'
+// import * as $rdf from 'rdflib'
 
 // TODO: Remove any UI interaction from this service
 import {NgForm} from '@angular/forms';
@@ -11,6 +11,8 @@ import {ToastrService} from 'ngx-toastr';
 
 const VCARD = $rdf.Namespace('http://www.w3.org/2006/vcard/ns#');
 const FOAF = $rdf.Namespace('http://xmlns.com/foaf/0.1/');
+
+const FolderName = 'dechat';
 
 /**
  * A service layer for RDF data manipulation using rdflib.js
@@ -51,12 +53,12 @@ export class RdfService {
     getMe = async() => {
         const session = await solid.auth.currentSession(localStorage);
         return session == null ? null : this.getPod(session.webId);
-    }
+    };
 
     getPod = (url: string): any => {
         const store = new $rdf.IndexedFormula;
         return store.sym(url);
-    }
+    };
     getContacts = async (me) => {
         const store = new $rdf.graph();
         const res = await solid.auth.fetch(me.uri);
@@ -76,48 +78,90 @@ export class RdfService {
             }
         });
     };
-	
-	async function createFolder() {
-		const doc = this.getMe().doc();
-		const url = doc + "dechat";
-		return new Promise((resolve, reject)=>{
-			readFile(url).then( res=> {
-				resolve();
-			},err=>{
-				add(doc, "dechat", null, "folder");
-			});
-		});
-	};
-	
-	add = async (parentFolder, url, content, contentType) => {
-		return new Promise((resolve, reject)=>{
-			let link = '<http://www.w3.org/ns/ldp#Resource>; rel="type"';
-			if (contentType === 'folder') {
-				link = '<http://www.w3.org/ns/ldp#BasicContainer>; rel="type"';
-				contentType = 'text/turtle';
-			}
-			const request = {
-				method: 'POST',
-				headers: { slug:url, link:link },
-				body: content
-			};
-			if( typeof(contentType)!="undefined" || typeof(window)!="undefined") 
-				request.headers["Content-Type"] = contentType;
-			solid.auth.fetch(parentFolder, request).then( res => {
-				var location = res.headers.get('location')
-				var file = location.substr(location.lastIndexOf('/') + 1)
-				resolve( parentFolder+file );
-			},err=>{reject(err)});
-		});
-	};
-	
-	readFile = async (url) => {
-		return new Promise((resolve, reject)=>{
-			fetch(url).then( result => {
-				resolve(result);
-			},err=>reject("fetch error "+err));
-		});
-	};
+
+    writeIntoConversationFile = async (urlPodTo, data) => {
+        await this.checkFolder();
+        const url = (await this.getMe()).value.split('/').slice(0, 3).join('/') + '/' + FolderName;
+        return new Promise(     (resolve, reject) => {
+            this.readFile(url).then( res => {
+                resolve();
+            }, err => {
+                this.add(url, urlPodTo + '.txt', data, 'text');
+            });
+        });
+    };
+
+    checkFolder = async () => {
+        const doc = (await this.getMe()).value.split('/').slice(0, 3).join('/') + '/';
+        const url = doc + FolderName;
+        return new Promise((resolve, reject) => {
+            this.readFile(url).then( res => {
+                resolve();
+            }, err => {
+                this.add(doc, FolderName, null, 'folder');
+            });
+        });
+    };
+
+    add = async (parentFolder, url, content, contentType) => {
+        return new Promise((resolve, reject) => {
+            let link = '<http://www.w3.org/ns/ldp#Resource>; rel="type"';
+            if (contentType === 'folder') {
+                link = '<http://www.w3.org/ns/ldp#BasicContainer>; rel="type"';
+                contentType = 'text/turtle';
+            }
+            const request = {
+                method: 'POST',
+                headers: { slug: url, link: link },
+                body: content
+            };
+            if (typeof(contentType) != null || typeof(window) != null) {
+                request.headers['Content-Type'] = contentType;
+            }
+            solid.auth.fetch(parentFolder, request).then( res => {
+                const location = res.headers.get('location');
+                const file = location.substr(location.lastIndexOf('/') + 1);
+                resolve(parentFolder + file);
+                }, err => { reject(err); });
+        });
+    };
+
+    fetch = async (url, request) => {
+        return new Promise((resolve, reject) => {
+            solid.auth.fetch(url, request).then( (res) => {
+                if (!res.ok) {
+                    reject( res.status + ' (' + res.statusText + ') ' + url);
+                }
+                let type = (res.headers._headers)
+                    ? res.headers._headers['content-type']
+                    : '';
+                type = type.toString();
+                if (type.match(/(image|audio|video)/)) {
+                    res.buffer().then( blob => {
+                        resolve(blob);
+                    }, err => reject('buffer error ' + err));
+                } else if (res.text) {
+                    res.text().then( text => {
+                        resolve(text);
+                    }, err => reject('buffer error ' + err));
+                } else {
+                    resolve(res);
+                }
+            }, err => {
+                reject('fetch errror ' + err + url);
+            });
+        });
+    };
+
+    readFile = async (url) => {
+        return new Promise((resolve, reject) => {
+            this.fetch(url, null).then( result => {
+                resolve(result);
+            }, err => {
+                reject('fetch error ' + err);
+            });
+        });
+    };
 
     /**
      * Fetches the session from Solid, and store results in localStorage
