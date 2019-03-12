@@ -12,7 +12,7 @@ export class ContactAddComponent {
     nick = '';
 
     constructor(private rdf: RdfService, private router: Router) {
-        rdf.checkConversationFile('prueba1');
+        rdf.writeIntoConversationFile('prueba1', 'Otra');
     }
 
     async onSubmit() {
