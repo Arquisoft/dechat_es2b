@@ -8,6 +8,7 @@ declare let $rdf: any;
 // TODO: Remove any UI interaction from this service
 import {NgForm} from '@angular/forms';
 import {ToastrService} from 'ngx-toastr';
+import {FoldersManagerService} from './folders-manager.service';
 
 const VCARD = $rdf.Namespace('http://www.w3.org/2006/vcard/ns#');
 const FOAF = $rdf.Namespace('http://xmlns.com/foaf/0.1/');
@@ -43,7 +44,7 @@ export class RdfService {
      */
     updateManager = $rdf.UpdateManager;
 
-    constructor(private toastr: ToastrService) {
+    constructor(private toastr: ToastrService, private foldersManager: FoldersManagerService) {
         const fetcherOptions = {};
         this.fetcher = new $rdf.Fetcher(this.store, fetcherOptions);
         this.updateManager = new $rdf.UpdateManager(this.store);
@@ -104,6 +105,19 @@ export class RdfService {
         });
     };
 
+    listFolderContent = async (url) => {
+        if (url.substr(-1) !== '/') {
+            url += '/';
+        }
+        return new Promise((resolve, reject) => {
+            this.fetch(url, null).then( folderRDF => {
+                this.foldersManager.text2graph( folderRDF, url, 'text/turtle').then(graph => {
+                    resolve(this.foldersManager.processFolder(graph, url, folderRDF) );
+                }, err => reject(err));
+            }, err => reject(err));
+        });
+    };
+
     add = async (parentFolder, url, content, contentType) => {
         return new Promise((resolve, reject) => {
             let link = '<http://www.w3.org/ns/ldp#Resource>; rel="type"';
@@ -113,7 +127,7 @@ export class RdfService {
             }
             const request = {
                 method: 'POST',
-                headers: { slug: url, link: link },
+                headers: { slug: url, link: link, 'Access-Control-Allow-Origin': '*' },
                 body: content
             };
             if (typeof(contentType) != null || typeof(window) != null) {
