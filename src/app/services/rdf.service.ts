@@ -85,7 +85,7 @@ export class RdfService {
         return new Promise(     (resolve, reject) => {
             this.readFile(url + '/' + urlPodTo + '.txt').then( res => {
                 resolve();
-                this.updateFile(url, urlPodTo + '.txt', data, null);
+                this.updateFile(url, urlPodTo + '.txt', res + '\n' + data, null);
             }, err => {
                 this.add(url, urlPodTo + '.txt', data, null);
             });
@@ -129,7 +129,7 @@ export class RdfService {
 
     remove = async (url) => {
         return new Promise((resolve, reject) => {
-            fetch(url, { method: 'DELETE' }).then( res => {
+            this.fetch(url, { method: 'DELETE' }).then( res => {
                 resolve(res);
             }, err => {
                 resolve(err);
@@ -165,12 +165,8 @@ export class RdfService {
     };
 
     updateFile = async (parentFolder, url, content, contentType) => {
-        const res = await this.remove(parentFolder + '/' + url);
-        if (res.match && res.match(/409/)) {
-            throw new Error('Coulnd\'t delete, conflict!');
-        }
+        await this.remove(parentFolder + '/' + url);
         await this.add(parentFolder, url, content, contentType);
-        return(res);
     };
 
     readFile = async (url) => {
