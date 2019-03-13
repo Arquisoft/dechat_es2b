@@ -12,9 +12,7 @@ export class ContactAddComponent {
     nick = '';
 
     constructor(private rdf: RdfService, private router: Router) {
-        rdf.listFolderContent('https://enolgargon.inrupt.net/dechat').then(result => {
-            console.log(result);
-        }, err => console.log(err));
+
     }
 
     async onSubmit() {
