@@ -20,6 +20,10 @@ export class Message {
     return this.content;
   }
 
+  setDate(date) {
+    this.date = date;
+  }
+
   getDate() {
     return this.date;
   }

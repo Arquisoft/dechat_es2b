@@ -9,6 +9,7 @@ declare let $rdf: any;
 import {NgForm} from '@angular/forms';
 import {ToastrService} from 'ngx-toastr';
 import {FoldersManagerService} from './folders-manager.service';
+import {Message} from '../messages/message';
 
 const VCARD = $rdf.Namespace('http://www.w3.org/2006/vcard/ns#');
 const FOAF = $rdf.Namespace('http://xmlns.com/foaf/0.1/');
@@ -81,6 +82,57 @@ export class RdfService {
             }
         });
     };
+
+    readConversation = async (urlPodTo) => {
+        const fileNameTo = urlPodTo + '3.txt';
+        const fileNameMe = (await this.getMe()).value.split('/')[2] + '3.txt';
+        const urlPodToComplete = 'https://' + urlPodTo + '/profile/card#me';
+        const urlMeDeChat = (await this.getMe()).value.split('/').slice(0, 3).join('/') + '/' + FolderName + '/' + fileNameTo;
+        const urlToDeChat = urlPodToComplete.split('/').slice(0, 3).join('/') + '/' + FolderName + '/' + fileNameMe;
+
+        const resMe = await solid.auth.fetch(urlMeDeChat);
+        const fileRawMe =  await resMe.text();
+        const rowsMe = fileRawMe.split('\n');
+
+        const resTo = await solid.auth.fetch(urlToDeChat);
+        const fileRawTo =  await resTo.text();
+        const rowsTo = fileRawTo.split('\n');
+
+        const parseMessagesMe = this.parseConversationFile(fileRawMe);
+        const parseMessagesTo = this.parseConversationFile(fileRawTo);
+        if ( parseMessagesMe.length !== rowsMe.length) {
+            alert('Fichero mal formado en POD propio');
+        }
+        if ( parseMessagesTo.length !== rowsTo.length) {
+            alert('Fichero mal formado en POD ajeno o no existe');
+        }
+
+        const allMessages = [];
+        allMessages.push(...parseMessagesMe);
+        allMessages.push(...parseMessagesTo);
+        allMessages.sort(function(a, b) {
+            return a.getDate() < b.getDate() ? -1 : a.getDate() < b.getDate() ? 1 : 0;
+        });
+        return allMessages;
+    }
+
+    parseConversationFile(file) {
+        const rows = file.split('\n');
+        let rowSliced;
+        const mensajes = [];
+        rows.forEach(function (row) {
+            rowSliced = row.split(';');
+            if (rowSliced.length === 4) {
+                const message = new Message();
+                message.setSenderURL(rowSliced[0]);
+                message.setRecipientURL(rowSliced[1]);
+                message.setContent(rowSliced[3]);
+                message.setDate(new Date (rowSliced[2]));
+                mensajes.push(message);
+            }
+        });
+        return mensajes;
+    }
 
     writeIntoConversationFile = async (urlPodTo, data) => {
         await this.checkFolder();
