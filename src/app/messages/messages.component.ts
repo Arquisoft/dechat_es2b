@@ -17,6 +17,7 @@ const CREATIVEWORK = $rdf.Namespace('http://schema.org/CreativeWork');
 export class MessagesComponent implements OnInit {
 
     content = '';
+    @Input('result') result: string;
 
     constructor(private rdf: RdfService, private router: Router) {
     }
@@ -32,7 +33,14 @@ export class MessagesComponent implements OnInit {
             // Debiera recibir un receptor
             message.setRecipientURL('enolgargon.inrupt.net');
             this.rdf.addMessage(message);
+            this.result = 'Se ha enviado con éxito';
+            await this.delay(1000);
+            this.result = '';
         }
+    }
+
+    delay(ms: number) {
+        return new Promise( resolve => setTimeout(resolve, ms) );
     }
 
     // addContent(contenido) {
