@@ -12,6 +12,7 @@ import {FoldersManagerService} from './folders-manager.service';
 
 const VCARD = $rdf.Namespace('http://www.w3.org/2006/vcard/ns#');
 const FOAF = $rdf.Namespace('http://xmlns.com/foaf/0.1/');
+const SCHEMA = $rdf.Namespace('http://schema.org/Message');
 
 const FolderName = 'dechat';
 
@@ -51,7 +52,7 @@ export class RdfService {
         this.getSession();
     }
 
-    getMe = async() => {
+    getMe = async () => {
         const session = await solid.auth.currentSession(localStorage);
         return session == null ? null : this.getPod(session.webId);
     };
@@ -60,6 +61,13 @@ export class RdfService {
         const store = new $rdf.IndexedFormula;
         return store.sym(url);
     };
+
+    addMessage = async (message) => {
+        alert(message.getRecipientURL() + ' ' + message.getContent()
+            + ' ' + message.getSenderURL() + ' ' + message.getDate().toISOString());
+        this.writeIntoConversationFile(message.getRecipientURL(), message.toString());
+    };
+
     getContacts = async (me) => {
         const store = new $rdf.graph();
         const res = await solid.auth.fetch(me.uri);
@@ -83,8 +91,8 @@ export class RdfService {
     writeIntoConversationFile = async (urlPodTo, data) => {
         await this.checkFolder();
         const url = (await this.getMe()).value.split('/').slice(0, 3).join('/') + '/' + FolderName;
-        return new Promise(     (resolve, reject) => {
-            this.readFile(url + '/' + urlPodTo + '.txt').then( res => {
+        return new Promise((resolve, reject) => {
+            this.readFile(url + '/' + urlPodTo + '.txt').then(res => {
                 resolve();
                 this.updateFile(url, urlPodTo + '.txt', res + '\n' + data, null);
             }, err => {
@@ -97,7 +105,7 @@ export class RdfService {
         const doc = (await this.getMe()).value.split('/').slice(0, 3).join('/') + '/';
         const url = doc + FolderName;
         return new Promise((resolve, reject) => {
-            this.readFile(url).then( res => {
+            this.readFile(url).then(res => {
                 resolve();
             }, err => {
                 this.add(doc, FolderName, null, 'folder');
@@ -110,9 +118,9 @@ export class RdfService {
             url += '/';
         }
         return new Promise((resolve, reject) => {
-            this.fetch(url, null).then( folderRDF => {
-                this.foldersManager.text2graph( folderRDF, url, 'text/turtle').then(graph => {
-                    resolve(this.foldersManager.processFolder(graph, url, folderRDF) );
+            this.fetch(url, null).then(folderRDF => {
+                this.foldersManager.text2graph(folderRDF, url, 'text/turtle').then(graph => {
+                    resolve(this.foldersManager.processFolder(graph, url, folderRDF));
                 }, err => reject(err));
             }, err => reject(err));
         });
@@ -127,23 +135,25 @@ export class RdfService {
             }
             const request = {
                 method: 'POST',
-                headers: { slug: url, link: link, 'Access-Control-Allow-Origin': '*' },
+                headers: {slug: url, link: link, 'Access-Control-Allow-Origin': '*'},
                 body: content
             };
-            if (typeof(contentType) != null || typeof(window) != null) {
+            if (typeof (contentType) != null || typeof (window) != null) {
                 request.headers['Content-Type'] = contentType;
             }
-            solid.auth.fetch(parentFolder, request).then( res => {
+            solid.auth.fetch(parentFolder, request).then(res => {
                 const location = res.headers.get('location');
                 const file = location.substr(location.lastIndexOf('/') + 1);
                 resolve(parentFolder + file);
-                }, err => { reject(err); });
+            }, err => {
+                reject(err);
+            });
         });
     };
 
     remove = async (url) => {
         return new Promise((resolve, reject) => {
-            this.fetch(url, { method: 'DELETE' }).then( res => {
+            this.fetch(url, {method: 'DELETE'}).then(res => {
                 resolve(res);
             }, err => {
                 resolve(err);
@@ -153,20 +163,20 @@ export class RdfService {
 
     fetch = async (url, request) => {
         return new Promise((resolve, reject) => {
-            solid.auth.fetch(url, request).then( (res) => {
+            solid.auth.fetch(url, request).then((res) => {
                 if (!res.ok) {
-                    reject( res.status + ' (' + res.statusText + ') ' + url);
+                    reject(res.status + ' (' + res.statusText + ') ' + url);
                 }
                 let type = (res.headers._headers)
                     ? res.headers._headers['content-type']
                     : '';
                 type = type.toString();
                 if (type.match(/(image|audio|video)/)) {
-                    res.buffer().then( blob => {
+                    res.buffer().then(blob => {
                         resolve(blob);
                     }, err => reject('buffer error ' + err));
                 } else if (res.text) {
-                    res.text().then( text => {
+                    res.text().then(text => {
                         resolve(text);
                     }, err => reject('buffer error ' + err));
                 } else {
@@ -185,7 +195,7 @@ export class RdfService {
 
     readFile = async (url) => {
         return new Promise((resolve, reject) => {
-            this.fetch(url, null).then( result => {
+            this.fetch(url, null).then(result => {
                 resolve(result);
             }, err => {
                 reject('fetch error ' + err);
