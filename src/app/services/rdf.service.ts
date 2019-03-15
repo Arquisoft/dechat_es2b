@@ -92,13 +92,78 @@ export class RdfService {
         await this.checkFolder();
         const url = (await this.getMe()).value.split('/').slice(0, 3).join('/') + '/' + FolderName;
         return new Promise((resolve, reject) => {
-            this.readFile(url + '/' + urlPodTo + '.txt').then(res => {
+            this.readFile(url + '/' + urlPodTo + '2.txt').then(res => {
                 resolve();
-                this.updateFile(url, urlPodTo + '.txt', res + '\n' + data, null);
+                this.updateFile(url, urlPodTo + '2.txt', res + '\n' + data, null);
             }, err => {
-                this.add(url, urlPodTo + '.txt', data, null);
+                this.add(url, urlPodTo + '2.txt', data, null);
+                this.writePermissionsFile(urlPodTo, url);
             });
         });
+    };
+
+    writeIntoGrantFile = async (urlPodTo, data) => {
+        await this.checkFolder();
+        const url = (await this.getMe()).value.split('/').slice(0, 3).join('/') + '/' + FolderName;
+        return new Promise((resolve, reject) => {
+            console.log('INFO 1: ' + url + '/' + urlPodTo + '2.txt.acl');
+            this.readFile(url + '/' + urlPodTo + '2.txt.acl').then(res => {
+                resolve();
+                console.log(res);
+                alert(data);
+                console.log('INFO 2: ' + url);
+                console.log('INFO 3: ' + urlPodTo + '2.txt.acl');
+                this.updateFile(url, urlPodTo + '2.txt.acl', data, null);
+                this.add(url, urlPodTo + '2.txt.acl', data, null);
+            }, err => {
+                console.log('INFO 4: ' + url);
+                console.log('INFO 5: ' + urlPodTo + '2.txt.acl');
+                this.add(url, urlPodTo + '2.txt.acl', data, null);
+            });
+        });
+    };
+
+    writePermissionsFile = async (urlPodTo, urlMe) => {
+        const data1 = '@prefix  acl:  <http://www.w3.org/ns/auth/acl#>. ' + '\n<#authorization1>\n' +
+            '    a             acl:Authorization;\n' +
+            '    acl:accessTo  <' + urlMe + '/' + urlPodTo + '.txt>;\n' +
+            '    acl:mode      acl:Read;\n' +
+            '    acl:agent     ' + await this.getMe() + '.';
+        const data2 = this.getGrantText(urlPodTo, urlMe + '/' + urlPodTo + '2.txt');
+        // alert(data2);
+        // alert(urlMe);
+        // alert(urlPodTo + '.txt.acl');
+        this.writeIntoGrantFile(urlPodTo, data2);
+        // this.add(urlMe.trim(), urlPodTo.trim() + '.txt.acl', data2, null);
+        // solid.auth.fetch(urlMe + '/', {
+        //     method: 'POST',
+        //     headers: {
+        //         'Content-Type': 'text/turtle',
+        //         'Content-Length': data2.length,
+        //         'Slug': '.acl',
+        //     },
+        //     body: data2
+        // }).then(resp => {
+        //     console.log(resp);
+        // });
+    };
+
+    getGrantText = (urlPod, file) => {
+        // urlPod = urlPod.replace('#me', '#');
+        return '@prefix : <#>. \n'
+            + '@prefix c: </profile/card#>. \n'
+            + '@prefix n0: <http://www.w3.org/ns/auth/acl#>. \n'
+            // + '@prefix other: <' + urlPod + '>. \n'
+            + ':ControlReadWrite \n'
+            + '\ta n0:Authorization; \n'
+            + '\tn0:accessTo <' + file + '>; \n'
+            + '\tn0:agent c:me; \n'
+            + '\tn0:mode n0:Control, n0:Read, n0:Write. \n'
+            + ':Read \n'
+            + '\ta n0:Authorization; \n'
+            + '\tn0:accessTo <' + file + '>; \n'
+            + '\tn0:agent <https://' + urlPod + '/profile/card#me>; \n'
+            + '\tn0:mode n0:Read.';
     };
 
     checkFolder = async () => {
