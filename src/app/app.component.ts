@@ -1,6 +1,4 @@
-import {Component, OnInit} from '@angular/core';
-import { popupLogin } from 'solid-auth-client/dist-lib/solid-auth-client.bundle.js';
-
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -8,5 +6,5 @@ import { popupLogin } from 'solid-auth-client/dist-lib/solid-auth-client.bundle.
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app';
+  title = 'dechat';
 }
