@@ -30,7 +30,8 @@ export class MessagesComponent implements OnInit {
             } else {
                 const message = new Message();
                 message.setSenderURL(me.uri);
-                message.setContent(this.content);
+                message.setContent(this.content.replace(';', ','));
+                this.content = '';
                 // Debiera recibir un receptor
                 const selectedContact = this.contact.url;
                 const urlSelectedContact = selectedContact.split('/')[2];
