@@ -4,6 +4,7 @@
         <button (click)="addContact()">Añadir contacto</button>
     </nav>
     <ul>
-        <app-contacto *ngFor="let url of contacts" [url]="url"></app-contacto>
+        <app-contacto *ngFor="let contact of contacts" [contact]="contact"
+                      (click)="selectContact(contact)"></app-contacto>
     </ul>
 </div>

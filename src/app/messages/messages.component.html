@@ -1,5 +1,7 @@
 <div class="col-md-20">
   <p>Listado Mensajes</p>
+    <p *ngIf="contact != null">
+        {{contact.url}}</p>
   <ul>
     <li *ngFor="let message of messages">
       {{ message }}

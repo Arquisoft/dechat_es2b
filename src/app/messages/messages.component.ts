@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {RdfService} from '../services/rdf.service';
 import {Router} from '@angular/router';
 import {Message} from './message';
+import {Contact} from '../contact';
 
 declare let $rdf: any;
 
@@ -14,6 +15,7 @@ const URLRECIPIENTDEFAULT = 'enolgargon.inrupt.net';
 })
 
 export class MessagesComponent implements OnInit {
+  contact: Contact;
 
     content = '';
     @Input('result') result: string;
@@ -67,4 +69,7 @@ export class MessagesComponent implements OnInit {
         setInterval(this.showMessages, 2000);
     }
 
+  selectConversation(contact: Contact) {
+    this.contact = contact;
+  }
 }
