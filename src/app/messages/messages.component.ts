@@ -64,7 +64,7 @@ export class MessagesComponent implements OnInit {
     }
 
     async ngOnInit() {
-        this.showMessages();
+        setInterval(this.showMessages, 2000);
     }
 
 }
