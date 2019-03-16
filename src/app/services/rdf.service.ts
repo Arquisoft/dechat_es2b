@@ -92,31 +92,24 @@ export class RdfService {
 
         const resMe = await solid.auth.fetch(urlMeDeChat);
         const fileRawMe =  await resMe.text();
-        const rowsMe = fileRawMe.split('\n');
 
         const resTo = await solid.auth.fetch(urlToDeChat);
         const fileRawTo =  await resTo.text();
-        const rowsTo = fileRawTo.split('\n');
-
-        const parseMessagesMe = this.parseConversationFile(fileRawMe);
-        const parseMessagesTo = this.parseConversationFile(fileRawTo);
-        if ( parseMessagesMe.length !== rowsMe.length) {
-            alert('Fichero mal formado en POD propio');
-        }
-        if ( parseMessagesTo.length !== rowsTo.length) {
-            alert('Fichero mal formado en POD ajeno o no existe');
-        }
-
         const allMessages = [];
-        allMessages.push(...parseMessagesMe);
-        allMessages.push(...parseMessagesTo);
-        allMessages.sort(function(a, b) {
-            return a.getDate() < b.getDate() ? -1 : a.getDate() < b.getDate() ? 1 : 0;
+        await this.parseConversationFile(fileRawMe).then(parseMessageMe => {
+            this.parseConversationFile(fileRawTo).then(parseMessagesTo => {
+                allMessages.push(...parseMessagesTo);
+                allMessages.push(...parseMessageMe);
+                allMessages.sort(function(a, b) {
+                    return a.getDate().getTime() - b.getDate().getTime();
+                });
+                return allMessages;
+            });
         });
         return allMessages;
     }
 
-    parseConversationFile(file) {
+    parseConversationFile = async (file) => {
         const rows = file.split('\n');
         let rowSliced;
         const mensajes = [];
