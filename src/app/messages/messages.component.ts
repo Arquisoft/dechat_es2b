@@ -81,5 +81,6 @@ export class MessagesComponent implements OnInit {
 
   selectConversation(contact: Contact) {
     this.contact = contact;
+    this.showMessages();
   }
 }
