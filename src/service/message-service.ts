@@ -9,5 +9,5 @@ export class MessageService {
   getMessages = (contact: Contact): Message[] => {
     // TODO
     return [];
-  };
+  }
 }
