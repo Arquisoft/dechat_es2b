@@ -17,21 +17,19 @@ export class PodRepository implements Repository {
     this._urlMyPod = value;
   }
 
-  addContact(contact: Contact): void {
-    // TODO
+  addContact(contact: Contact): Promise<Contact> {
+    return undefined;
   }
 
-  addMessage(message: Message): void {
-    // TODO
+  addMessage(message: Message): Promise<Message> {
+    return undefined;
   }
 
   getContacts(): Contact[] {
-    // TODO
     return [];
   }
 
-  getMessages(contact: Contact): Message[] {
-    // TODO
-    return [];
+  getMessages(contact: Contact): Promise<Message> {
+    return undefined;
   }
 }
