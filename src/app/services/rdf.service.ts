@@ -3,14 +3,19 @@ import {SolidSession} from '../models/solid-session.model';
 
 declare let solid: any;
 declare let $rdf: any;
-//import * as $rdf from 'rdflib'
+// import * as $rdf from 'rdflib'
 
 // TODO: Remove any UI interaction from this service
 import {NgForm} from '@angular/forms';
 import {ToastrService} from 'ngx-toastr';
+import {FoldersManagerService} from './folders-manager.service';
+import {Message} from '../messages/message';
 
 const VCARD = $rdf.Namespace('http://www.w3.org/2006/vcard/ns#');
 const FOAF = $rdf.Namespace('http://xmlns.com/foaf/0.1/');
+const SCHEMA = $rdf.Namespace('http://schema.org/Message');
+
+const FolderName = 'dechat';
 
 /**
  * A service layer for RDF data manipulation using rdflib.js
@@ -41,27 +46,28 @@ export class RdfService {
      */
     updateManager = $rdf.UpdateManager;
 
-    constructor(private toastr: ToastrService) {
+    constructor(private toastr: ToastrService, private foldersManager: FoldersManagerService) {
         const fetcherOptions = {};
         this.fetcher = new $rdf.Fetcher(this.store, fetcherOptions);
         this.updateManager = new $rdf.UpdateManager(this.store);
         this.getSession();
     }
 
-    getMe = async() => {
+    getMe = async () => {
         const session = await solid.auth.currentSession(localStorage);
         return session == null ? null : this.getPod(session.webId);
-    }
+    };
 
     getPod = (url: string): any => {
         const store = new $rdf.IndexedFormula;
         return store.sym(url);
-    }
+    };
+
     getContacts = async (me) => {
         const store = new $rdf.graph();
         const res = await solid.auth.fetch(me.uri);
         $rdf.parse(await res.text(), store, me.doc().uri, 'text/turtle');
-        return store.any(me, FOAF('knows'));
+        return store.match(me, FOAF('knows'));
     };
 
     addContact = async (me, podUrl) => {
@@ -74,6 +80,202 @@ export class RdfService {
             } else {
                 console.error('Message: ' + message);
             }
+        });
+    };
+
+    readConversation = async (urlPodTo) => {
+        const fileNameTo = urlPodTo + '3.txt';
+        const fileNameMe = (await this.getMe()).value.split('/')[2] + '3.txt';
+        const urlPodToComplete = 'https://' + urlPodTo + '/profile/card#me';
+        const urlMeDeChat = (await this.getMe()).value.split('/').slice(0, 3).join('/') + '/' + FolderName + '/' + fileNameTo;
+        const urlToDeChat = urlPodToComplete.split('/').slice(0, 3).join('/') + '/' + FolderName + '/' + fileNameMe;
+
+        const resMe = await solid.auth.fetch(urlMeDeChat);
+        const fileRawMe =  await resMe.text();
+
+        const resTo = await solid.auth.fetch(urlToDeChat);
+        const fileRawTo =  await resTo.text();
+        const allMessages = [];
+        await this.parseConversationFile(fileRawMe).then(parseMessageMe => {
+            this.parseConversationFile(fileRawTo).then(parseMessagesTo => {
+                allMessages.push(...parseMessagesTo);
+                allMessages.push(...parseMessageMe);
+                allMessages.sort(function(a, b) {
+                    return a.getDate().getTime() - b.getDate().getTime();
+                });
+                return allMessages;
+            });
+        });
+        return allMessages;
+    }
+
+    parseConversationFile = async (file) => {
+        const rows = file.split('\n');
+        let rowSliced;
+        const mensajes = [];
+        rows.forEach(function (row) {
+            rowSliced = row.split(';');
+            if (rowSliced.length === 4) {
+                const message = new Message();
+                message.setSenderURL(rowSliced[0]);
+                message.setRecipientURL(rowSliced[1]);
+                message.setContent(rowSliced[3]);
+                message.setDate(new Date (rowSliced[2]));
+                mensajes.push(message);
+            }
+        });
+        return mensajes;
+    }
+
+    writeIntoConversationFile = async (urlPodTo, data) => {
+        await this.checkFolder();
+        const fileName = urlPodTo + '3.txt';
+        const url = (await this.getMe()).value.split('/').slice(0, 3).join('/') + '/' + FolderName;
+        return new Promise((resolve, reject) => {
+            this.readFile(url + '/' + fileName).then(res => {
+                resolve();
+                this.updateFile(url, fileName, res + '\n' + data, null);
+            }, err => {
+                this.add(url, fileName, data, null);
+                this.writeIntoGrantFile(urlPodTo, fileName);
+            });
+        });
+    };
+
+    writeIntoGrantFile = async (urlPodTo, fileName) => {
+        await this.checkFolder();
+        const url = (await this.getMe()).value.split('/').slice(0, 3).join('/') + '/' + FolderName;
+        const data = this.getGrantText(urlPodTo, url + '/' + fileName);
+        return new Promise((resolve, reject) => {
+            this.readFile(url + '/' + fileName + '.acl').then(res => {
+                resolve();
+                this.updateFile(url, fileName + '.acl', data, null);
+                this.add(url, fileName + '.acl', data, null);
+            }, err => {
+                this.add(url, fileName + '.acl', data, null);
+            });
+        });
+    };
+
+    addMessage = async (message) => {
+        this.writeIntoConversationFile(message.getRecipientURL(), message.toString());
+    };
+
+    getGrantText = (urlPod, file) => {
+        return '@prefix : <#>. \n'
+            + '@prefix c: </profile/card#>. \n'
+            + '@prefix n0: <http://www.w3.org/ns/auth/acl#>. \n'
+            + ':ControlReadWrite \n'
+            + '\ta n0:Authorization; \n'
+            + '\tn0:accessTo <' + file + '>; \n'
+            + '\tn0:agent c:me; \n'
+            + '\tn0:mode n0:Control, n0:Read, n0:Write. \n'
+            + ':Read \n'
+            + '\ta n0:Authorization; \n'
+            + '\tn0:accessTo <' + file + '>; \n'
+            + '\tn0:agent <https://' + urlPod + '/profile/card#me>; \n'
+            + '\tn0:mode n0:Read.';
+    };
+
+    checkFolder = async () => {
+        const doc = (await this.getMe()).value.split('/').slice(0, 3).join('/') + '/';
+        const url = doc + FolderName;
+        return new Promise((resolve, reject) => {
+            this.readFile(url).then(res => {
+                resolve();
+            }, err => {
+                this.add(doc, FolderName, null, 'folder');
+            });
+        });
+    };
+
+    listFolderContent = async (url) => {
+        if (url.substr(-1) !== '/') {
+            url += '/';
+        }
+        return new Promise((resolve, reject) => {
+            this.fetch(url, null).then(folderRDF => {
+                this.foldersManager.text2graph(folderRDF, url, 'text/turtle').then(graph => {
+                    resolve(this.foldersManager.processFolder(graph, url, folderRDF));
+                }, err => reject(err));
+            }, err => reject(err));
+        });
+    };
+
+    add = async (parentFolder, url, content, contentType) => {
+        return new Promise((resolve, reject) => {
+            let link = '<http://www.w3.org/ns/ldp#Resource>; rel="type"';
+            if (contentType === 'folder') {
+                link = '<http://www.w3.org/ns/ldp#BasicContainer>; rel="type"';
+                contentType = 'text/turtle';
+            }
+            const request = {
+                method: 'POST',
+                headers: {slug: url, link: link, 'Access-Control-Allow-Origin': '*'},
+                body: content
+            };
+            if (typeof (contentType) != null || typeof (window) != null) {
+                request.headers['Content-Type'] = contentType;
+            }
+            solid.auth.fetch(parentFolder, request).then(res => {
+                const location = res.headers.get('location');
+                const file = location.substr(location.lastIndexOf('/') + 1);
+                resolve(parentFolder + file);
+            }, err => {
+                reject(err);
+            });
+        });
+    };
+
+    remove = async (url) => {
+        return new Promise((resolve, reject) => {
+            this.fetch(url, {method: 'DELETE'}).then(res => {
+                resolve(res);
+            }, err => {
+                resolve(err);
+            });
+        });
+    };
+
+    fetch = async (url, request) => {
+        return new Promise((resolve, reject) => {
+            solid.auth.fetch(url, request).then((res) => {
+                if (!res.ok) {
+                    reject(res.status + ' (' + res.statusText + ') ' + url);
+                }
+                let type = (res.headers._headers)
+                    ? res.headers._headers['content-type']
+                    : '';
+                type = type.toString();
+                if (type.match(/(image|audio|video)/)) {
+                    res.buffer().then(blob => {
+                        resolve(blob);
+                    }, err => reject('buffer error ' + err));
+                } else if (res.text) {
+                    res.text().then(text => {
+                        resolve(text);
+                    }, err => reject('buffer error ' + err));
+                } else {
+                    resolve(res);
+                }
+            }, err => {
+                reject('fetch errror ' + err + url);
+            });
+        });
+    };
+
+    updateFile = async (parentFolder, url, content, contentType) => {
+        await this.remove(parentFolder + '/' + url);
+        await this.add(parentFolder, url, content, contentType);
+    };
+
+    readFile = async (url) => {
+        return new Promise((resolve, reject) => {
+            this.fetch(url, null).then(result => {
+                resolve(result);
+            }, err => {
+                reject('fetch error ' + err);
+            });
         });
     };
 

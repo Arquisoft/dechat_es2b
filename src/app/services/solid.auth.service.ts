@@ -17,7 +17,7 @@ interface SolidSession {
   providedIn: 'root',
 })
 export class AuthService {
-  session: Observable<SolidSession>;
+  session: Observable<{}>;
   fechInit = {
     method: 'PATCH',
     headers: {
