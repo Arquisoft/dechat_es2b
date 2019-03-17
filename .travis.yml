@@ -6,7 +6,8 @@ before_script:
   - npm install -g @angular/cli
   - npm install -g yo
   - npm install -g @inrupt/generator-solid-angular
-  - npm install istanbul-instrumenter-loader
+  - npm install
+  - npm audit fix --force
 script: 
   - ng build --prod
 after_success:
