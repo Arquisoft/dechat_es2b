@@ -18,16 +18,20 @@ export class PodRepository implements Repository {
   }
 
   addContact(contact: Contact): void {
+    // TODO
   }
 
   addMessage(message: Message): void {
+    // TODO
   }
 
   getContacts(): Contact[] {
+    // TODO
     return [];
   }
 
   getMessages(contact: Contact): Message[] {
+    // TODO
     return [];
   }
 }
