@@ -12,6 +12,7 @@ export class ContactAddComponent {
     nick = '';
 
     constructor(private rdf: RdfService, private router: Router) {
+
     }
 
     async onSubmit() {

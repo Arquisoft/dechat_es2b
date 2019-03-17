@@ -1,6 +1,21 @@
-<div class="col-md-6">
-  <p>Mensajes</p>
-  <p *ngIf="contact != null">
-    {{contact.url}}
+<div class="col-md-20">
+  <p>Listado Mensajes</p>
+    <p *ngIf="contact != null">
+        {{contact.url}}</p>
+  <ul>
+    <li *ngFor="let message of messages">
+      {{ message }}
+    </li>
+  </ul>
+</div>
+<div class="container">
+  <div class="form-group">
+    <label for="messageText">Mensaje</label>
+    <input type="text" [(ngModel)]="content" class="form-control" id="messageText">
+  </div>
+
+  <button class="btn btn-success" (click)="onSubmit()" [disabled]="content.trim().length == 0">Enviar</button>
+  <p>
+    {{result}}
   </p>
 </div>
