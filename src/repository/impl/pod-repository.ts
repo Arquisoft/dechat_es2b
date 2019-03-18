@@ -19,7 +19,7 @@ export class PodRepository implements Repository {
     return [];
   }
 
-  getMessages(contact: Contact): Promise<Message> {
-    return undefined;
+  getMessages(contact: Contact): Message[] {
+    return [];
   }
 }
