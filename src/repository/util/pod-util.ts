@@ -1,29 +1,24 @@
+import * as solidfc from 'solid-file-client';
+
 export class PodUtil {
   static writeToFile = async (url: string, data: string) => {
-    // TODO
+    PodUtil.readFile(url).then(() => {
+      solidfc.remove(url).then(res => {
+        PodUtil.createFile(url, data);
+        return res;
+      }, err => {
+        return err;
+      });
+    }, () => {
+      PodUtil.createFile(url, data);
+    });
   };
 
   static readFile = async (url: string) => {
-    // TODO
+    return solidfc.readFile(url);
   };
 
   private static createFile = async (url: string, data: string) => {
-    // TODO
-  };
-
-  private static createFolder = async (url: string) => {
-    // TODO
-  };
-
-  private static add = async () => {
-    // TODO
-  };
-
-  private static remove = async () => {
-    // TODO
-  };
-
-  private static fetch = async () => {
-    // TODO
+    solidfc.createFile(url, data);
   };
 }
