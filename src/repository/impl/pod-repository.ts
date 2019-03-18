@@ -3,18 +3,8 @@ import {Contact} from '../../model/contact';
 import {Message} from '../../model/message';
 
 export class PodRepository implements Repository {
-  constructor(urlMyPod: string) {
-    this._urlMyPod = urlMyPod;
-  }
+  constructor() {
 
-  private _urlMyPod: string;
-
-  get urlMyPod(): string {
-    return this._urlMyPod;
-  }
-
-  set urlMyPod(value: string) {
-    this._urlMyPod = value;
   }
 
   addContact(contact: Contact): Promise<Contact> {
