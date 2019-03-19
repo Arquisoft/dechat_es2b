@@ -10,7 +10,8 @@
     </div>
     <div class="card-body contacts_body">
       <ul class="contacts">
-
+        <app-contact *ngFor="let contact of contacts" [contact]="contact"
+                     (click)="selectContact(contact)"></app-contact>
       </ul>
     </div>
   </div>
