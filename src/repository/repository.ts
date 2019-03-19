@@ -8,5 +8,5 @@ export interface Repository {
 
   addMessage(message: Message): Promise<Message>;
 
-  getMessages(contact: Contact): Promise<Message>;
+  getMessages(contact: Contact): Message[];
 }
