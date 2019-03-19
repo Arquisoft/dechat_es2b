@@ -17,11 +17,8 @@ export class ContactService {
     }, () => this.error(contact));
   }
 
-  getContacts(): Contact[] {
-    if (this.contacts == null) {
-      this.contacts = this.repository.repository.getContacts();
-    }
-    return this.contacts;
+  getContacts(): Promise<Contact[]> {
+    return this.repository.repository.getContacts();
   }
 
   private error(contact: Contact) {

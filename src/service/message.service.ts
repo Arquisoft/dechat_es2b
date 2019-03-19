@@ -15,7 +15,7 @@ export class MessageService {
     }, () => this.error(message));
   }
 
-  getMessages(contact: Contact): Message[] {
+  getMessages(contact: Contact): Promise<Message[]> {
     return this.repository.repository.getMessages(contact);
   }
 
