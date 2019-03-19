@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component} from '@angular/core';
 import {Contact} from '../../model/contact';
 import {Message} from '../../model/message';
 
@@ -12,7 +12,7 @@ export class MessagesComponent {
   messages: Message[];
 
   constructor() {
-    this.messages = [];
+    this.messages = [new Message(null, null, new Date(), 'Hola'), new Message(null, null, new Date(), '¿Que tal?')];
   }
 
   showMessages = async () => {

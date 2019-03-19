@@ -1,6 +1,4 @@
-<div class="d-flex justify-content-start mb-4"> <!-- justify-content-end para que la flecha apunte a la derecha -->
-  <div class="msg_cotainer">
-    Mensaje
-    <span class="msg_time">Hora</span>
-  </div>
+<div [ngClass]="received ? 'msg_cotainer' : 'msg_cotainer_send'">
+  {{message.text}}
+  <span class="msg_time">{{message.date | date:'dd-MM HH:mm'}}</span>
 </div>

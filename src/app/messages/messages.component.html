@@ -1,16 +1,14 @@
-<div class="col-md-8 col-xl-6 chat">
-  <div class="card">
-    <div class="card-header msg_head">
-      <div class="d-flex bd-highlight">
-        <div class="user_info">
-          <span *ngIf="contact as value; else select">{{value.nickname}}</span>
-          <ng-template #select>Selecciona un contacto a la izquierda</ng-template>
-          <p *ngIf="contact as value;">{{value.nickname}}</p>
-        </div>
+<div class="card">
+  <div class="card-header msg_head">
+    <div class="d-flex bd-highlight">
+      <div class="user_info">
+        <span *ngIf="contact as value; else select">{{value.nickname}}</span>
+        <ng-template #select>Selecciona un contacto a la izquierda</ng-template>
+        <p *ngIf="contact as value;">{{value.nickname}}</p>
       </div>
     </div>
-    <div class="card-body msg_card_body">
-
-    </div>
+  </div>
+  <div class="card-body msg_card_body">
+    <app-message *ngFor="let message of messages" [ngClass]="[message.text == 'Hola' ? 'justify-content-start' : 'justify-content-end', 'd-flex', 'mb-4']" [message]="message" [received]="message.text == 'Hola'"></app-message>
   </div>
 </div>
