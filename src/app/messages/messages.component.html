@@ -3,8 +3,9 @@
     <div class="card-header msg_head">
       <div class="d-flex bd-highlight">
         <div class="user_info">
-          <span>Nombre</span>
-          <p>Pod</p>
+          <span *ngIf="contact as value; else select">{{value.nickname}}</span>
+          <ng-template #select>Selecciona un contacto a la izquierda</ng-template>
+          <p *ngIf="contact as value;">{{value.nickname}}</p>
         </div>
       </div>
     </div>
