@@ -18,8 +18,8 @@ export class ContactsComponent implements OnInit {
   ngOnInit() {
   }
 
-  /*selectContact(contact: Contact) {
+  selectContact(contact: Contact) {
     this.selectedContact = contact;
     this.parent.selectContact(contact);
-  }*/
+  }
 }
