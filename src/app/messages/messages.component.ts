@@ -10,14 +10,25 @@ import {Message} from '../../model/message';
 export class MessagesComponent {
   contact: Contact;
   messages: Message[];
+  message = '';
 
   constructor() {
     this.messages = [new Message(null, null, new Date(), 'Hola'), new Message(null, null, new Date(), '¿Que tal?')];
   }
 
+  sendMessage(event: KeyboardEvent) {
+    if (event == null || event.key === 'Enter') {
+      console.log(this.message);
+      this.message = '';
+      if (event != null) {
+        event.preventDefault();
+      }
+    }
+  }
+
   showMessages = async () => {
 
-  }
+  };
 
   selectConversation(contact: Contact) {
     this.contact = contact;
