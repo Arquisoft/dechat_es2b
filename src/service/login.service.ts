@@ -22,7 +22,9 @@ export class LoginService {
   logout(action) {
     auth.logout().then(() => {
       alert('Logout');
-      action();
+      if (action) {
+        action();
+      }
     });
   }
 }

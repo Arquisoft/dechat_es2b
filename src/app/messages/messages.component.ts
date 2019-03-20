@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {Contact} from '../../model/contact';
 import {Message} from '../../model/message';
+import {LoginService} from '../../service/login.service';
 
 @Component({
   selector: 'app-messages',
@@ -12,8 +13,16 @@ export class MessagesComponent {
   messages: Message[];
   message = '';
 
-  constructor() {
+  constructor(private loginService: LoginService) {
     this.messages = [new Message(null, null, new Date(), 'Hola'), new Message(null, null, new Date(), '¿Que tal?')];
+  }
+
+  showMenu() {
+    $('.action_menu').toggle();
+  }
+
+  logout() {
+    this.loginService.logout(null);
   }
 
   sendMessage(event: KeyboardEvent) {
@@ -28,7 +37,7 @@ export class MessagesComponent {
 
   showMessages = async () => {
 
-  };
+  }
 
   selectConversation(contact: Contact) {
     this.contact = contact;
