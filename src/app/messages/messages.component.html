@@ -7,6 +7,12 @@
         <p *ngIf="contact as value;">{{value.nickname}}</p>
       </div>
     </div>
+    <span id="action_menu_btn" (click)="showMenu()"><i class="fas fa-ellipsis-v"></i></span>
+    <div class="action_menu">
+      <ul>
+        <li (click)="logout()"><i class="fas fa-power-off"></i>Logout</li>
+      </ul>
+    </div>
   </div>
   <div class="card-body msg_card_body">
     <app-message *ngFor="let message of messages"

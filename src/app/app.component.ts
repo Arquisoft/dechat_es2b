@@ -1,6 +1,7 @@
 import {Component, ViewChild} from '@angular/core';
 import {MessagesComponent} from './messages/messages.component';
 import {Contact} from '../model/contact';
+import {LoginService} from '../service/login.service';
 
 @Component({
   selector: 'app-root',
@@ -9,6 +10,10 @@ import {Contact} from '../model/contact';
 })
 export class AppComponent {
   @ViewChild(MessagesComponent) messages: MessagesComponent;
+
+  constructor(private loginService: LoginService) {
+    loginService.myContact();
+  }
 
   selectContact(contact: Contact): void {
     this.messages.selectConversation(contact);
