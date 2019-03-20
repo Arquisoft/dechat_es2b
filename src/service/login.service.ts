@@ -15,13 +15,11 @@ export class LoginService {
       const popupUri = './assets/popup.html';
       session = await auth.popupLogin({popupUri});
     }
-    alert('Logged in as ' + session.webId);
     return new Contact(session.webId, 'I');
   }
 
   logout(action) {
     auth.logout().then(() => {
-      alert('Logout');
       if (action) {
         action();
       }
