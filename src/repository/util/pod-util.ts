@@ -2,7 +2,7 @@ import * as solidfc from 'solid-file-client';
 
 export class PodUtil {
   static writeToFile = async (url: string, data: string) => {
-    PodUtil.readFile(url).then(() => {
+    await PodUtil.readFile(url).then(() => {
       solidfc.remove(url).then(res => {
         PodUtil.createFile(url, data);
         return res;
@@ -15,7 +15,12 @@ export class PodUtil {
   };
 
   static readFile = async (url: string) => {
-    return solidfc.readFile(url);
+    return solidfc.readFile(url).then((res) => {
+      return res;
+    }, err => {
+      PodUtil.createFile(url, '');
+      return null;
+    });
   };
 
   private static createFile = async (url: string, data: string) => {

@@ -18,6 +18,9 @@ export class Serializer {
 
   static deserializeMessages = (data: string): Message[] => {
     const messages = [];
+    if (data == null || data.length === 0) {
+      return messages;
+    }
     const objJSON = JSON.parse(data);
     for (let i = 0; i < objJSON.length; ++i) {
       const from = new Contact(objJSON[i]['_from']['_urlPod'], null);

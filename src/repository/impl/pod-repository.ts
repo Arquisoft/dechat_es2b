@@ -26,8 +26,8 @@ export class PodRepository implements Repository {
     });
   }
 
-  async addMessage(message: Message, contact: Contact) {
-    const urlMessage = await this.getChatUrl(contact);
+  async addMessage(message: Message) {
+    const urlMessage = await this.getChatUrl(message.to);
     const text = await PodUtil.readFile(urlMessage);
     const messages: Message[] = text == null ? [] : Serializer.deserializeMessages(text);
     messages.push(message);
@@ -41,6 +41,7 @@ export class PodRepository implements Repository {
 
   async getMessages(contact: Contact): Promise<Message[]> {
     const url = await this.getChatUrl(contact);
-    return Serializer.deserializeMessages(await PodUtil.readFile(url));
+    const messages = await PodUtil.readFile(url);
+    return Serializer.deserializeMessages(messages);
   }
 }

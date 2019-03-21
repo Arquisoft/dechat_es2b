@@ -10,8 +10,8 @@ export class MessageService {
   constructor(private repository: RepositoryFactoryService) {
   }
 
-  addMessage(message: Message, contact: Contact) {
-    this.repository.repository.addMessage(message, contact).then(() => {
+  addMessage(message: Message) {
+    this.repository.repository.addMessage(message).then(() => {
     }, () => this.error(message));
   }
 

@@ -13,9 +13,17 @@ export class MessagesComponent {
   contact: Contact;
   messages: Message[];
   message = '';
+  info = '';
+  placeHolderMessage = 'Type your message...';
 
   constructor(private loginService: LoginService, private messageService: MessageService) {
-    this.messages = [new Message(null, null, new Date(), 'Hola'), new Message(null, null, new Date(), '¿Que tal?')];
+    // this.messages = [new Message(null, null, new Date(), 'Hola'), new Message(null, null, new Date(), '¿Que tal?')];
+    if (this.contact == null) {
+      this.info = 'Welcome to DeChat!';
+      this.placeHolderMessage = 'Select a contact to continue';
+    } else {
+      this.placeHolderMessage = 'Type your message...';
+    }
   }
 
   showMenu() {
@@ -26,9 +34,12 @@ export class MessagesComponent {
     this.loginService.logout(null);
   }
 
-  sendMessage(event: KeyboardEvent) {
-    if (event == null || event.key === 'Enter') {
-      console.log(this.message);
+  async sendMessage(event: KeyboardEvent) {
+    this.message.trim()
+    if ((event == null || event.key === 'Enter') && this.message !== '') {
+      const mess = new Message((await this.loginService.myContact()), this.contact, new Date(), this.message);
+      this.messageService.addMessage(mess);
+      // this.messages.push(mess);
       this.message = '';
       if (event != null) {
         event.preventDefault();
@@ -37,12 +48,13 @@ export class MessagesComponent {
   }
 
   showMessages = async () => {
-
+      this.messages = await this.messageService.getMessages(this.contact);
   }
 
   selectConversation(contact: Contact) {
     this.contact = contact;
     this.messageService.getMessages(this.contact);
-    this.showMessages();
+    this.placeHolderMessage = 'Type your message...';
+    setInterval(this.showMessages, 2000);
   }
 }
