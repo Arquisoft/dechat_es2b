@@ -2,11 +2,11 @@ import {Contact} from '../model/contact';
 import {Message} from '../model/message';
 
 export interface Repository {
-  addContact(contact: Contact): Promise<Contact>;
+  addContact(contact: Contact): Promise<void>;
 
-  getContacts(): Contact[];
+  getContacts(): Promise<Contact[]>;
 
-  addMessage(message: Message): Promise<Message>;
+  addMessage(message: Message);
 
-  getMessages(contact: Contact): Message[];
+  getMessages(contact: Contact): Promise<Message[]>;
 }

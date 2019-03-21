@@ -21,9 +21,12 @@
     "@angular/router": "~7.2.0",
     "@types/jquery": "^3.3.29",
     "core-js": "^2.5.4",
+    "n3": "^1.0.4",
     "rxjs": "~6.3.3",
+    "simplerdf": "^0.2.14",
     "solid-auth-client": "^2.3.0",
     "solid-file-client": "^0.4.9",
+    "stream": "0.0.2",
     "tslib": "^1.9.0",
     "zone.js": "~0.8.26"
   },

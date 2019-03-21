@@ -3,7 +3,7 @@
     <div class="d-flex bd-highlight">
       <div class="user_info">
         <span *ngIf="contact as value; else select">{{value.nickname}}</span>
-        <ng-template #select>Selecciona un contacto a la izquierda</ng-template>
+        <ng-template #select><span style="color:white; font-size:0.8em;">&copy; All rights reserved</span></ng-template>
         <p *ngIf="contact as value;">{{value.nickname}}</p>
       </div>
     </div>
@@ -15,14 +15,15 @@
     </div>
   </div>
   <div class="card-body msg_card_body">
+    <p style="color: white; text-align: center;">{{info}}</p>
     <app-message *ngFor="let message of messages"
                  [ngClass]="[message.text == 'Hola' ? 'justify-content-start' : 'justify-content-end', 'd-flex', 'mb-4']"
                  [message]="message" [received]="message.text == 'Hola'"></app-message>
   </div>
   <div class="card-footer">
     <div class="input-group">
-      <textarea type="text" name="message" class="form-control type_msg" placeholder="Type your message..."
-                (keypress)="sendMessage($event)" [(ngModel)]="message"></textarea>
+      <textarea type="text" name="message" class="form-control type_msg" placeholder="{{placeHolderMessage}}"
+                (keypress)="sendMessage($event)" [(ngModel)]="message" [disabled]="contact == null"></textarea>
       <div class="input-group-append" (click)="sendMessage(null)">
         <span class="input-group-text send_btn"><i class="fas fa-location-arrow"></i></span>
       </div>

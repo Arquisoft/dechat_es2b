@@ -18,6 +18,10 @@ export class Message {
     this._from = value;
   }
 
+  getDate() {
+    return this._date;
+  }
+
   private _to: Contact;
 
   get to(): Contact {
