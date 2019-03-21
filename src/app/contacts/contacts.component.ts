@@ -13,7 +13,7 @@ export class ContactsComponent implements OnInit {
   selectedContact: Contact;
 
   constructor(@Inject(AppComponent) private parent: AppComponent, private contactService: ContactService) {
-    this.contacts = [new Contact('urlPod', 'Enol')];
+    this.contacts = [];
   }
 
   ngOnInit() {
