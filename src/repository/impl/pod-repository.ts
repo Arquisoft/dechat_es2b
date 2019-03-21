@@ -25,6 +25,7 @@ export class PodRepository implements Repository {
     const messages: Message[] = text == null ? [] : Serializer.deserializeMessages(text);
     messages.push(message);
     PodUtil.writeToFile(urlMessage, Serializer.serializeMessages(messages));
+    PodUtil.giveGrantsTo(urlMessage, message.to.urlPod);
   }
 
   async getContacts(): Promise<Contact[]> {
