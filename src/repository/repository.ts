@@ -6,7 +6,7 @@ export interface Repository {
 
   getContacts(): Promise<Contact[]>;
 
-  addMessage(message: Message);
+  addMessage(message: Message, contact: Contact);
 
   getMessages(contact: Contact): Promise<Message[]>;
 }

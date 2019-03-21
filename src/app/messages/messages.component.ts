@@ -1,7 +1,8 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Contact} from '../../model/contact';
 import {Message} from '../../model/message';
 import {LoginService} from '../../service/login.service';
+import {MessageService} from '../../service/message.service';
 
 @Component({
   selector: 'app-messages',
@@ -13,7 +14,7 @@ export class MessagesComponent {
   messages: Message[];
   message = '';
 
-  constructor(private loginService: LoginService) {
+  constructor(private loginService: LoginService, private messageService: MessageService) {
     this.messages = [new Message(null, null, new Date(), 'Hola'), new Message(null, null, new Date(), '¿Que tal?')];
   }
 
@@ -41,6 +42,7 @@ export class MessagesComponent {
 
   selectConversation(contact: Contact) {
     this.contact = contact;
+    this.messageService.getMessages(this.contact);
     this.showMessages();
   }
 }

@@ -1,5 +1,9 @@
+import * as simple from 'simplerdf';
+import * as N3 from 'N3';
 import {Message} from '../../model/message';
 import {Contact} from '../../model/contact';
+
+const { namedNode, literal, defaultGraph, quad } = N3.DataFactory;
 
 export class Serializer {
   // TODO Esquemas que hay que utilizar:
@@ -16,8 +20,8 @@ export class Serializer {
     const messages = [];
     const objJSON = JSON.parse(data);
     for (let i = 0; i < objJSON.length; ++i) {
-      const from = new Contact(objJSON[i]['_from']['_urlPod'], objJSON[i]['_from']['_nickname']);
-      const to = new Contact(objJSON[i]['_to']['_urlPod'], objJSON[i]['_to']['_nickname']);
+      const from = new Contact(objJSON[i]['_from']['_urlPod'], null);
+      const to = new Contact(objJSON[i]['_to']['_urlPod'], null);
       const messg = new Message(from, to, objJSON[i]['_date'], objJSON[i]['_text']);
       messages.push(messg);
     }
@@ -27,31 +31,64 @@ export class Serializer {
   static serializeContact = (newContact: Contact, oldData: string): string => {
     // TODO Hacer antes los mensajes
     // 1. Utilizando la libreria, parsear el atributo oldData. Es decir, crear un grafo con la información textual
-    // const store = N3.Store();
-    // const myQuad = quad(
-    //   namedNode('https://ruben.verborgh.org/profile/#me'),
-    //   namedNode('http://xmlns.com/foaf/0.1/givenName'),
-    //   literal('Ruben', 'en'),
-    //   defaultGraph(),
-    // );
-    // console.log(myQuad.subject.value);         // https://ruben.verborgh.org/profile/#me
-    // console.log(myQuad.object.value);          // Ruben
-    // console.log(myQuad.object.datatype.value); // http://www.w3.org/1999/02/22-rdf-syntax-ns#langString
-    // console.log(myQuad.object.language);       // en
+
     // 2. A ese grafo, añadirle un elemento nuevo, que es el que esta en el atributo newContact
 
     // 3. Devolver la representación en modo texto de ese grafo con formato rdf. Lo hace la librería
     return '';
   }
 
-  static deserializeContacts = (data: string): Contact[] => {
-    // TODO Hacer antes los mensajes
-    // Igual que el deserializer de los mensajes.
-    // 1. Crear un grafo con la info del atributo data
+  private static addPrefixeContact(prefixes) {
+    console.log('# Thats all, folks!', prefixes);
+  }
 
-    // 2. Recorrer esa info y crear los objetos de tipo contacto que se devuelven
-    //    OJO: Obligatorio recorrer en este caso porque hay cosas que no son contactos
+  private static classifyQuads(quadC, contactUrlQuads, nickNameQuads) {
+    if (quadC.predicate.value === 'http://xmlns.com/foaf/0.1/nick') {
+      nickNameQuads.push(quadC);
+    }
+    if (quadC.predicate.value === 'http://xmlns.com/foaf/0.1/knows') {
+      contactUrlQuads.push(quadC);
+    }
+  }
 
-    return [];
+  private static rebuildContacts(contactUrlQuads, nickNameQuads) {
+    const contacts = [];
+    contactUrlQuads.forEach(contactUrlQuad => {
+      let nickControl = false;
+      nickNameQuads.forEach(nickNameQuad => {
+        if (nickNameQuad.subject.value === contactUrlQuad.object.value) {
+          const contact = new Contact(contactUrlQuad.object.value, nickNameQuad.object.value);
+          contacts.push(contact);
+          nickControl = true;
+        }
+      });
+      if (nickControl === false) {
+        const contact = new Contact(contactUrlQuad.object.value, contactUrlQuad.object.value.split('/')[2]);
+        contacts.push(contact);
+      }
+    });
+    return contacts;
+  }
+
+  static deserializeContacts = async (data: string) => {
+    const parser = new N3.Parser();
+    const contactUrlQuads = [];
+    const nickNameQuads = [];
+    let i = 0;
+    parser.parse(
+      data,
+      (error, quadC, prefixes) => {
+        if (quadC) {
+          Serializer.classifyQuads(quadC, contactUrlQuads, nickNameQuads);
+          ++i;
+        } else {
+          // Serializer.addPrefixeContact(prefixes);
+          i = 1;
+        }
+      });
+    while (i === 0) {
+      const e = await new Promise(resolve => setTimeout(resolve, 1000));
+    }
+    return Serializer.rebuildContacts(contactUrlQuads, nickNameQuads);
   }
 }

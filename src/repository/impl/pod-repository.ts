@@ -4,9 +4,17 @@ import {Message} from '../../model/message';
 import {Serializer} from '../util/serializer';
 import {PodUtil} from '../util/pod-util';
 import {reject} from 'q';
+import {LoginService} from '../../service/login.service';
 
 export class PodRepository implements Repository {
-  constructor() {
+  constructor(private login: LoginService) {
+  }
+
+  private async getChatUrl(contact: Contact) {
+    const myContact = await this.login.myContact();
+    const mainUrl = 'https://' + myContact.urlPod.split('/')[2];
+    const pathUrl = mainUrl + '/dechat/' + contact.urlPod.split('/')[2] + '.json';
+    return pathUrl;
   }
 
   addContact(contact: Contact): Promise<void> {
@@ -18,8 +26,8 @@ export class PodRepository implements Repository {
     });
   }
 
-  async addMessage(message: Message) {
-    const urlMessage = '';
+  async addMessage(message: Message, contact: Contact) {
+    const urlMessage = await this.getChatUrl(contact);
     const text = await PodUtil.readFile(urlMessage);
     const messages: Message[] = text == null ? [] : Serializer.deserializeMessages(text);
     messages.push(message);
@@ -27,10 +35,12 @@ export class PodRepository implements Repository {
   }
 
   async getContacts(): Promise<Contact[]> {
-    return Serializer.deserializeContacts(await PodUtil.readFile(''));
+    const myContact = await this.login.myContact();
+    return Serializer.deserializeContacts(await PodUtil.readFile(myContact.urlPod));
   }
 
   async getMessages(contact: Contact): Promise<Message[]> {
-    return Serializer.deserializeMessages(await PodUtil.readFile(''));
+    const url = await this.getChatUrl(contact);
+    return Serializer.deserializeMessages(await PodUtil.readFile(url));
   }
 }
