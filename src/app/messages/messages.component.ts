@@ -48,7 +48,7 @@ export class MessagesComponent {
   }
 
   showMessages = async () => {
-      this.messages = await this.messageService.getMessages(this.contact);
+    this.messages = await this.messageService.getMessages(this.contact);
   }
 
   selectConversation(contact: Contact) {

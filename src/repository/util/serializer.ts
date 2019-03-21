@@ -25,7 +25,7 @@ export class Serializer {
     for (let i = 0; i < objJSON.length; ++i) {
       const from = new Contact(objJSON[i]['_from']['_urlPod'], null);
       const to = new Contact(objJSON[i]['_to']['_urlPod'], null);
-      const messg = new Message(from, to, objJSON[i]['_date'], objJSON[i]['_text']);
+      const messg = new Message(from, to, new Date(objJSON[i]['_date']), objJSON[i]['_text']);
       messages.push(messg);
     }
     return messages;

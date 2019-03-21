@@ -18,7 +18,6 @@ export class PodUtil {
     return solidfc.readFile(url).then((res) => {
       return res;
     }, err => {
-      PodUtil.createFile(url, '');
       return null;
     });
   };

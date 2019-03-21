@@ -40,8 +40,19 @@ export class PodRepository implements Repository {
   }
 
   async getMessages(contact: Contact): Promise<Message[]> {
+    const myContact = await this.login.myContact();
+    const allMessages = [];
     const url = await this.getChatUrl(contact);
     const messages = await PodUtil.readFile(url);
-    return Serializer.deserializeMessages(messages);
+    allMessages.push(... await Serializer.deserializeMessages(messages));
+
+    const urlOther = 'https://' + contact.urlPod.split('/')[2] + '/dechat/' + myContact.urlPod.split('/')[2] + '.json';
+    const messagesOther = await PodUtil.readFile(urlOther);
+    allMessages.push(... await Serializer.deserializeMessages(messagesOther));
+    allMessages.sort((a, b) => {
+      return a.date.getTime() - b.date.getTime();
+    });
+
+    return allMessages;
   }
 }
