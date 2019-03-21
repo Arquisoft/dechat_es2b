@@ -4,6 +4,7 @@ node_js:
   - "10.15"
 before_script:
   - npm install -g @angular/cli
+  - sed -i 's/node: false/node: {stream: false, crypto: false}/g' node_modules/@angular-devkit/build-angular/src/angular-cli-files/models/webpack-configs/browser.js
 script: 
   - ng build --prod
 after_success:
