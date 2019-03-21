@@ -15,7 +15,7 @@ export class LoginService {
       const popupUri = './assets/popup.html';
       session = await auth.popupLogin({popupUri});
     }
-    return new Contact(session.webId, 'I');
+    return new Contact(session.webId.replace('profile/card#me', ''), 'I');
   }
 
   logout(action) {

@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, ElementRef, ViewChild} from '@angular/core';
 import {Contact} from '../../model/contact';
 import {Message} from '../../model/message';
 import {LoginService} from '../../service/login.service';
@@ -14,6 +14,7 @@ export class MessagesComponent {
   messages: Message[];
   message = '';
   myContact: Contact;
+  @ViewChild('messages') private messagesContainer: ElementRef;
 
   constructor(private loginService: LoginService, private messageService: MessageService) {
     loginService.myContact().then(res => {
@@ -44,7 +45,9 @@ export class MessagesComponent {
 
 
   showMessages = async () => {
-    this.messages = await this.messageService.getMessages(this.contact);
+    this.messageService.getMessages(this.contact).then((res) => {
+      this.messages = res;
+    });
   };
 
   selectConversation(contact: Contact) {
