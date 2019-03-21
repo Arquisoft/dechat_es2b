@@ -5,7 +5,7 @@ node_js:
 before_script:
   - npm install -g @angular/cli
 script:
-  - sed -i 's/node: false/node: {stream: false, crypto: false}/g' node_modules/@angular-devkit/build-angular/src/angular-cli-files/models/webpack-configs/browser.js
+  - sed -i "s/node: false/node: {stream: false, crypto: false}/g" node_modules/@angular-devkit/build-angular/src/angular-cli-files/models/webpack-configs/browser.js
   - ng build --prod
 after_success:
   - bash <(curl -s https://codecov.io/bash)
