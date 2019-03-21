@@ -39,7 +39,6 @@ export class PodRepository implements Repository {
     const messages = await PodUtil.readFile(url);
     allMessages.push(...await Serializer.deserializeMessages(messages));
 
-    console.log(contact);
     const urlOther = contact.urlPod + 'dechat/' + myContact.urlPod.split('/')[2] + '.json';
     const messagesOther = await PodUtil.readFile(urlOther);
     allMessages.push(...await Serializer.deserializeMessages(messagesOther));
