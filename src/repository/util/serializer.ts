@@ -1,5 +1,5 @@
 import * as simple from 'simplerdf';
-import * as N3 from 'N3';
+import * as N3 from 'n3';
 import {Message} from '../../model/message';
 import {Contact} from '../../model/contact';
 
