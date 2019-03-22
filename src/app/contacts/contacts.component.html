@@ -1,7 +1,9 @@
 <div class="card mb-sm-3 mb-md-0 contacts_card">
   <div class="card-header">
     <div class="input-group">
-      <input type="text" placeholder="Search..." name="" class="form-control search">
+      <input (ngModelChange)="writeSearch()" [(ngModel)]="search" class="form-control search" name=""
+             placeholder="Search..."
+             type="text">
       <div class="input-group-prepend">
         <span class="input-group-text search_btn"><i class="fas fa-search"></i></span>
       </div>

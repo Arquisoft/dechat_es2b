@@ -10,13 +10,6 @@ export class PodRepository implements Repository {
   constructor(private login: LoginService) {
   }
 
-  private async getChatUrl(contact: Contact) {
-    const myContact = await this.login.myContact();
-    const mainUrl = 'https://' + myContact.urlPod.split('/')[2];
-    const pathUrl = mainUrl + '/dechat/' + contact.urlPod.split('/')[2] + '.json';
-    return pathUrl;
-  }
-
   addContact(contact: Contact): Promise<void> {
     const urlContacts = '';
     return PodUtil.readFile(urlContacts).then(res => {
@@ -32,11 +25,12 @@ export class PodRepository implements Repository {
     const messages: Message[] = text == null ? [] : Serializer.deserializeMessages(text);
     messages.push(message);
     PodUtil.writeToFile(urlMessage, Serializer.serializeMessages(messages));
+    PodUtil.giveGrantsTo(urlMessage, message.to.urlPod);
   }
 
   async getContacts(): Promise<Contact[]> {
     const myContact = await this.login.myContact();
-    return Serializer.deserializeContacts(await PodUtil.readFile(myContact.urlPod));
+    return Serializer.deserializeContacts(await PodUtil.readFile(myContact.urlPod + 'profile/card#me'));
   }
 
   async getMessages(contact: Contact): Promise<Message[]> {
@@ -44,15 +38,21 @@ export class PodRepository implements Repository {
     const allMessages = [];
     const url = await this.getChatUrl(contact);
     const messages = await PodUtil.readFile(url);
-    allMessages.push(... await Serializer.deserializeMessages(messages));
+    allMessages.push(...await Serializer.deserializeMessages(messages));
 
-    const urlOther = 'https://' + contact.urlPod.split('/')[2] + '/dechat/' + myContact.urlPod.split('/')[2] + '.json';
+    const urlOther = contact.urlPod + 'dechat/' + myContact.urlPod.split('/')[2] + '.json';
     const messagesOther = await PodUtil.readFile(urlOther);
-    allMessages.push(... await Serializer.deserializeMessages(messagesOther));
+    allMessages.push(...await Serializer.deserializeMessages(messagesOther));
     allMessages.sort((a, b) => {
       return a.date.getTime() - b.date.getTime();
     });
 
     return allMessages;
+  }
+
+  private async getChatUrl(contact: Contact) {
+    const myContact = await this.login.myContact();
+    const pathUrl = myContact.urlPod + 'dechat/' + contact.urlPod.split('/')[2] + '.json';
+    return pathUrl;
   }
 }

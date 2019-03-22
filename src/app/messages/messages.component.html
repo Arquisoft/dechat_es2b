@@ -4,7 +4,7 @@
       <div class="user_info">
         <span *ngIf="contact as value; else select">{{value.nickname}}</span>
         <ng-template #select><span style="color:white; font-size:0.8em;">&copy; All rights reserved</span></ng-template>
-        <p *ngIf="contact as value;">{{value.nickname}}</p>
+        <p *ngIf="contact as value;">{{value.urlPod}}</p>
       </div>
     </div>
     <span id="action_menu_btn" (click)="showMenu()"><i class="fas fa-ellipsis-v"></i></span>
@@ -14,15 +14,18 @@
       </ul>
     </div>
   </div>
-  <div class="card-body msg_card_body">
-    <p style="color: white; text-align: center;">{{info}}</p>
+  <div #messsages class="card-body msg_card_body">
+    <p *ngIf="contact == null" style="color: white; text-align: center;">Welcome to DeChat!</p>
     <app-message *ngFor="let message of messages"
-                 [ngClass]="[message.text == 'Hola' ? 'justify-content-start' : 'justify-content-end', 'd-flex', 'mb-4']"
-                 [message]="message" [received]="message.text == 'Hola'"></app-message>
+                 [message]="message"
+                 [ngClass]="[message.to.urlPod == myContact.urlPod ? 'justify-content-start' : 'justify-content-end', 'd-flex', 'mb-4']"
+                 [received]="message.to.urlPod == myContact.urlPod"></app-message>
   </div>
   <div class="card-footer">
     <div class="input-group">
-      <textarea type="text" name="message" class="form-control type_msg" placeholder="{{placeHolderMessage}}"
+      <textarea [placeholder]="contact != null ? 'Type your message...' : 'Select a contact to continue'"
+                class="form-control type_msg" name="message"
+                type="text"
                 (keypress)="sendMessage($event)" [(ngModel)]="message" [disabled]="contact == null"></textarea>
       <div class="input-group-append" (click)="sendMessage(null)">
         <span class="input-group-text send_btn"><i class="fas fa-location-arrow"></i></span>

@@ -22,7 +22,27 @@ export class PodUtil {
     });
   };
 
+  static giveGrantsTo = async (file, contact) => {
+    PodUtil.writeToFile(file + '.acl', PodUtil.buildGrantText(contact, file));
+  };
+
   private static createFile = async (url: string, data: string) => {
     solidfc.createFile(url, data);
   };
+
+  private static buildGrantText(urlPod, file) {
+    return '@prefix : <#>. \n'
+      + '@prefix c: </profile/card#>. \n'
+      + '@prefix n0: <http://www.w3.org/ns/auth/acl#>. \n'
+      + ':ControlReadWrite \n'
+      + '\ta n0:Authorization; \n'
+      + '\tn0:accessTo <' + file + '>; \n'
+      + '\tn0:agent c:me; \n'
+      + '\tn0:mode n0:Control, n0:Read, n0:Write. \n'
+      + ':Read \n'
+      + '\ta n0:Authorization; \n'
+      + '\tn0:accessTo <' + file + '>; \n'
+      + '\tn0:agent <' + urlPod + 'profile/card#me>; \n'
+      + '\tn0:mode n0:Read.';
+  }
 }
