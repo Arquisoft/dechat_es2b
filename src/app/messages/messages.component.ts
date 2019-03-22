@@ -1,10 +1,8 @@
-import {Component, ElementRef, ViewChild} from '@angular/core';
+import {Component, ElementRef, Input, ViewChild} from '@angular/core';
 import {Contact} from '../../model/contact';
 import {Message} from '../../model/message';
-import {LoginService} from '../../service/login.service';
 import {MessageService} from '../../service/message.service';
-
-declare let $rdf: any;
+import {AccountService} from '../../service/account.service';
 
 @Component({
   selector: 'app-messages',
@@ -12,16 +10,14 @@ declare let $rdf: any;
   styleUrls: ['./messages.component.css']
 })
 export class MessagesComponent {
+  myContact: Contact;
   contact: Contact;
   messages: Message[];
   message = '';
-  myContact: Contact;
   @ViewChild('messages') private messagesContainer: ElementRef;
 
-  constructor(private loginService: LoginService, private messageService: MessageService) {
-    loginService.myContact().then(res => {
-      this.myContact = res;
-    });
+  constructor(private accountService: AccountService, private messageService: MessageService) {
+    accountService.getMyContact().then(res => this.myContact = res);
   }
 
   showMenu() {
@@ -29,7 +25,7 @@ export class MessagesComponent {
   }
 
   logout() {
-    this.loginService.logout(null);
+    this.accountService.logout(null);
   }
 
   async sendMessage(event: KeyboardEvent) {
@@ -44,7 +40,6 @@ export class MessagesComponent {
       }
     }
   }
-
 
   showMessages = async () => {
     this.messageService.getMessages(this.contact).then((res) => {
