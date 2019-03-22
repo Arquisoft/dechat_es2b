@@ -10,10 +10,13 @@ export class RepositoryFactoryService {
   constructor(private login: LoginService) {
     this._repository = new PodRepository(login);
   }
-
   private _repository: Repository;
 
   get repository(): Repository {
     return this._repository;
+  }
+
+  set config(value: Repository) {
+    this._repository = value;
   }
 }

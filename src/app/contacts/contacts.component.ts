@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, Inject, Input, OnInit} from '@angular/core';
 import {Contact} from '../../model/contact';
 import {AppComponent} from '../app.component';
 import {ContactService} from '../../service/contact.service';

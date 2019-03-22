@@ -2,7 +2,7 @@ import {Component, ViewChild} from '@angular/core';
 import {MessagesComponent} from './messages/messages.component';
 import {Contact} from '../model/contact';
 import {LoginService} from '../service/login.service';
-import {Serializer} from '../repository/util/serializer';
+import {ContactsComponent} from './contacts/contacts.component';
 
 @Component({
   selector: 'app-root',
@@ -12,7 +12,7 @@ import {Serializer} from '../repository/util/serializer';
 export class AppComponent {
   @ViewChild(MessagesComponent) messages: MessagesComponent;
 
-  constructor(private loginService: LoginService) {
+  constructor(protected loginService: LoginService) {
     loginService.myContact();
     // const data = '@prefix : <#>.\n' +
     //   '@prefix solid: <http://www.w3.org/ns/solid/terms#>.\n' +

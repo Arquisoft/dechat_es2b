@@ -55,4 +55,12 @@ export class PodRepository implements Repository {
     const pathUrl = myContact.urlPod + 'dechat/' + contact.urlPod.split('/')[2] + '.json';
     return pathUrl;
   }
+
+  getMyContact(): Promise<Contact> {
+    return this.login.myContact();
+  }
+
+  logout(action) {
+    this.login.logout(action);
+  }
 }
