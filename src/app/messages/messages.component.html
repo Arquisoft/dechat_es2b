@@ -1,21 +1,35 @@
-<div class="col-md-20">
-  <p>Listado Mensajes</p>
-    <p *ngIf="contact != null">
-        {{contact.url}}</p>
-  <ul>
-    <li *ngFor="let message of messages">
-      {{ message }}
-    </li>
-  </ul>
-</div>
-<div class="container">
-  <div class="form-group">
-    <label for="messageText">Mensaje</label>
-    <input type="text" [(ngModel)]="content" class="form-control" id="messageText">
+<div class="card">
+  <div class="card-header msg_head">
+    <div class="d-flex bd-highlight">
+      <div class="user_info">
+        <span *ngIf="contact as value; else select">{{value.nickname}}</span>
+        <ng-template #select><span style="color:white; font-size:0.8em;">&copy; All rights reserved</span></ng-template>
+        <p *ngIf="contact as value;">{{value.urlPod}}</p>
+      </div>
+    </div>
+    <span id="action_menu_btn" (click)="showMenu()"><i class="fas fa-ellipsis-v"></i></span>
+    <div class="action_menu">
+      <ul>
+        <li (click)="logout()"><i class="fas fa-power-off"></i>Logout</li>
+      </ul>
+    </div>
   </div>
-
-  <button class="btn btn-success" (click)="onSubmit()" [disabled]="content.trim().length == 0">Enviar</button>
-  <p>
-    {{result}}
-  </p>
+  <div #messsages class="card-body msg_card_body">
+    <p *ngIf="contact == null" style="color: white; text-align: center;">Welcome to DeChat!</p>
+    <app-message *ngFor="let message of messages"
+                 [message]="message"
+                 [ngClass]="[message.to.urlPod == myContact.urlPod ? 'justify-content-start' : 'justify-content-end', 'd-flex', 'mb-4']"
+                 [received]="message.to.urlPod == myContact.urlPod"></app-message>
+  </div>
+  <div class="card-footer">
+    <div class="input-group">
+      <textarea [placeholder]="contact != null ? 'Type your message...' : 'Select a contact to continue'"
+                class="form-control type_msg" name="message"
+                type="text"
+                (keypress)="sendMessage($event)" [(ngModel)]="message" [disabled]="contact == null"></textarea>
+      <div class="input-group-append" (click)="sendMessage(null)">
+        <span class="input-group-text send_btn"><i class="fas fa-location-arrow"></i></span>
+      </div>
+    </div>
+  </div>
 </div>

@@ -1,22 +1,29 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {RdfService} from '../services/rdf.service';
-import {Router} from '@angular/router';
-import {NamedNode} from 'rdf-js';
-import {Contact} from '../contact';
-import {MessagingComponent} from '../message/messaging.component';
+import {Contact} from '../../model/contact';
+import {AppComponent} from '../app.component';
+import {ContactService} from '../../service/contact.service';
 
 @Component({
-  selector: 'app-contactos',
+  selector: 'app-contacts',
   templateUrl: './contacts.component.html',
   styleUrls: ['./contacts.component.css']
 })
-export class ContactsComponent {
+export class ContactsComponent implements OnInit {
+  allContacts: Contact[];
   contacts: Contact[];
   selectedContact: Contact;
+  searchCall;
+  search = '';
 
-  constructor(@Inject(MessagingComponent) private parent: MessagingComponent, private rdf: RdfService, private router: Router) {
+  constructor(@Inject(AppComponent) private parent: AppComponent, private contactService: ContactService) {
     this.contacts = [];
-    this.loadContacts();
+  }
+
+  ngOnInit() {
+    this.contactService.getContacts().then(res => {
+      this.allContacts = res;
+      this.contacts = res;
+    });
   }
 
   selectContact(contact: Contact) {
@@ -24,32 +31,16 @@ export class ContactsComponent {
     this.parent.selectContact(contact);
   }
 
-  async loadContacts() {
-    const me = await this.rdf.getMe();
-    if (me == null) {
-      this.router.navigateByUrl('/login');
-    } else {
-      const contacts = await this.rdf.getContacts(me);
-      console.log(contacts);
-      if ((<NamedNode>contacts).value) {
-        this.insertContact(contacts);
-      } else {
-        this.insertContacts(contacts);
-      }
+  writeSearch() {
+    if (this.searchCall != null) {
+      clearTimeout(this.searchCall);
+    }
+    if (this.search !== '') {
+      this.searchCall = setTimeout(this.makeSearch.bind(this), 500);
     }
   }
 
-  insertContacts(results: [NamedNode]) {
-    results.forEach(function (value) {
-      this.insertContact(value.object);
-    }.bind(this));
-  }
-
-  insertContact(node: NamedNode) {
-    this.contacts.push(new Contact(node.value, "Nombre"));
-  }
-
-  addContact() {
-    this.router.navigateByUrl('contact-add');
+  makeSearch() {
+    this.contacts = this.allContacts.filter(c => c.nickname.indexOf(this.search) >= 0 || c.urlPod.indexOf(this.search) >= 0);
   }
 }
