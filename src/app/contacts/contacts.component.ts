@@ -9,8 +9,11 @@ import {ContactService} from '../../service/contact.service';
   styleUrls: ['./contacts.component.css']
 })
 export class ContactsComponent implements OnInit {
+  allContacts: Contact[];
   contacts: Contact[];
   selectedContact: Contact;
+  searchCall;
+  search = '';
 
   constructor(@Inject(AppComponent) private parent: AppComponent, private contactService: ContactService) {
     this.contacts = [];
@@ -18,6 +21,7 @@ export class ContactsComponent implements OnInit {
 
   ngOnInit() {
     this.contactService.getContacts().then(res => {
+      this.allContacts = res;
       this.contacts = res;
     });
   }
@@ -25,5 +29,18 @@ export class ContactsComponent implements OnInit {
   selectContact(contact: Contact) {
     this.selectedContact = contact;
     this.parent.selectContact(contact);
+  }
+
+  writeSearch() {
+    if (this.searchCall != null) {
+      clearTimeout(this.searchCall);
+    }
+    if (this.search !== '') {
+      this.searchCall = setTimeout(this.makeSearch.bind(this), 500);
+    }
+  }
+
+  makeSearch() {
+    this.contacts = this.allContacts.filter(c => c.nickname.indexOf(this.search) >= 0 || c.urlPod.indexOf(this.search) >= 0);
   }
 }
