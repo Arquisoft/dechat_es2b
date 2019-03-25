@@ -12,7 +12,7 @@ The requirements are to make a SOLID based on-line chat by ourselves.
 [options="header",cols="1,2,2"]
 |===
 |Nr.|Quality|Motivation
-| 1 |Understandability|Since this is an important project it needs to be strong, that's why we test the code and prove it with different users.
+| 1 |Sturdiness|Since this is an important project it needs to be strong, that's why we test the code and prove it with different users.
 | 2 |Efficiency|As a chat it's important that messages don't take a long time to reach the other side.
 | 3 |Single Responsability|Due to the nature of the project, it must be easy to make changes on it. It can be reached with the single responsibility principle.
 |===
