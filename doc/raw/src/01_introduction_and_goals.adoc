@@ -4,17 +4,17 @@
 
 
 === Requirements Overview
-The driving force behind this project is to pass the subject of Software architecture (https://arquisoft.github.io/) and trying to archive a decent qualification deserving of being looked at by professionals.
+The driving force behind this project is to pass the subject of Software architecture (https://arquisoft.github.io/) and trying to archive a decent qualification.
 
-Its requirements are to make an on-line chat with solid technology by ourselves and a little help from the corrections our teachers give us.
+The requirements are to make a SOLID based on-line chat by ourselves.
 
 === Quality Goals
 [options="header",cols="1,2,2"]
 |===
 |Nr.|Quality|Motivation
-| 1 |Understandability|Since this is a qualifiable project it needs to be understandable from a programmer that isn't part of the development team
+| 1 |Understandability|Since this is a qualifiable project it needs to be understandable from a programmer who doesn't take part of the development team.
 | 2 |Efficiency|As a chat it's important that messages don't take a long time to reach the other side.
-| 3 |Security|A decentralized chat wouldn't be useful to the users if everyone that wanted to steal information could do it.
+| 3 |Single Responsability|Due to the nature of the project, it must be easy to make changes on it. It can be reached with the single responsibility principle.
 |===
 
 === Stakeholders
@@ -23,9 +23,8 @@ Its requirements are to make an on-line chat with solid technology by ourselves 
 [options="header",cols="1,2,2"]
 |===
 |Role/Name|Contact|Expectations
-| SOLID team |https://solid.mit.edu/|Their expectations are the same as the teachers' expectations, they want an application for PC that uses SOLID and that isn't centralized.
-| ARQUISOFT teachers |https://arquisoft.github.io/| Their expectations are the same as the SOLID team's expectations, they want an application for PC that uses SOLID and that isn't centralized with the added hurdle of a time limit and a rigorous use of GitHub.
-| The developer team |this GitHub repository| Since we are trying to pass a subject we can consider that every aspect of this project is of most importance for us.
-| Individual final users | | The final users of the application will want it to be easy to use, for it to go at a decent speed and for their data to remain private.
-| Groups of users | | Groups of users like companies may want conversations to be linked to their web page or to make automated messages in addition to the other requirements.
+| SOLID team |https://solid.mit.edu/|Their expectations are the same as the teachers' expectations, they want an application that uses SOLID principles. This means to be decentralized.
+| ARQUISOFT teachers |https://arquisoft.github.io/| Their expectations are the same as the SOLID team's expectations, they want an application that uses SOLID with the added hurdle of having a limited time and a rigorous use of GitHub.
+| The developer team |this GitHub repository| Since we are trying to pass a subject we can consider that every aspect of this project is important to us.
+| Individual final users | | The final users of the application are looking for one easy to use and a good response speed.
 |===

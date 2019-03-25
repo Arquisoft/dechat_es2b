@@ -1,6 +1,6 @@
 :imagesdir: ./images
 :toc: macro
-= image:arc42-logo.png[arc42] Documentation
+= DeChat
 
 toc::[]
 
