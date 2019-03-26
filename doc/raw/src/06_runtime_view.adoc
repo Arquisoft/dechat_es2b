@@ -27,7 +27,7 @@ image::../images/readContactsRuntimeDiagram.png[Add new contacts]
 image::../images/sendReceiveMessageRuntimeDiagram.png[Send and receive messages runtime diagram]
 
 === Add new contacts
-1. The user has to introduce the uri of the POD of the person who wants to chat with and a nickname if it's wanted.
+1. The user has to introduce the uri of the POD of the person who wants to chat with and a nickname if it's wanted to identify the contact. If it's not specified the identification of the contact will be the uri of the POD. Now it's not able to change the nickname, you need to remove and add the contact again.
 2. Finally the contact is stored in the POD of the user who add the other one.
 
 image::../images/addContactsRuntimeDiagram.png[Add new contacts]
