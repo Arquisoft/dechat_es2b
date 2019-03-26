@@ -12,9 +12,12 @@ The requirements are to make a SOLID based on-line chat by ourselves.
 [options="header",cols="1,2,2"]
 |===
 |Nr.|Quality|Motivation
-| 1 |Sturdiness|Since this is an important project it needs to be strong, that's why we test the code and prove it with different users.
-| 2 |Efficiency|As a chat it's important that messages don't take a long time to reach the other side.
+| 1 |Understandability|It needs to be understandable from a programmer that doesn't take part of the development team.
+| 2 |Domain based|We focus the application around the model without matters the technologies used.
 | 3 |Single Responsability|Due to the nature of the project, it must be easy to make changes on it. It can be reached with the single responsibility principle.
+| 4 |Efficiency|As a chat it's important that messages don't take a long time to reach the other side.
+| 5 |Security|A decentralized chat wouldn’t be useful to the users if everyone could access to other's chats.
+| 6 |Sturdiness|Since this is an important project it needs to be strong, that's why we test the code and prove it with different users.
 |===
 
 === Stakeholders
@@ -27,4 +30,5 @@ The requirements are to make a SOLID based on-line chat by ourselves.
 | ARQUISOFT teachers |https://arquisoft.github.io/| Their expectations are the same as the SOLID team's expectations, they want an application that uses SOLID with the added hurdle of having a limited time and a rigorous use of GitHub.
 | The developer team |this GitHub repository| Since we are trying to pass a subject we can consider that every aspect of this project is important to us.
 | Individual final users | | The final users of the application are looking for one easy to use and a good response speed.
+|Groups of users||Groups of users want to communicate among them to share their experiences.
 |===
