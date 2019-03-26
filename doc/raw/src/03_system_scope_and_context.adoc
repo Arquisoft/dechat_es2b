@@ -5,7 +5,11 @@
 
 image::../images/business-context.png[Business context representation]
 
+Each figure marked as "Extern" mean to be an external resource. The label "System" represents the application and the users' label the people who use it.
+
 === Technical Context
 image::../images/technical-context.png[Technical context representation]
 
-The authentication is made using a request to a SOLID server. The rest of the information (contacts, messages...) are placed in the POD which is in possession of the user.
+The authentication is made using a request to a SOLID server choosed by the user. The rest of the information (contacts, messages...) are placed in the POD which is in the SOLID server too.
+
+We use the labels "System", "Extern" and "Users" again as we have described in the section before. Moreover, we use a kind of cylinders which represent the SOLID server. The external resource "POD" is the store of the user information.
