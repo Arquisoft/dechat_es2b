@@ -9,4 +9,4 @@ script:
   - ng build --prod
 after_success:
   - ng test --watch=false --progress=false --browsers=ChromeHeadlessCI
-  - cat coverage/dechat/lcov.info | node_modules/coveralls/bin/coveralls.js
+  - cat coverage/lcov.info | node_modules/coveralls/bin/coveralls.js
