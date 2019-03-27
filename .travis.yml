@@ -9,4 +9,4 @@ script:
   - ng build --prod
 after_success:
   - ng test --watch=false
-  - cat ./coverage/lcov/lcov.info | ./node_modules/coveralls/bin/coveralls.js
+  - cat ./coverage/dechat/lcov.info | ./node_modules/coveralls/bin/coveralls.js
