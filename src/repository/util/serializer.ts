@@ -30,14 +30,56 @@ export class Serializer {
     return messages;
   };
 
-  static serializeContact = (newContact: Contact, oldData: string): string => {
-    // TODO Hacer antes los mensajes
-    // 1. Utilizando la libreria, parsear el atributo oldData. Es decir, crear un grafo con la información textual
 
-    // 2. A ese grafo, añadirle un elemento nuevo, que es el que esta en el atributo newContact
+  static serializeContact = async (newContact: Contact, oldData: string) => {
+    let parser = new N3.Parser();
+    const writer = new N3.Writer();
+    let i = 0;
 
-    // 3. Devolver la representación en modo texto de ese grafo con formato rdf. Lo hace la librería
-    return '';
+    const parsePromisePrefixes = new Promise((resolve, reject) => {
+      parser = new N3.Parser();
+      parser.parse(
+        oldData,
+        (error, quadC, prefixes) => {
+          if (prefixes) {
+            writer.addPrefixes(prefixes, null);
+            writer.addPrefix(newContact.urlPod.split('/')[2].replace(/\./gi, ''), newContact.urlPod + 'profile/card#me/', null);
+            resolve('Finish');
+          }
+        });
+    });
+
+    const parsePromiseQuads = new Promise((resolve, reject) => {
+      parser = new N3.Parser();
+      parser.parse(
+        oldData,
+        (error, quadC, prefixes) => {
+          if (quadC) {
+            writer.addQuad(quadC);
+          } else {
+            writer.addQuad(namedNode(':me'), namedNode('n0:knows'), namedNode(':' + newContact.urlPod.split('/')[2].replace(/\./gi, '')));
+            if (newContact.nickname != null && newContact.nickname.trim() !== '') {
+              writer.addQuad(namedNode(':' + newContact.urlPod.split('/')[2].replace(/\./gi, '')),
+                namedNode('n0:nick'), literal(newContact.nickname));
+            }
+            resolve('Finish');
+          }
+        });
+    });
+    let resultTurtle = '';
+    parsePromisePrefixes.then(res => {
+      parsePromiseQuads.then(res2 => {
+        writer.end((error, result) => {
+          i = 100;
+          resultTurtle = result.toString().replace(/undefined/gi, '').replace(/null/gi, '');
+        });
+      });
+    });
+
+    while (i === 0) {
+      const e = await new Promise(resolve => setTimeout(resolve, 1000));
+    }
+    return resultTurtle;
   };
 
   static deserializeContacts = async (data: string) => {
@@ -52,7 +94,6 @@ export class Serializer {
           Serializer.classifyQuads(quadC, contactUrlQuads, nickNameQuads);
           ++i;
         } else {
-          // Serializer.addPrefixeContact(prefixes);
           i = 1;
         }
       });
@@ -61,10 +102,6 @@ export class Serializer {
     }
     return Serializer.rebuildContacts(contactUrlQuads, nickNameQuads);
   };
-
-  private static addPrefixeContact(prefixes) {
-    console.log('# Thats all, folks!', prefixes);
-  }
 
   private static classifyQuads(quadC, contactUrlQuads, nickNameQuads) {
     if (quadC.predicate.value === 'http://xmlns.com/foaf/0.1/nick') {

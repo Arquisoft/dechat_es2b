@@ -2,7 +2,6 @@ import {Component, ViewChild} from '@angular/core';
 import {MessagesComponent} from './messages/messages.component';
 import {Contact} from '../model/contact';
 import {LoginService} from '../service/login.service';
-import {ContactsComponent} from './contacts/contacts.component';
 
 @Component({
   selector: 'app-root',
@@ -38,9 +37,12 @@ export class AppComponent {
     //   '    solid:publicTypeIndex </settings/publicTypeIndex.ttl>;\n' +
     //   '    n0:knows n2:, enolg:;\n' +
     //   '    n0:name "Andr\u00e9s".\n' +
-    //   'enolg:\n' +
+    //   ':enolg\n' +
     //   '    n0:nick "Enol".';
-    // Serializer.deserializeContacts(data);
+    // const contact = new Contact('https://pruebaAdd.inrupt.net/', 'hola');
+    // Serializer.serializeContact(contact, data).then(res => {
+    //   alert(res);
+    // });
   }
 
   selectContact(contact: Contact): void {
