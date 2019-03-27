@@ -8,6 +8,6 @@ before_script:
 script:
   - ng build --prod
 after_success:
-  - bash <(curl -s https://codecov.io/bash)
-  - ng test --watch=false --progress=false --browsers=ChromeHeadlessCI
+  - ng test --watch=false --progress=false --browsers=ChromeHeadlessCI --code-coverage
   - cat coverage/lcov.info | node_modules/coveralls/bin/coveralls.js
+  - bash <(curl -s https://codecov.io/bash)
