@@ -22,13 +22,6 @@ module.exports = function (config) {
       fixWebpackSourcePaths: true
     },
     reporters: ['progress', 'kjhtml', 'coverage'],
-    preprocessors: {
-      'app/**/*.js': ['coverage']
-    },
-    coverageReporter: {
-      type: 'lcov',
-      dir: '../coverage/'
-    },
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
