@@ -23,17 +23,23 @@ module.exports = function (config) {
     },
     reporters: ['progress', 'kjhtml', 'coverage'],
     preprocessors: {
-      'src/app/**/*.js': ['coverage']
+      'app/**/*.js': ['coverage']
     },
     coverageReporter: {
       type: 'lcov',
-      dir: 'coverage/'
+      dir: '../coverage/'
     },
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
     browsers: ['Chrome'],
+    customLaunchers: {
+      ChromeHeadlessCI: {
+        base: 'ChromeHeadless',
+        flags: ['--no-sandbox', '--disable-gpu']
+      }
+    },
     singleRun: false,
     restartOnFileChange: true
   });

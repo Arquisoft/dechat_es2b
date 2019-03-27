@@ -8,5 +8,5 @@ before_script:
 script:
   - ng build --prod
 after_success:
-  - ng test --watch=false --code-coverage=true
-  - cat /home/travis/build/Arquisoft/dechat_es2b/coverage/dechat/lcov.info | /home/travis/build/Arquisoft/dechat_es2b/node_modules/coveralls/bin/coveralls.js
+  - ng test --watch=false --progress=false --browsers=ChromeHeadlessCI
+  - cat coverage/*/lcov.info | node_modules/coveralls/bin/coveralls.js
