@@ -13,36 +13,6 @@ export class AppComponent {
 
   constructor(protected loginService: LoginService) {
     loginService.myContact();
-    // const data = '@prefix : <#>.\n' +
-    //   '@prefix solid: <http://www.w3.org/ns/solid/terms#>.\n' +
-    //   '@prefix pro: <./>.\n' +
-    //   '@prefix n0: <http://xmlns.com/foaf/0.1/>.\n' +
-    //   '@prefix schem: <http://schema.org/>.\n' +
-    //   '@prefix ldp: <http://www.w3.org/ns/ldp#>.\n' +
-    //   '@prefix inbox: </inbox/>.\n' +
-    //   '@prefix sp: <http://www.w3.org/ns/pim/space#>.\n' +
-    //   '@prefix n1: </>.\n' +
-    //   '@prefix n2: <https://acg96prueba.inrupt.net/>.\n' +
-    //   '@prefix enolg: <https://enolgargon.inrupt.net/>.\n' +
-    //   '\n' +
-    //   'pro:card a n0:PersonalProfileDocument; n0:maker :me; n0:primaryTopic :me.\n' +
-    //   '\n' +
-    //   ':me\n' +
-    //   '    a schem:Person, n0:Person;\n' +
-    //   '    ldp:inbox inbox:;\n' +
-    //   '    sp:preferencesFile </settings/prefs.ttl>;\n' +
-    //   '    sp:storage n1:;\n' +
-    //   '    solid:account n1:;\n' +
-    //   '    solid:privateTypeIndex </settings/privateTypeIndex.ttl>;\n' +
-    //   '    solid:publicTypeIndex </settings/publicTypeIndex.ttl>;\n' +
-    //   '    n0:knows n2:, enolg:;\n' +
-    //   '    n0:name "Andr\u00e9s".\n' +
-    //   ':enolg\n' +
-    //   '    n0:nick "Enol".';
-    // const contact = new Contact('https://pruebaAdd.inrupt.net/', 'hola');
-    // Serializer.serializeContact(contact, data).then(res => {
-    //   alert(res);
-    // });
   }
 
   selectContact(contact: Contact): void {

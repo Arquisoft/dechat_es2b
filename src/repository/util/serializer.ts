@@ -5,10 +5,6 @@ import {Contact} from '../../model/contact';
 const {namedNode, literal, defaultGraph, quad} = N3.DataFactory;
 
 export class Serializer {
-  // TODO Esquemas que hay que utilizar:
-  //        https://schema.org/Message
-  //        http://xmlns.com/foaf/spec/#term_knows
-  //        http://xmlns.com/foaf/spec/#term_nick
 
   static serializeMessages = (messages: Message[]): string => {
     const json = JSON.stringify(messages);
