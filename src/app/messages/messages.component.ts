@@ -1,8 +1,8 @@
-import {Component, ElementRef, Input, ViewChild} from '@angular/core';
+import {Component, ElementRef, ViewChild} from '@angular/core';
 import {Contact} from '../../model/contact';
 import {Message} from '../../model/message';
 import {MessageService} from '../../service/message.service';
-import {AccountService} from '../../service/account.service';
+import {RepositoryFactoryService} from '../../repository/repository-factory.service';
 
 @Component({
   selector: 'app-messages',
@@ -16,8 +16,12 @@ export class MessagesComponent {
   message = '';
   @ViewChild('messages') private messagesContainer: ElementRef;
 
-  constructor(private accountService: AccountService, private messageService: MessageService) {
-    accountService.getMyContact().then(res => this.myContact = res);
+  constructor(public repositoryFactoryService: RepositoryFactoryService, private messageService: MessageService) {
+    this.makeSureLogin();
+  }
+
+  makeSureLogin = async () => {
+    this.myContact = await this.repositoryFactoryService.repository.getMyContact();
   }
 
   showMenu() {
@@ -25,7 +29,7 @@ export class MessagesComponent {
   }
 
   logout() {
-    this.accountService.logout(null);
+    this.repositoryFactoryService.repository.logout(null);
   }
 
   async sendMessage(event: KeyboardEvent) {
