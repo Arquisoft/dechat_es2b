@@ -39,7 +39,7 @@ export class Serializer {
         (error, quadC, prefixes) => {
           if (prefixes) {
             writer.addPrefixes(prefixes, null);
-            writer.addPrefix(newContact.urlPod.split('/')[2].replace(/\./gi, ''), newContact.urlPod + 'profile/card#me/', null);
+            writer.addPrefix(newContact.urlPod.split('/')[2].replace(/\./gi, ''), newContact.urlPod, null);
             resolve('Finish');
           }
         });
