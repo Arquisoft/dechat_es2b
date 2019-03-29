@@ -7,7 +7,7 @@ import {Contact} from '../model/contact';
   providedIn: 'root'
 })
 export class MessageService {
-  constructor(private repository: RepositoryFactoryService) {
+  constructor(public repository: RepositoryFactoryService) {
   }
 
   addMessage(message: Message) {
