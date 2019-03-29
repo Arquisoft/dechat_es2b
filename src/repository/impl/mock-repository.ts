@@ -1,17 +1,26 @@
 import {Repository} from '../repository';
 import {Contact} from '../../model/contact';
 import {Message} from '../../model/message';
+import {reject} from 'q';
 
 export class MockRepository implements Repository {
   contacts: Contact[] = [];
   messages: Message[] = [];
   myContact: Contact = null;
   logedIn = false;
+  nextAddContactError = false;
 
   addContact(contact: Contact): Promise<void> {
-    return new Promise(() => {
-      this.contacts.push(contact);
-    });
+    if (this.nextAddContactError) {
+      this.nextAddContactError = false;
+      return new Promise<void>(() => {
+        reject('Error');
+      });
+    } else {
+      return new Promise(() => {
+        this.contacts.push(contact);
+      });
+    }
   }
 
   addMessage(message: Message) {
