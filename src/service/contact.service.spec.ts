@@ -6,12 +6,13 @@ import {Contact} from '../model/contact';
 
 describe('ContactService', () => {
   let service: ContactService;
-  const contacts = [new Contact('https://test1.mock.up/profile/card#me', 'Test1')];
+  let contacts: Contact[];
   let repo;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
     repo = new MockRepository();
+    contacts = [new Contact('https://test1.mock.up/profile/card#me', 'Test1')];
     repo.contacts = contacts;
     service = TestBed.get(ContactService);
     service.repository.config = repo;
