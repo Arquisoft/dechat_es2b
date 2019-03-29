@@ -8,7 +8,7 @@ import {RepositoryFactoryService} from '../repository/repository-factory.service
 export class ContactService {
   private contacts: Contact[];
 
-  constructor(private repository: RepositoryFactoryService) {
+  constructor(public repository: RepositoryFactoryService) {
   }
 
   addContact(contact: Contact) {
