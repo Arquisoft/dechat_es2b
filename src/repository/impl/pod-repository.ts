@@ -13,7 +13,9 @@ export class PodRepository implements Repository {
   addContact(contact: Contact): Promise<void> {
     const urlContacts = '';
     return PodUtil.readFile(urlContacts).then(res => {
-      PodUtil.writeToFile(urlContacts, Serializer.serializeContact(contact, res));
+      Serializer.serializeContact(contact, res).then(res2 => {
+        PodUtil.writeToFile(urlContacts, res2);
+      });
     }, err => {
       reject(err);
     });
