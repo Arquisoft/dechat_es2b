@@ -37,4 +37,14 @@ describe('ContactService', () => {
       expect(currentContacts).toEqual(contacts);
     });
   });
+
+  it('should check that errors don\'t cause inconsistency', () => {
+    repo.nextAddContactError = true;
+    const contact = new Contact('https://error.mock.up/profile/card#me', 'ErrorTest');
+    service.addContact(contact);
+    service.getContacts().then(currentContacts => {
+      expect(currentContacts).not.toContain(contact);
+      expect(currentContacts).toEqual(contacts);
+    });
+  });
 });
