@@ -17,6 +17,16 @@ describe('Serializer', () => {
     messages.push(new Message(contacts[1], contacts[0], new Date(), 'Second Message'));
     messages.push(new Message(contacts[0], contacts[1], new Date(), 'Third Message'));
     messages.push(new Message(contacts[1], contacts[0], new Date(), 'Fourth Message'));
+    contacts[0].nickname = null;
+    contacts[1].nickname = null;
     expect(Serializer.deserializeMessages(Serializer.serializeMessages(messages))).toEqual(messages);
+  });
+
+  it('should deserialize the serializer contacts', () => {
+    Serializer.serializeContact(contacts[0], '').then(str => {
+      Serializer.deserializeContacts(str).then(parsed => {
+        expect(parsed[0]).toEqual(contacts[0]);
+      });
+    });
   });
 });
