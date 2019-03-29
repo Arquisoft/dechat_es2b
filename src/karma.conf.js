@@ -17,7 +17,7 @@ module.exports = function (config) {
     client: {
       clearContext: false // leave Jasmine Spec Runner output visible in browser
     },
-    reporters: ['coverage', 'coveralls'],
+    reporters: ['progress', 'coverage', 'coveralls'],
     coverageReporter: {
       type: 'lcov',
       dir: '../coverage/'

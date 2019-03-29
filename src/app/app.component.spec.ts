@@ -1,4 +1,4 @@
-import {TestBed, async} from '@angular/core/testing';
+import {async, TestBed} from '@angular/core/testing';
 import {AppComponent} from './app.component';
 import {ContactsComponent} from './contacts/contacts.component';
 import {MessagesComponent} from './messages/messages.component';
@@ -6,9 +6,9 @@ import {FormsModule} from '@angular/forms';
 import {MessageComponent} from './message/message.component';
 import {ContactComponent} from './contact/contact.component';
 import {BrowserModule} from '@angular/platform-browser';
-import {LoginService} from '../service/login.mockup.service';
 import {RepositoryFactoryService} from '../repository/repository-factory.service';
 import {MockRepository} from '../repository/impl/mock-repository';
+import {LoginService} from '../service/login.service';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {

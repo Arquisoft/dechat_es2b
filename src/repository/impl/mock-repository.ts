@@ -3,43 +3,51 @@ import {Contact} from '../../model/contact';
 import {Message} from '../../model/message';
 
 export class MockRepository implements Repository {
+  contacts: Contact[] = [];
+  messages: Message[] = [];
+  myContact: Contact = null;
+  logedIn = false;
+
   addContact(contact: Contact): Promise<void> {
-    return undefined;
+    return new Promise(() => {
+      this.contacts.push(contact);
+    });
   }
 
   addMessage(message: Message) {
+    return new Promise(() => {
+      this.messages.push(message);
+    });
   }
 
   getContacts(): Promise<Contact[]> {
     return new Promise(() => {
-      const contacts = [];
-      contacts.push(new Contact('https://prueba1.mock.up/', 'Prueba1'));
-      contacts.push(new Contact('https://prueba2.mock.up/', 'Prueba2'));
-      return contacts;
+      this.myContact = new Contact('https://myPod.mock.up/', 'Prueba');
+      return this.contacts;
     });
   }
 
   getMessages(contact: Contact): Promise<Message[]> {
     return new Promise(() => {
       this.getMyContact().then(myContact => {
-        const messages = [];
-        messages.push(new Message(contact, myContact, new Date(), 'Mensaje 1'));
-        messages.push(new Message(myContact, contact, new Date(), 'Mensaje 2'));
-        messages.push(new Message(contact, myContact, new Date(), 'Mensaje 3'));
-        messages.push(new Message(myContact, contact, new Date(), 'Mensaje 4'));
-        return messages;
+        return this.messages;
       });
     });
   }
 
   getMyContact(): Promise<Contact> {
     return new Promise(() => {
-      return new Contact('https://myPod.mock.up/', 'Prueba');
+      this.logedIn = true;
+      return this.myContact;
     });
   }
 
   logout(action) {
-    action();
+    this.myContact = null;
+    this.logedIn = false;
+    if (action != null) {
+      action();
+    }
   }
 
 }
