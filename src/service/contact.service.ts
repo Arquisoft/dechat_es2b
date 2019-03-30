@@ -6,9 +6,10 @@ import {RepositoryFactoryService} from '../repository/repository-factory.service
   providedIn: 'root'
 })
 export class ContactService {
-  private contacts: Contact[];
+  private contacts: Contact[] = [];
 
   constructor(public repository: RepositoryFactoryService) {
+    repository.repository.getContacts().then(contacts => this.contacts = contacts);
   }
 
   addContact(contact: Contact) {
