@@ -13,7 +13,7 @@ With this scheme:
 
 -We have the model at the very center.
 
--Angular doesn't appear at all, making it replaceable since it's only present on the view part.
+-Angular doesn't appear at all, making it replaceable since it's only present on the Interface part.
 
 -We have a stepped structure where each step communicate with the next.
 
