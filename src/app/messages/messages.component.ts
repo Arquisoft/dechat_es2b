@@ -45,15 +45,25 @@ export class MessagesComponent {
     }
   }
 
+  updateScroll() {
+    const element = document.getElementById('messagesBox');
+    if (element != null) {
+      element.scrollTop = element.scrollHeight;
+    }
+  }
+
   showMessages = async () => {
     this.messageService.getMessages(this.contact).then((res) => {
-      this.messages = res;
+        this.messages = res;
+        const wait = new Promise(resolve => setTimeout(resolve, 500)).then(() => {
+          this.updateScroll();
+        });
     });
   };
 
   selectConversation(contact: Contact) {
     this.contact = contact;
     this.messageService.getMessages(this.contact);
-    setInterval(this.showMessages, 2000);
+    setInterval(this.showMessages, 1300);
   }
 }
