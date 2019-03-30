@@ -14,6 +14,10 @@ export class PodUtil {
     });
   };
 
+  static updateFile = async (url: string, data: string) => {
+    solidfc.updateFile(url, data);
+  }
+
   static readFile = async (url: string) => {
     return solidfc.readFile(url).then((res) => {
       return res;
@@ -26,7 +30,7 @@ export class PodUtil {
     PodUtil.writeToFile(file + '.acl', PodUtil.buildGrantText(contact, file));
   };
 
-  private static createFile = async (url: string, data: string) => {
+   static createFile = async (url: string, data: string) => {
     solidfc.createFile(url, data);
   };
 

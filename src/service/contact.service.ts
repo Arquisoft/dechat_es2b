@@ -12,9 +12,7 @@ export class ContactService {
   }
 
   addContact(contact: Contact) {
-    this.contacts.push(contact);
-    this.repository.repository.addContact(contact).then(() => {
-    }, () => this.error(contact));
+    return this.repository.repository.addContact(contact).then(() => 1, () => 0);
   }
 
   getContacts(): Promise<Contact[]> {

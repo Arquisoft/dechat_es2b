@@ -53,9 +53,9 @@ export class Serializer {
           if (quadC) {
             writer.addQuad(quadC);
           } else {
-            writer.addQuad(namedNode(':me'), namedNode('n0:knows'), namedNode(':' + newContact.urlPod.split('/')[2].replace(/\./gi, '')));
+            writer.addQuad(namedNode(':me'), namedNode('n0:knows'), namedNode(newContact.urlPod));
             if (newContact.nickname != null && newContact.nickname.trim() !== '') {
-              writer.addQuad(namedNode(':' + newContact.urlPod.split('/')[2].replace(/\./gi, '')),
+              writer.addQuad(namedNode(newContact.urlPod),
                 namedNode('n0:nick'), literal(newContact.nickname));
             }
             resolve('Finish');
