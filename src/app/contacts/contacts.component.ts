@@ -2,6 +2,7 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {Contact} from '../../model/contact';
 import {AppComponent} from '../app.component';
 import {ContactService} from '../../service/contact.service';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-contacts',
@@ -15,8 +16,24 @@ export class ContactsComponent implements OnInit {
   searchCall;
   search = '';
 
-  constructor(@Inject(AppComponent) private parent: AppComponent, public contactService: ContactService) {
+  addMessageResult: string;
+  contactID;
+
+  constructor(@Inject(AppComponent) private parent: AppComponent, public contactService: ContactService,
+              private modalService: NgbModal) {
     this.contacts = [];
+  }
+
+  open(content) {
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+      this.addMessageResult = 'Contact added correctly';
+      console.log(this.contactID);
+      const wait = new Promise(resolve => setTimeout(resolve, 1500)).then(() => {
+        this.addMessageResult = '';
+      });
+    }, (reason) => {
+      this.addMessageResult = '';
+    });
   }
 
   ngOnInit() {

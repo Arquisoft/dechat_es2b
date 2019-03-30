@@ -8,6 +8,12 @@
         <span class="input-group-text search_btn"><i class="fas fa-search"></i></span>
       </div>
     </div>
+    <div class="input-group">
+      <button class="btn btn-outline-light btn-sm btn-block" style="margin-top: 1em; margin-bottom: 0.5em;" (click)="open(contentModal)">Add new contact</button>
+    </div>
+    <div class="text-light">
+      <p class="text-center" style="font-size: 0.8em; margin-bottom: 0;">{{addMessageResult}}</p>
+    </div>
   </div>
   <div class="card-body contacts_body">
     <ul class="contacts">
@@ -17,3 +23,25 @@
     </ul>
   </div>
 </div>
+
+<ng-template #contentModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">New Contact</h4>
+    <button type="button" style="color:black;" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      x
+    </button>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="form-group">
+        <label for="contactID">Contact ID</label>
+        <div class="input-group">
+          <input id="contactID" [(ngModel)]="contactID" class="form-control" placeholder="https://profileID.inrupt.net/profile/card#me" name="contactID"/>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Add</button>
+  </div>
+</ng-template>
