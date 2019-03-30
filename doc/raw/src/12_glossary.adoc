@@ -1,6 +1,5 @@
 [[section-glossary]]
 == Glossary
-TODO
 
 
 
