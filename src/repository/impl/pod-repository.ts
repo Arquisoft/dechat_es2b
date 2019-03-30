@@ -16,7 +16,6 @@ export class PodRepository implements Repository {
       return PodUtil.readFile(urlContacts).then(res => {
         if (res != null) {
           Serializer.serializeContact(contact, res).then(res2 => {
-            console.log(res2);
             PodUtil.updateFile(urlContacts, res2);
           });
         } else {
