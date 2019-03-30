@@ -63,7 +63,7 @@ export class MessagesComponent {
 
   selectConversation(contact: Contact) {
     this.contact = contact;
-    this.messageService.getMessages(this.contact);
+    this.showMessages();
     setInterval(this.showMessages, 1300);
   }
 }
