@@ -1,5 +1,11 @@
 [[section-technical-risks]]
 == Risks and Technical Debts
-TODO
 
+[options="header"]
+|===
+|Description|Solution
+|As we use the POD technology we are subject to its changes and bugs, wich can end up making the user lose information due to a bug unrelated to the app.|Unfortunately there is little we can do without interceding in Solid's development.
+
+|Because we have to depend on Solid's confusing interface it may lead to authentication problems due to the different authentication ways Solid has which can confuse an amateur user of Solid.|This point is easily supressed once the user gets used to interacting with solid.
+|===
 
