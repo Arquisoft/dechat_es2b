@@ -24,8 +24,6 @@ body, html {
 }
 
 .msg_card_body {
-  position : relative;
-  bottom:0;
   overflow-y: auto;
 }
 
