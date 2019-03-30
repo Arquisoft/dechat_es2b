@@ -22,6 +22,8 @@ export class LoginService {
     auth.logout().then(() => {
       if (action) {
         action();
+      } else {
+        window.location.reload();
       }
     });
   }
