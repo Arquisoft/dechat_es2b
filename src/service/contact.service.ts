@@ -18,9 +18,4 @@ export class ContactService {
   getContacts(): Promise<Contact[]> {
     return this.repository.repository.getContacts();
   }
-
-  private error(contact: Contact) {
-    this.contacts.splice(this.contacts.indexOf(contact), 1);
-    alert('Error al añadir el contacto: ' + contact.urlPod);
-  }
 }

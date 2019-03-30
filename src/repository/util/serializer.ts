@@ -30,12 +30,14 @@ export class Serializer {
   static serializeContact = async (newContact: Contact, oldData: string) => {
     const writer = new N3.Writer();
     let i = 0;
-
     const parsePromisePrefixes = new Promise((resolve, reject) => {
       const parser = new N3.Parser();
       parser.parse(
         oldData,
         (error, quadC, prefixes) => {
+          if (error) {
+            reject(error);
+          }
           if (prefixes) {
             for (const prefix in prefixes) { //Check if the existing prefixes end with # or /
               const size = prefixes[prefix].length;
@@ -59,9 +61,9 @@ export class Serializer {
           if (quadC) {
             writer.addQuad(quadC);
           } else {
-            writer.addQuad(namedNode(':me'), namedNode('n0:knows'), namedNode(newContact.urlPod.split('/')[2].replace(/\./gi, '') + ':'));
+            writer.addQuad(namedNode(':me'), namedNode('n0:knows'), namedNode(newContact.urlPod.split('/')[2].replace(/\./gi, '') + ':me'));
             if (newContact.nickname != null && newContact.nickname.trim() !== '') {
-              writer.addQuad(namedNode(newContact.urlPod.split('/')[2].replace(/\./gi, '') + ':'),
+              writer.addQuad(namedNode(newContact.urlPod.split('/')[2].replace(/\./gi, '') + ':me'),
                 namedNode('n0:nick'), literal(newContact.nickname));
             }
             resolve('Finish');
@@ -76,6 +78,8 @@ export class Serializer {
           resultTurtle = result.toString().replace(/undefined/gi, '').replace(/null/gi, '');
         });
       });
+    }, err => {
+      i = 100;
     });
 
     while (i === 0) {

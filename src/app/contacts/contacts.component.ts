@@ -15,6 +15,7 @@ export class ContactsComponent implements OnInit {
   selectedContact: Contact;
   searchCall;
   search = '';
+  messageLoadingOrEmpty;
 
   addMessageResult: string;
   contactID;
@@ -23,6 +24,7 @@ export class ContactsComponent implements OnInit {
   constructor(@Inject(AppComponent) private parent: AppComponent, public contactService: ContactService,
               private modalService: NgbModal) {
     this.contacts = [];
+    this.messageLoadingOrEmpty = true;
   }
 
   open(content) {
@@ -47,9 +49,8 @@ export class ContactsComponent implements OnInit {
       const res = this.contactService.addContact(newContact);
       res.then(r => {
         if (r) {
-          this.contactService.getContacts().then(res2 => {
-            this.allContacts = res2;
-            this.contacts = res2;
+          const wait = new Promise(resolve => setTimeout(resolve, 1500)).then(() => {
+            this.ngOnInit();
           });
         } else {
           result.message = 'Unknown error has occurred';
@@ -99,7 +100,7 @@ export class ContactsComponent implements OnInit {
   checkIfExistContact(url) {
     if (this.allContacts != null) {
       for (let i = 0; i < this.allContacts.length; ++i) {
-        if (this.allContacts[i].urlPod + 'profile/card#me' === url) {
+        if (this.allContacts[i].urlPod + 'profile/card#me' === url || this.allContacts[i].urlPod + 'profile/card#me/' === url) {
           return true;
         }
       }
@@ -114,6 +115,7 @@ export class ContactsComponent implements OnInit {
 
   ngOnInit() {
     this.contactService.getContacts().then(res => {
+      this.messageLoadingOrEmpty = false;
       this.allContacts = res;
       this.contacts = res;
     });

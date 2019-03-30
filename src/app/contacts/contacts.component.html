@@ -17,7 +17,8 @@
   </div>
   <div class="card-body contacts_body">
     <ul class="contacts">
-      <li *ngIf="contacts.length === 0" style="color:white;">Loading...</li>
+      <li *ngIf="messageLoadingOrEmpty === true" style="color:white;">Loading...</li>
+      <li *ngIf="messageLoadingOrEmpty === false && contacts.length === 0" style="color:white;">You don't have any contacts</li>
       <app-contact *ngFor="let contact of contacts" [contact]="contact"
                    (click)="selectContact(contact)"></app-contact>
     </ul>

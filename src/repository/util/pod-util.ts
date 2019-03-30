@@ -30,7 +30,7 @@ export class PodUtil {
     PodUtil.writeToFile(file + '.acl', PodUtil.buildGrantText(contact, file));
   };
 
-   static createFile = async (url: string, data: string) => {
+  private static createFile = async (url: string, data: string) => {
     solidfc.createFile(url, data);
   };
 
