@@ -18,4 +18,6 @@
 
 |If a user takes down its POD then it would leave any user that had a conversation with the first with only half the conversation.|It's the other side of the decentralization, as information remains in each POD it makes sense that, since a POD is no longer there then the information isn't either.
 
+|If a POD is temporarily inaccessible, due to a failure in the server or faulty connection, then users would only be able to see their part of the conversation with the faulty POD's user|A downside of decentralization.
+
 |===
