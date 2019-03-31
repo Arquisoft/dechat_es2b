@@ -7,7 +7,12 @@
 [options="header"]
 |===
 | Term         | Definition
-| POD     | A Solid POD is a personal storage space that, in the future, will be carryable in your own computer so your information is only where you can control it. Unfortunately right now they are exclusively in Solid servers due to the short age of the technology.
+| POD     | A Solid POD is a personal storage space that, if you mount a server, you can have at you home so your information is only where you can control it.
 | Bug     | An error that can, and normally will, cause damage to your data.
-| Solid | It may refer to the acronym (https://en.wikipedia.org/wiki/SOLID) for five design principles intended to make software designs more understandable, flexible and maintainable, however in our case it's meant to refer to the technology SOLID (https://solid.inrupt.com/)
+| SOLID | It may refer to the acronym (https://en.wikipedia.org/wiki/SOLID) for five design principles intended to make software designs more understandable, flexible and maintainable, but it can also refer to the technology SOLID (https://solid.inrupt.com/)
+|Linked Data| An efficent way of linking information throuought the Web (http://linkeddata.org/)
+|RDF|It's a standard model for data interchange on the Web, that's to say, a way of linking data (https://www.w3.org/RDF/)
+|Decentralization| In this context it refers to the storage of data in more than one server and in more than one pair of hands. For example: All of Facebook's account's info is in Facebook's servers, that is centralized.
+|Layered architecture| It's an architecture that  is organized into horizontal layers, each layer performing a specific role within the application (e.g., presentation logic or business logic). (https://en.wikipedia.org/wiki/Multitier_architecture)
+|MVC|Model View Controler (MVC) is a style of architecture that separates the data from an application, the user interface and the control logic within 3 separate components. (https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller)
 |===
