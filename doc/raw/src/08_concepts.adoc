@@ -2,21 +2,6 @@
 == Cross-cutting Concepts
 
 
+=== Maintain a decentralized architecture
 
-
-
-=== _<Concept 1>_
-TODO
-_<explanation>_
-
-
-
-=== _<Concept 2>_
-TODO
-_<explanation>_
-
-...
-
-=== _<Concept n>_
-TODO
-_<explanation>_
+One of the goals and rules of the development team is to keep the application as far away from being a ball of mud as possible, for various reasons; to begin with, it's a matter of cleanliness, since the code will be easier to understand the less meshed together it is. Another thought that prompted us to take this stand is the "what if" of changing some part of the application (like Angular to another or the POD for a database)
