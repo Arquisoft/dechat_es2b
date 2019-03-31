@@ -19,3 +19,5 @@ On the other side, while testing, the application will stay local.
 It's mandatory, in order to run the application, that Node.js and angular/cli are installed on the computer, at least at this point in time. As for the OS, it's irrelevant, the application is made to work in every OS, that's to say, it's multiplataform.
 
 === Infrastructure Level 2
+
+It must be said that even if PODs could be in the same server, they could also be in totally diferent SOLID servers. Even so, that doesn't change the way the application works since it doesn't affect the deployment nor the conexion between PODs. The app gets deployed in a computer by using "ng serve" on the cmd while on the directory of the app, and form there the user logs in and connects to other PODs regardless of their location.
