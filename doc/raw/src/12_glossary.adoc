@@ -9,5 +9,5 @@
 | Term         | Definition
 | POD     | A Solid POD is a personal storage space that, in the future, will be carryable in your own computer so your information is only where you can control it. Unfortunately right now they are exclusively in Solid servers due to the short age of the technology.
 | Bug     | An error that can, and normally will, cause damage to your data.
-|Solid | It may refer to the acronym (https://en.wikipedia.org/wiki/SOLID) for five design principles intended to make software designs more understandable, flexible and maintainable, however in our case it's meant to refer to the technology SOLID (https://solid.inrupt.com/)
+| Solid | It may refer to the acronym (https://en.wikipedia.org/wiki/SOLID) for five design principles intended to make software designs more understandable, flexible and maintainable, however in our case it's meant to refer to the technology SOLID (https://solid.inrupt.com/)
 |===
