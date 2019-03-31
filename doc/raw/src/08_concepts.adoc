@@ -2,13 +2,13 @@
 == Cross-cutting Concepts
 
 
-=== Maintain a decentralized architecture
+=== Maintain an independent architecture
 
-One of the goals and rules of the development team is to keep the application as far away from being a ball of mud as possible, for various reasons; to begin with, it's a matter of cleanliness, since the code will be easier to understand the less meshed together it is. Another thought that prompted us to take this stand is the "what if" of changing some part of the application (like Angular to another or the POD for a database).
+One of the goals and rules of the development team is to keep the application within the confines of a MVC architecture with the intent of eliminating dependencies; to begin with, it's a matter of cleanliness, since the code will be easier to understand the less meshed together it is. Another thought that prompted us to take this stand is the "what if" of changing some part of the application (like Angular to another framework or the POD for a database).
 
 === Using Angular and TypeScript
 
-As we studied the project we came to the conclusion that Angular was the most complete framework for what we meant to do, for the most part because it had libraries compatible with SOLID and most apps for SOLID were made with Angular. As Angular uses nodejs it's almost mandatory that we use TypeScript or JavaScript, but since TypeScript is a lot more manageable than JavaScript and the first can be compiled into the second, the choosing made itself.
+As we studied the project we came to the conclusion that Angular was the most complete framework for what we meant to do, for the most part because it had libraries compatible with SOLID and most apps for SOLID were made with Angular. As Angular uses nodejs it's mandatory that we use TypeScript, and since TypeScript can be compiled into Javascript, it was made possible to use libraries written for both TypeScript and JavaScript.
 
 === Why SOLID
 
