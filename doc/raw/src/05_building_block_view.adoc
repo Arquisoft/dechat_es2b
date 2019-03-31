@@ -3,11 +3,21 @@
 
 == Building Block View
 
-image::../images/Bulding%20Block%202019-03-30%2015-56-58.png[Overview]
+=== Level 1
+
+image::../images/Bulding%20Block%20eas.png[Overview]
+
+-Different Users that deploy the app and set the other as a contact can send messages through the app.
+
+=== Level 2
+
+image::../images/Diagrama%20envio%20y%20lectura%20de%20mensajes%20(con%20service%20y%20repository).png[Modelo]
+
+-This is done by writing the message that one user wants to send on that user's POD and then allowing the other user to access said message, then the other user's app gets warned about the new message and then it access it to show it to its user.
 
 === Whitebox Overall System
 
-image::../images/Moldelo%202019-03-30%2014-09-34.png[Modelo]
+
 
 With this scheme:
 
@@ -18,5 +28,3 @@ With this scheme:
 -We have a stepped structure where each step communicate with the next.
 
 -We can substitute the POD for a mock by changing only a class
-
-
