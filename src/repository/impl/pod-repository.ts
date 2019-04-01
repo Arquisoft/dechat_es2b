@@ -5,6 +5,7 @@ import {Serializer} from '../util/serializer';
 import {PodUtil} from '../util/pod-util';
 import {reject} from 'q';
 import {LoginService} from '../../service/login.service';
+import {Notification} from '../../model/notification';
 
 export class PodRepository implements Repository {
   constructor(private login: LoginService) {
@@ -74,5 +75,20 @@ export class PodRepository implements Repository {
 
   logout(action) {
     this.login.logout(action);
+  }
+
+  async addNotification(notification: Notification) {
+  }
+
+  async getNotifications(chatIdentificator: string): Promise<Notification[]> {
+    if (chatIdentificator == null) { // Get all notifications
+
+    } else {
+
+    }
+    return undefined;
+  }
+
+  async deleteNotifications(chatIdentificator: string) {
   }
 }
