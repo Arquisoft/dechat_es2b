@@ -3,28 +3,23 @@
 
 == Building Block View
 
+=== Scope & Context
+
+image::../images/Diagram%202019-04-01%2009-29-13.png[Overview]
+
+-A user deploys the app on their POD, sets another user as a contact and "sends" a message through the app. That's what is seen from the outside.
+
 === Level 1
-
-image::../images/Bulding%20Block%20eas.png[Overview]
-
--Different Users that deploy the app and set the other as a contact can send messages through the app.
-
-=== Level 2
 
 image::../images/Diagrama%20envio%20y%20lectura%20de%20mensajes%20(con%20service%20y%20repository).png[Modelo]
 
--This is done by writing the message that one user wants to send on that user's POD and then allowing the other user to access said message, then the other user's app gets warned about the new message and then it access it to show it to its user.
+-On the inside, this is done by writing the message that the Emiter wants to send on the Emiter's POD by calling the method AddMessage(message) which calls the repository to write the message and grant the Receptor access to said message. Following that, the Receptor's app gets a warning that indicates that a new message is available so when the method GetMessages() is called it can access it and show it to the Receptor.
+
+=== Level 2
+
+TODO 
 
 === Whitebox Overall System
 
 
-
-With this scheme:
-
--We have the model at the very center.
-
--Angular doesn't appear at all, making it replaceable since it's only present on the Interface part.
-
--We have a stepped structure where each step communicate with the next.
-
--We can substitute the POD for a mock by changing only a class
+The decomposition of the app is motivated by the decision to keep an MVC architecture so every part can be changed if the need arises.
