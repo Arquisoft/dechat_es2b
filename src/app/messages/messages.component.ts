@@ -48,6 +48,7 @@ export class MessagesComponent {
       this.notificationService.getCurrentChatNotifications(null).then(res => {
         console.log(res.length + ' - Cantidad de notificaciones totales');
       });
+      // this.notificationService.deleteChatNotifications('https://acg96.inrupt.net/');
     }
   }
 

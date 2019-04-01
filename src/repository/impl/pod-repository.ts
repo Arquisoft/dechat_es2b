@@ -92,7 +92,7 @@ export class PodRepository implements Repository {
     return PodUtil.readFolder(urlInbox).then(res => {
       return Serializer.deserializeFolderNameFiles(res).then(listFileNames => {
         const selectedFiles = [];
-        if (chatIdentificator != null) { // Get all notifications
+        if (chatIdentificator != null && chatIdentificator.trim() !== '') {
           const md5Util = new Md5();
           const hashIdentificatorFile = md5Util.appendStr(chatIdentificator).end();
           for (let i = 0; i < listFileNames.length ; ++i) {
@@ -101,7 +101,7 @@ export class PodRepository implements Repository {
               selectedFiles.push(listFileNames[i]);
             }
           }
-        } else {
+        } else { // Get all notifications
           selectedFiles.push(...listFileNames);
         }
 
@@ -135,5 +135,25 @@ export class PodRepository implements Repository {
   }
 
   async deleteNotifications(chatIdentificator: string) {
+    const me = await this.login.myContact();
+    const urlInbox = me.urlPod + 'inbox/';
+    PodUtil.readFolder(urlInbox).then(res => {
+      Serializer.deserializeFolderNameFiles(res).then(listFileNames => {
+        const selectedFiles = [];
+        if (chatIdentificator != null && chatIdentificator.trim() !== '') {
+          const md5Util = new Md5();
+          const hashIdentificatorFile = md5Util.appendStr(chatIdentificator).end();
+          for (let i = 0; i < listFileNames.length ; ++i) {
+            const arrayFileName = listFileNames[i].split('.');
+            if (arrayFileName[1].toString() === hashIdentificatorFile) {
+              selectedFiles.push(listFileNames[i]);
+            }
+          }
+        }
+        for (let i = 0; i < selectedFiles.length; ++i) {
+          PodUtil.removeFile(urlInbox + selectedFiles[i]);
+        }
+      });
+    });
   }
 }

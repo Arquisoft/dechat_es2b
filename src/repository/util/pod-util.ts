@@ -34,6 +34,10 @@ export class PodUtil {
     });
   };
 
+  static removeFile = async (url: string) => {
+    solidfc.deleteFile(url);
+  }
+
   static giveGrantsTo = async (file, contact) => {
     PodUtil.writeToFile(file + '.acl', PodUtil.buildGrantText(contact, file));
   };
