@@ -3,6 +3,7 @@ import {Contact} from '../../model/contact';
 import {Message} from '../../model/message';
 import {MessageService} from '../../service/message.service';
 import {RepositoryFactoryService} from '../../repository/repository-factory.service';
+import {NotificationService} from '../../service/notification.service';
 
 @Component({
   selector: 'app-messages',
@@ -16,7 +17,8 @@ export class MessagesComponent {
   message = '';
   @ViewChild('messages') private messagesContainer: ElementRef;
 
-  constructor(public repositoryFactoryService: RepositoryFactoryService, private messageService: MessageService) {
+  constructor(public repositoryFactoryService: RepositoryFactoryService, private messageService: MessageService,
+              private notificationService: NotificationService) {
     this.makeSureLogin();
   }
 
@@ -42,6 +44,7 @@ export class MessagesComponent {
       if (event != null) {
         event.preventDefault();
       }
+      this.notificationService.sendNewMessageNotification(mess);
     }
   }
 

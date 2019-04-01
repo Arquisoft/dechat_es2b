@@ -6,6 +6,7 @@ import {PodUtil} from '../util/pod-util';
 import {reject} from 'q';
 import {LoginService} from '../../service/login.service';
 import {Notification} from '../../model/notification';
+import {Md5} from 'ts-md5/dist/md5';
 
 export class PodRepository implements Repository {
   constructor(private login: LoginService) {
@@ -78,9 +79,15 @@ export class PodRepository implements Repository {
   }
 
   async addNotification(notification: Notification) {
+    const md5Util = new Md5();
+    const hashIdentificatorFile = md5Util.appendStr(notification.chatIdentificator).end();
+    const urlNotification = notification.message.to.urlPod + 'inbox/dechat.' + hashIdentificatorFile +
+      '.' + notification.message.date.getTime() + '.json';
+    PodUtil.writeToFile(urlNotification, Serializer.serializeNotification(notification));
   }
 
   async getNotifications(chatIdentificator: string): Promise<Notification[]> {
+    
     if (chatIdentificator == null) { // Get all notifications
 
     } else {

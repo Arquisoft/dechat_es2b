@@ -1,6 +1,7 @@
 import * as N3 from 'n3';
 import {Message} from '../../model/message';
 import {Contact} from '../../model/contact';
+import {Notification} from '../../model/notification';
 
 const {namedNode, literal, defaultGraph, quad} = N3.DataFactory;
 
@@ -10,6 +11,29 @@ export class Serializer {
     const json = JSON.stringify(messages);
     return json;
   };
+
+  static serializeNotification = (notification: Notification): string => {
+    const json = JSON.stringify(notification);
+    return json;
+  };
+
+  static deserializeNotification = (data: string): Notification => {
+    let notificaction = null;
+    if (data != null && data.trim() !== '') {
+      const objJSON = JSON.parse(data);
+      const chatIdentificator = objJSON['_chatIdentificator'];
+
+      const from = new Contact(objJSON['_message']['_from']['_urlPod'], objJSON['_message']['_from']['_nickname']);
+      const to = new Contact(objJSON['_message']['_to']['_urlPod'], objJSON['_message']['_to']['_nickname']);
+      const text = objJSON['_message']['_text'];
+      const date = new Date(objJSON['_message']['_date']);
+      const messg = new Message(from, to, date, text);
+
+      notificaction = new Notification(chatIdentificator, messg);
+      return notificaction;
+    }
+    return notificaction;
+  }
 
   static deserializeMessages = (data: string): Message[] => {
     const messages = [];
