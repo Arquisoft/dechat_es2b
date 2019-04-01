@@ -7,12 +7,22 @@
 [options="header"]
 |===
 | Term         | Definition
-| POD     | A Solid POD is a personal storage space that, if you mount a server, you can have at you home so your information is only where you can control it.
+| POD     | It's a personal online data stores hosted wherever the user desires, as long as it's a SOLID server. 
+| SOLID server| A server built on the Solid platform following SOLID specifications. 
+| SOLID | Solid (derived from "social linked data") is a proposed set of conventions and tools for building decentralized social applications based on Linked Data principles. Solid is modular and extensible. It relies as much as possible on existing W3C standards and protocols.
+| Linked Data | Linked Data is a method of publishing structured data so that it can be interlinked and become more useful through semantic queries.
+| Semantic Queries | Semantic queries are queries that enable the retrieval of both explicitly and implicitly derived information based on syntactic, semantic and structural information contained in data.
+| RDF | The RDF data model is similar to classical conceptual modeling approaches (such as entity–relationship or class diagrams). It is based on the idea of making statements about resources (in particular web resources) in expressions of the form subject–predicate–object. The subject denotes the resource, and the predicate denotes traits or aspects of the resource, and expresses a relationship between the subject and the object.
+| Decentralization | Decentralization is the process by which the activities of an application, particularly those regarding planning, decision making and data, are distributed or delegated away from a central, authoritative location or group.
+| Layered architecture | It's an architecture that  is organized into horizontal layers, each layer performing a specific role within the application (e.g., presentation logic or business logic). 
+| MVC |Model View Controler (MVC) is a style of architecture that separates the data from an application (Model), the user interface (View) and the control logic (Controler) within 3 separate components. 
+| Angular |  It's a TypeScript-based open-source web application framework led by the Angular Team at Google and by a community of individuals and corporations.
+| TypeScript | TypeScript is an open-source programming language developed and maintained by Microsoft and a superset of ECMAScript 6 (ES6), which is also backwards compatible with ECMAScript 5 (JavaScript).
+| Node | Node.js is an open-source, cross-platform JavaScript run-time environment that executes JavaScript code outside of a browser. Since TypeScript is backwards compatible with JavaScript, it also works with Node.
+| API | An API (application programming interface) is a set of subroutine definitions, communication protocols, and tools for building software.
+| REST | REST (Representational State Transfer) is a software architectural style that defines a set of constraints to be used for creating Web services.
+| API Rest | It's an API that implements the REST architecture.
+| Web Petition | It's, in a client-server computing model (sort of what we are using), a request from the client side (the app) to the server (the POD).
+| Mock up | mockups are a way of designing user interfaces on paper or in computer images. A software mockup will thus look like the real thing, but will not do useful work beyond what the user sees.
 | Bug     | An error that can, and normally will, cause damage to your data.
-| SOLID | It may refer to the acronym (https://en.wikipedia.org/wiki/SOLID) for five design principles intended to make software designs more understandable, flexible and maintainable, but it can also refer to the technology SOLID (https://solid.inrupt.com/)
-|Linked Data| An efficent way of linking information throuought the Web (http://linkeddata.org/)
-|RDF|It's a standard model for data interchange on the Web, that's to say, a way of linking data (https://www.w3.org/RDF/)
-|Decentralization| In this context it refers to the storage of data in more than one server and in more than one pair of hands. For example: All of Facebook's account's info is in Facebook's servers, that is centralized.
-|Layered architecture| It's an architecture that  is organized into horizontal layers, each layer performing a specific role within the application (e.g., presentation logic or business logic). (https://en.wikipedia.org/wiki/Multitier_architecture)
-|MVC|Model View Controler (MVC) is a style of architecture that separates the data from an application, the user interface and the control logic within 3 separate components. (https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller)
 |===
