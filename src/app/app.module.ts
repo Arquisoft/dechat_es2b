@@ -7,6 +7,7 @@ import {ContactsComponent} from './contacts/contacts.component';
 import {ContactComponent} from './contact/contact.component';
 import {MessageComponent} from './message/message.component';
 import {FormsModule} from '@angular/forms';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import {FormsModule} from '@angular/forms';
   ],
   imports: [
     BrowserModule,
-    FormsModule
+    FormsModule,
+    NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent]

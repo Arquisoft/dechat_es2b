@@ -22,6 +22,10 @@ module.exports = function (config) {
       type: 'lcov',
       dir: '../coverage/'
     },
+    exclude: [
+      './repository/impl/pod-repository.ts',
+      './repository/util/pod-util.ts'
+    ],
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,

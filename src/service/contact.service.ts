@@ -13,17 +13,10 @@ export class ContactService {
   }
 
   addContact(contact: Contact) {
-    this.contacts.push(contact);
-    this.repository.repository.addContact(contact).then(() => {
-    }, () => this.error(contact));
+    return this.repository.repository.addContact(contact).then(() => 1, () => 0);
   }
 
   getContacts(): Promise<Contact[]> {
     return this.repository.repository.getContacts();
-  }
-
-  private error(contact: Contact) {
-    this.contacts.splice(this.contacts.indexOf(contact), 1);
-    alert('Error al añadir el contacto: ' + contact.urlPod);
   }
 }

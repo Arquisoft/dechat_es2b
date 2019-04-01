@@ -11,13 +11,23 @@ export class PodRepository implements Repository {
   }
 
   addContact(contact: Contact): Promise<void> {
-    const urlContacts = '';
-    return PodUtil.readFile(urlContacts).then(res => {
-      Serializer.serializeContact(contact, res).then(res2 => {
-        PodUtil.writeToFile(urlContacts, res2);
+    return this.login.myContact().then(cont => {
+      const urlContacts = cont.urlPod + 'profile/card';
+      return PodUtil.readFile(urlContacts).then(res => {
+        if (res != null) {
+          return Serializer.serializeContact(contact, res).then(res2 => {
+            if (res2.trim() === '') {
+                throw new Error('error');
+            } else {
+              PodUtil.updateFile(urlContacts, res2);
+            }
+          });
+        } else {
+          throw new Error('error');
+        }
+      }, err => {
+        reject(err);
       });
-    }, err => {
-      reject(err);
     });
   }
 
@@ -32,7 +42,7 @@ export class PodRepository implements Repository {
 
   async getContacts(): Promise<Contact[]> {
     const myContact = await this.login.myContact();
-    return Serializer.deserializeContacts(await PodUtil.readFile(myContact.urlPod + 'profile/card#me'));
+    return Serializer.deserializeContacts(await PodUtil.readFile(myContact.urlPod + 'profile/card#me') == null ? '' : await PodUtil.readFile(myContact.urlPod + 'profile/card#me'));
   }
 
   async getMessages(contact: Contact): Promise<Message[]> {

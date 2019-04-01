@@ -28,34 +28,42 @@ export class Serializer {
 
 
   static serializeContact = async (newContact: Contact, oldData: string) => {
-    let parser = new N3.Parser();
     const writer = new N3.Writer();
     let i = 0;
-
     const parsePromisePrefixes = new Promise((resolve, reject) => {
-      parser = new N3.Parser();
+      const parser = new N3.Parser();
       parser.parse(
         oldData,
         (error, quadC, prefixes) => {
+          if (error) {
+            reject(error);
+          }
           if (prefixes) {
+            for (const prefix in prefixes) { //Check if the existing prefixes end with # or /
+              const size = prefixes[prefix].length;
+              const finalLetter = prefixes[prefix].substring(size - 1, size);
+              if (finalLetter !== '#' && finalLetter !== '/') {
+                prefixes[prefix] = prefixes[prefix] + '/'; //Add a /
+              }
+            }
             writer.addPrefixes(prefixes, null);
-            writer.addPrefix(newContact.urlPod.split('/')[2].replace(/\./gi, ''), newContact.urlPod, null);
+            writer.addPrefix(newContact.urlPod.split('/')[2].replace(/\./gi, ''), newContact.urlPod + '/', null);
             resolve('Finish');
           }
         });
     });
 
     const parsePromiseQuads = new Promise((resolve, reject) => {
-      parser = new N3.Parser();
+      const parser = new N3.Parser();
       parser.parse(
         oldData,
         (error, quadC, prefixes) => {
           if (quadC) {
             writer.addQuad(quadC);
           } else {
-            writer.addQuad(namedNode(':me'), namedNode('n0:knows'), namedNode(':' + newContact.urlPod.split('/')[2].replace(/\./gi, '')));
+            writer.addQuad(namedNode(':me'), namedNode('n0:knows'), namedNode(newContact.urlPod.split('/')[2].replace(/\./gi, '') + ':me'));
             if (newContact.nickname != null && newContact.nickname.trim() !== '') {
-              writer.addQuad(namedNode(':' + newContact.urlPod.split('/')[2].replace(/\./gi, '')),
+              writer.addQuad(namedNode(newContact.urlPod.split('/')[2].replace(/\./gi, '') + ':me'),
                 namedNode('n0:nick'), literal(newContact.nickname));
             }
             resolve('Finish');
@@ -70,6 +78,8 @@ export class Serializer {
           resultTurtle = result.toString().replace(/undefined/gi, '').replace(/null/gi, '');
         });
       });
+    }, err => {
+      i = 100;
     });
 
     while (i === 0) {
@@ -115,14 +125,18 @@ export class Serializer {
       nickNameQuads.forEach(nickNameQuad => {
         if (nickNameQuad.subject.value === contactUrlQuad.object.value) {
           const contact = new Contact(contactUrlQuad.object.value, nickNameQuad.object.value);
-          contact.urlPod = contact.urlPod.replace('profile/card#me', '').replace('profile/card#', '').replace('profile/card', '');
+          const arrayContact = contact.urlPod.split('/');
+          const urlFormatted = arrayContact[0] + '//' + arrayContact[2] + '/';
+          contact.urlPod = urlFormatted;
           contacts.push(contact);
           nickControl = true;
         }
       });
       if (nickControl === false) {
         const contact = new Contact(contactUrlQuad.object.value, contactUrlQuad.object.value.split('/')[2]);
-        contact.urlPod = contact.urlPod.replace('profile/card#me', '').replace('profile/card#', '').replace('profile/card', '');
+        const arrayContact = contact.urlPod.split('/');
+        const urlFormatted = arrayContact[0] + '//' + arrayContact[2] + '/';
+        contact.urlPod = urlFormatted;
         contacts.push(contact);
       }
     });
