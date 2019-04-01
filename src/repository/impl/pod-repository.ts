@@ -83,17 +83,55 @@ export class PodRepository implements Repository {
     const hashIdentificatorFile = md5Util.appendStr(notification.chatIdentificator).end();
     const urlNotification = notification.message.to.urlPod + 'inbox/dechat.' + hashIdentificatorFile +
       '.' + notification.message.date.getTime() + '.json';
-    PodUtil.writeToFile(urlNotification, Serializer.serializeNotification(notification));
+    PodUtil.createFile(urlNotification, Serializer.serializeNotification(notification));
   }
 
   async getNotifications(chatIdentificator: string): Promise<Notification[]> {
-    
-    if (chatIdentificator == null) { // Get all notifications
+    const me = await this.login.myContact();
+    const urlInbox = me.urlPod + 'inbox/';
+    return PodUtil.readFolder(urlInbox).then(res => {
+      return Serializer.deserializeFolderNameFiles(res).then(listFileNames => {
+        const selectedFiles = [];
+        if (chatIdentificator != null) { // Get all notifications
+          const md5Util = new Md5();
+          const hashIdentificatorFile = md5Util.appendStr(chatIdentificator).end();
+          for (let i = 0; i < listFileNames.length ; ++i) {
+            const arrayFileName = listFileNames[i].split('.');
+            if (arrayFileName[1].toString() === hashIdentificatorFile) {
+              selectedFiles.push(listFileNames[i]);
+            }
+          }
+        } else {
+          selectedFiles.push(...listFileNames);
+        }
 
-    } else {
-
-    }
-    return undefined;
+        let control = 0;
+        const notifications = [];
+        const readFiles = new Promise((resolve, decline) => {
+          for (let i = 0; i < selectedFiles.length; ++i) {
+            PodUtil.readFile(urlInbox + selectedFiles[i]).then((leido) => {
+              const not = Serializer.deserializeNotification(leido);
+              if (not != null) {
+                notifications.push(not);
+              }
+              ++ control;
+              if (control === selectedFiles.length) {
+                resolve('Finish');
+              }
+            });
+          }
+          if (control === selectedFiles.length) {
+            resolve('Finish');
+          }
+        });
+        return readFiles.then(() => {
+          return notifications;
+        });
+      });
+    }, err => {
+      const notifications = [];
+      return notifications;
+    });
   }
 
   async deleteNotifications(chatIdentificator: string) {

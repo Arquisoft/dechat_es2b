@@ -17,6 +17,35 @@ export class Serializer {
     return json;
   };
 
+  static deserializeFolderNameFiles = async (data: string): Promise<string[]> => {
+    const parser = new N3.Parser();
+    const names = [];
+    let i = 0;
+    parser.parse(
+      data,
+      (error, quadC, prefixes) => {
+        if (error) {
+          i = 1;
+        }
+        if (quadC) {
+          if (quadC.predicate.value === 'http://www.w3.org/ns/ldp#contains') {
+            let valorNombre = quadC.object.value;
+            valorNombre = valorNombre.replace('undefined', '');
+            const arrayName = valorNombre.split('.');
+            if (arrayName != null && arrayName.length >= 0 && arrayName[0] === 'dechat') {
+              names.push(valorNombre.toString());
+            }
+          }
+        } else {
+          i = 1;
+        }
+      });
+    while (i === 0) {
+      const e = await new Promise(resolve => setTimeout(resolve, 1000));
+    }
+    return names;
+  }
+
   static deserializeNotification = (data: string): Notification => {
     let notificaction = null;
     if (data != null && data.trim() !== '') {
@@ -120,9 +149,11 @@ export class Serializer {
     parser.parse(
       data,
       (error, quadC, prefixes) => {
+        if (error) {
+          i = 1;
+        }
         if (quadC) {
           Serializer.classifyQuads(quadC, contactUrlQuads, nickNameQuads);
-          ++i;
         } else {
           i = 1;
         }

@@ -45,6 +45,9 @@ export class MessagesComponent {
         event.preventDefault();
       }
       this.notificationService.sendNewMessageNotification(mess);
+      this.notificationService.getCurrentChatNotifications(null).then(res => {
+        console.log(res.length + ' - Cantidad de notificaciones totales');
+      });
     }
   }
 
