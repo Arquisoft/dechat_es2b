@@ -5,19 +5,35 @@
 
 === Scope & Context
 
-image::../images/Diagram%202019-04-01%2009-29-13.png[Overview]
+image::../images/Diagram%202019-04-01%2014-22-12.png[Overview]
 
 -A user deploys the app on their POD, sets another user as a contact and "sends" a message through the app. That's what is seen from the outside.
 
 === Level 1
 
-image::../images/Diagrama%20envio%20y%20lectura%20de%20mensajes%20(con%20service%20y%20repository).png[Modelo]
+image::../images/Diagram%202019-04-01%2014-09-13.png[Level 1]
 
--On the inside, this is done by writing the message that the Emiter wants to send on the Emiter's POD by calling the method AddMessage(message) which calls the repository to write the message and grant the Receptor access to said message. Following that, the Receptor's app gets a warning that indicates that a new message is available so when the method GetMessages() is called it can access it and show it to the Receptor.
+- Repository takes care of:
+
+ + Adding messages to the POD. 
+ 
+ + Gets the Contacts of the user. 
+ 
+ + Gets the messages between the user and their contacts.
+ 
+ + Login out the user.
+
+- Services can be divided into: account, contact, message and login.
+
+- From the external libraries that are used the most remarkable among them are N3 for RDF and Solid-file-client to manage the data.
 
 === Level 2
 
-TODO 
+image::../images/Diagram%202019-04-01%2014-20-32.png[Level 2]
+
+- Mock_Repository is a Repository spacifically made to test the aplication in a local enviroment while Pod_Repository is for online purposes.
+
+- Within Component we find Component.ts (Component), Component.html (HTML) and Component.css (CSS).
 
 === Whitebox Overall System
 
