@@ -74,7 +74,9 @@ export class MessagesComponent implements OnInit {
             this.showMessages();
           }
           // Now the rest
-          for (const key in hashNew.keys()) {
+          const iteratorKeys = hashNew.keys();
+          let key = iteratorKeys.next().value;
+          while (key != null) {
             if (key !== this.contact.urlPod) {
               if (this.hashMessages.has(key)) {
                 arrayAux = hashNew.get(key);
@@ -86,6 +88,7 @@ export class MessagesComponent implements OnInit {
                 // Here we would be able to check if someone who we don't have added as contact have written to us
               }
             }
+            key = iteratorKeys.next().value;
           }
         }
       });
