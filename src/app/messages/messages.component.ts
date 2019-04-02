@@ -65,7 +65,7 @@ export class MessagesComponent implements OnInit {
           const hashNew = this.notificationService.classifyNotificationsPerChat(res);
           let arrayAux = [];
           // First the current chat
-          if (hashNew.has(this.contact.urlPod)) {
+          if (hashNew.has(this.contact.urlPod) && this.hashMessages.has(this.contact.urlPod)) {
             arrayAux = hashNew.get(this.contact.urlPod);
             this.hashMessages.get(this.contact.urlPod).push(...arrayAux);
             this.hashMessages.get(this.contact.urlPod).sort((a, b) => {
