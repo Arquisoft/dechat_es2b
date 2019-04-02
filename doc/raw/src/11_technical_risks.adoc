@@ -20,4 +20,5 @@
 
 |If a POD is temporarily inaccessible, due to a failure in the server or faulty connection, then users would only be able to see their part of the conversation with the faulty POD's user|A downside of decentralization.
 
+|Since the communications are done via API REST they could be inercepted and modified as the POD doesn't have a verification system|A current error of SOLID.
 |===
