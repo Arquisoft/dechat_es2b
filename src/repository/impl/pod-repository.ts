@@ -44,7 +44,8 @@ export class PodRepository implements Repository {
 
   async getContacts(): Promise<Contact[]> {
     const myContact = await this.login.myContact();
-    return Serializer.deserializeContacts(await PodUtil.readFile(myContact.urlPod + 'profile/card#me') == null ? '' : await PodUtil.readFile(myContact.urlPod + 'profile/card#me'));
+    return Serializer.deserializeContacts(await PodUtil.readFile(myContact.urlPod + 'profile/card#me') == null ? ''
+      : await PodUtil.readFile(myContact.urlPod + 'profile/card#me'));
   }
 
   async getMessages(contact: Contact): Promise<Message[]> {
@@ -116,6 +117,9 @@ export class PodRepository implements Repository {
                 if (deleteAfterRead) {
                   PodUtil.removeFile(urlInbox + selectedFiles[i]).then((opt) => {
                     ++control;
+                    if (control === selectedFiles.length) {
+                      resolve('Finish');
+                    }
                   });
                 } else {
                   ++ control;
@@ -163,8 +167,8 @@ export class PodRepository implements Repository {
         const promFor = new Promise((resolve, decline) => {
           let control = 0;
           for (let i = 0; i < selectedFiles.length; ++i) {
-            PodUtil.removeFile(urlInbox + selectedFiles[i]).then(res => {
-              if (res) {
+            PodUtil.removeFile(urlInbox + selectedFiles[i]).then(tt => {
+              if (tt) {
                 ++control;
                 if (control === selectedFiles.length) {
                   resolve('Finish');

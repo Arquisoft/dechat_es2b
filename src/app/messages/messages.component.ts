@@ -28,7 +28,7 @@ export class MessagesComponent implements OnInit {
 
   makeSureLogin = async () => {
     this.myContact = await this.repositoryFactoryService.repository.getMyContact();
-  }
+  };
 
   showMenu() {
     $('.action_menu').toggle();
@@ -61,34 +61,36 @@ export class MessagesComponent implements OnInit {
       this.controlFind = true;
       this.notificationService.getAllNotificationsAndDelete().then(res => {
         this.controlFind = false;
-        const hashNew = this.notificationService.classifyNotificationsPerChat(res);
-        let arrayAux = [];
-        // First the current chat
-        if (hashNew.has(this.contact.urlPod)) {
-          arrayAux = hashNew.get(this.contact.urlPod);
-          this.hashMessages.get(this.contact.urlPod).push(...arrayAux);
-          this.hashMessages.get(this.contact.urlPod).sort((a, b) => {
-            return a.date.getTime() - b.date.getTime();
-          });
-          this.showMessages();
-        }
-        // Now the rest
-        for (const key in hashNew.keys()) {
-          if (key !== this.contact.urlPod) {
-            if (this.hashMessages.has(key)) {
-              arrayAux = hashNew.get(key);
-              this.hashMessages.get(key).push(...arrayAux);
-              this.hashMessages.get(key).sort((a, b) => {
-                return a.date.getTime() - b.date.getTime();
-              });
-            } else {
-              // Here we would be able to check if someone who we don't have added as contact have written to us
+        if (res != null && res.length > 0) {
+          const hashNew = this.notificationService.classifyNotificationsPerChat(res);
+          let arrayAux = [];
+          // First the current chat
+          if (hashNew.has(this.contact.urlPod)) {
+            arrayAux = hashNew.get(this.contact.urlPod);
+            this.hashMessages.get(this.contact.urlPod).push(...arrayAux);
+            this.hashMessages.get(this.contact.urlPod).sort((a, b) => {
+              return a.date.getTime() - b.date.getTime();
+            });
+            this.showMessages();
+          }
+          // Now the rest
+          for (const key in hashNew.keys()) {
+            if (key !== this.contact.urlPod) {
+              if (this.hashMessages.has(key)) {
+                arrayAux = hashNew.get(key);
+                this.hashMessages.get(key).push(...arrayAux);
+                this.hashMessages.get(key).sort((a, b) => {
+                  return a.date.getTime() - b.date.getTime();
+                });
+              } else {
+                // Here we would be able to check if someone who we don't have added as contact have written to us
+              }
             }
           }
         }
       });
     }
-  }
+  };
 
   selectConversation(contact: Contact) {
     if (this.contact == null) {
