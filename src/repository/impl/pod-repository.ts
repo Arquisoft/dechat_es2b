@@ -86,7 +86,7 @@ export class PodRepository implements Repository {
     PodUtil.createFile(urlNotification, Serializer.serializeNotification(notification));
   }
 
-  async getNotifications(chatIdentificator: string): Promise<Notification[]> {
+  async getNotifications(chatIdentificator: string, deleteAfterRead: boolean): Promise<Notification[]> {
     const me = await this.login.myContact();
     const urlInbox = me.urlPod + 'inbox/';
     return PodUtil.readFolder(urlInbox).then(res => {
@@ -113,8 +113,16 @@ export class PodRepository implements Repository {
               const not = Serializer.deserializeNotification(leido);
               if (not != null) {
                 notifications.push(not);
+                if (deleteAfterRead) {
+                  PodUtil.removeFile(urlInbox + selectedFiles[i]).then((opt) => {
+                    ++control;
+                  });
+                } else {
+                  ++ control;
+                }
+              } else {
+                ++ control;
               }
-              ++ control;
               if (control === selectedFiles.length) {
                 resolve('Finish');
               }
@@ -134,11 +142,11 @@ export class PodRepository implements Repository {
     });
   }
 
-  async deleteNotifications(chatIdentificator: string) {
+  async deleteNotifications(chatIdentificator: string): Promise<number> {
     const me = await this.login.myContact();
     const urlInbox = me.urlPod + 'inbox/';
-    PodUtil.readFolder(urlInbox).then(res => {
-      Serializer.deserializeFolderNameFiles(res).then(listFileNames => {
+    return PodUtil.readFolder(urlInbox).then(res => {
+      return Serializer.deserializeFolderNameFiles(res).then(listFileNames => {
         const selectedFiles = [];
         if (chatIdentificator != null && chatIdentificator.trim() !== '') {
           const md5Util = new Md5();
@@ -149,11 +157,31 @@ export class PodRepository implements Repository {
               selectedFiles.push(listFileNames[i]);
             }
           }
+        } else {
+          selectedFiles.push(...listFileNames);
         }
-        for (let i = 0; i < selectedFiles.length; ++i) {
-          PodUtil.removeFile(urlInbox + selectedFiles[i]);
-        }
+        const promFor = new Promise((resolve, decline) => {
+          let control = 0;
+          for (let i = 0; i < selectedFiles.length; ++i) {
+            PodUtil.removeFile(urlInbox + selectedFiles[i]).then(res => {
+              if (res) {
+                ++control;
+                if (control === selectedFiles.length) {
+                  resolve('Finish');
+                }
+              }
+            });
+          }
+          if (control === selectedFiles.length) {
+            resolve('Finish');
+          }
+        });
+        return promFor.then(() => {
+          return 1;
+        });
       });
+    }, err => {
+      return -1;
     });
   }
 }

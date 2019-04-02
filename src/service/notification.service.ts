@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import {RepositoryFactoryService} from '../repository/repository-factory.service';
 import {Message} from '../model/message';
 import {Notification} from '../model/notification';
-import {Contact} from '../model/contact';
 
 @Injectable({
   providedIn: 'root'
@@ -17,14 +16,32 @@ export class NotificationService {
   }
 
   getCurrentChatNotifications(chatIdentificator: string) {
-    return this.repository.repository.getNotifications(chatIdentificator);
+    return this.repository.repository.getNotifications(chatIdentificator, false);
+  }
+
+  classifyNotificationsPerChat(notifications) {
+    const hashMap = new Map<string, Message[]>();
+    for (let i = 0; i < notifications.length; ++i) {
+      const not = notifications[i];
+      let arrayMessages = [];
+      if (hashMap.has(not.chatIdentificator)) {
+        arrayMessages = hashMap.get(not.chatIdentificator);
+      }
+      arrayMessages.push(not.message);
+      hashMap.set(not.chatIdentificator, arrayMessages);
+    }
+    return hashMap;
   }
 
   getAllNotifications() {
-    return this.repository.repository.getNotifications(null);
+    return this.repository.repository.getNotifications(null, false);
+  }
+
+  getAllNotificationsAndDelete() {
+    return this.repository.repository.getNotifications(null, true);
   }
 
   deleteChatNotifications(chatIdentificator: string) {
-    this.repository.repository.deleteNotifications(chatIdentificator);
+    return this.repository.repository.deleteNotifications(chatIdentificator);
   }
 }

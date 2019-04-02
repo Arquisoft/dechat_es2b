@@ -1,4 +1,4 @@
-import {Component, ElementRef, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, SimpleChanges, ViewChild} from '@angular/core';
 import {Contact} from '../../model/contact';
 import {Message} from '../../model/message';
 import {MessageService} from '../../service/message.service';
@@ -10,16 +10,20 @@ import {NotificationService} from '../../service/notification.service';
   templateUrl: './messages.component.html',
   styleUrls: ['./messages.component.css']
 })
-export class MessagesComponent {
+export class MessagesComponent implements OnInit {
   myContact: Contact;
   contact: Contact;
   messages: Message[];
   message = '';
   @ViewChild('messages') private messagesContainer: ElementRef;
+  hashMessages: Map<string, Message[]>;
+  controlFind: boolean;
 
   constructor(public repositoryFactoryService: RepositoryFactoryService, private messageService: MessageService,
               private notificationService: NotificationService) {
     this.makeSureLogin();
+    this.hashMessages = new Map<string, Message[]>();
+    this.controlFind = false;
   }
 
   makeSureLogin = async () => {
@@ -39,38 +43,69 @@ export class MessagesComponent {
     if ((event == null || event.key === 'Enter') && this.message !== '') {
       const mess = new Message(this.myContact, this.contact, new Date(), this.message);
       this.messageService.addMessage(mess);
-      // this.messages.push(mess);
+      this.hashMessages.get(this.contact.urlPod).push(mess);
       this.message = '';
       if (event != null) {
         event.preventDefault();
       }
       this.notificationService.sendNewMessageNotification(mess);
-      this.notificationService.getCurrentChatNotifications(null).then(res => {
-        console.log(res.length + ' - Cantidad de notificaciones totales');
-      });
-      // this.notificationService.deleteChatNotifications('https://acg96.inrupt.net/');
-    }
-  }
-
-  updateScroll() {
-    const element = document.getElementById('messagesBox');
-    if (element != null) {
-      element.scrollTop = element.scrollHeight;
     }
   }
 
   showMessages = async () => {
-    this.messageService.getMessages(this.contact).then((res) => {
-        this.messages = res;
-        const wait = new Promise(resolve => setTimeout(resolve, 500)).then(() => {
-          this.updateScroll();
-        });
-    });
+    this.messages = this.hashMessages.get(this.contact.urlPod);
   };
 
+  findNewMessages = async () => {
+    if (!this.controlFind) {
+      this.controlFind = true;
+      this.notificationService.getAllNotificationsAndDelete().then(res => {
+        this.controlFind = false;
+        const hashNew = this.notificationService.classifyNotificationsPerChat(res);
+        let arrayAux = [];
+        // First the current chat
+        if (hashNew.has(this.contact.urlPod)) {
+          arrayAux = hashNew.get(this.contact.urlPod);
+          this.hashMessages.get(this.contact.urlPod).push(...arrayAux);
+          this.hashMessages.get(this.contact.urlPod).sort((a, b) => {
+            return a.date.getTime() - b.date.getTime();
+          });
+          this.showMessages();
+        }
+        // Now the rest
+        for (const key in hashNew.keys()) {
+          if (key !== this.contact.urlPod) {
+            if (this.hashMessages.has(key)) {
+              arrayAux = hashNew.get(key);
+              this.hashMessages.get(key).push(...arrayAux);
+              this.hashMessages.get(key).sort((a, b) => {
+                return a.date.getTime() - b.date.getTime();
+              });
+            } else {
+              // Here we would be able to check if someone who we don't have added as contact have written to us
+            }
+          }
+        }
+      });
+    }
+  }
+
   selectConversation(contact: Contact) {
+    if (this.contact == null) {
+      setInterval(this.findNewMessages, 1000);
+    }
     this.contact = contact;
-    this.showMessages();
-    setInterval(this.showMessages, 1300);
+    if (!this.hashMessages.has(this.contact.urlPod)) {
+      this.messageService.getMessages(contact).then((res) => {
+        this.hashMessages.set(this.contact.urlPod, res);
+        this.showMessages();
+      });
+    } else {
+      this.findNewMessages();
+      this.showMessages();
+    }
+  }
+
+  ngOnInit(): void {
   }
 }

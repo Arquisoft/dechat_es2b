@@ -9,7 +9,7 @@ export interface Repository {
 
   addNotification(notification: Notification);
 
-  getNotifications(chatIdentificator: string): Promise<Notification[]>;
+  getNotifications(chatIdentificator: string, deleteAfterRead: boolean): Promise<Notification[]>;
 
   deleteNotifications(chatIdentificator: string);
 

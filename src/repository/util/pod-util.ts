@@ -35,7 +35,7 @@ export class PodUtil {
   };
 
   static removeFile = async (url: string) => {
-    solidfc.deleteFile(url);
+    return solidfc.deleteFile(url);
   }
 
   static giveGrantsTo = async (file, contact) => {

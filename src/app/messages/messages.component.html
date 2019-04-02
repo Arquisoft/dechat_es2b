@@ -16,10 +16,11 @@
   </div>
   <div #messsages class="card-body msg_card_body" id="messagesBox">
     <p *ngIf="contact == null" style="color: white; text-align: center;">Welcome to DeChat!</p>
-    <app-message *ngFor="let message of messages"
+    <app-message *ngFor="let message of messages; last as isLast"
                  [message]="message"
                  [ngClass]="[message.to.urlPod == myContact.urlPod ? 'justify-content-start' : 'justify-content-end', 'd-flex', 'mb-4']"
-                 [received]="message.to.urlPod == myContact.urlPod"></app-message>
+                 [received]="message.to.urlPod == myContact.urlPod"
+                 bind-target = "isLast"></app-message>
   </div>
   <div class="card-footer">
     <div class="input-group">

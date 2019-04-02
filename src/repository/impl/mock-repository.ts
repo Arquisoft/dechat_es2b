@@ -63,7 +63,7 @@ export class MockRepository implements Repository {
   addNotification(notification: Notification) {
   }
 
-  getNotifications(chatIdentificator: string): Promise<Notification[]> {
+  getNotifications(chatIdentificator: string, deleteAfterRead: boolean): Promise<Notification[]> {
     return undefined;
   }
 
