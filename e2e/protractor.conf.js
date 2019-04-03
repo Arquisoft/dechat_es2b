@@ -2,7 +2,7 @@ exports.config = {
   allScriptsTimeout: 11000,
 
   specs: [
-    "./features/**/*.feature"
+    "./features/*.feature"
   ],
   capabilities: {
     "browserName": "chrome"
@@ -13,12 +13,12 @@ exports.config = {
 
   frameworkPath: require.resolve("protractor-cucumber-framework"),  // path relative to the current config file
   cucumberOpts: {
-    require: ["./features/**/*.steps.ts"], // loads step definitions
-    format: "json: e2e-output.txt",               // enable console output
+    require: ["./features/steps/*.steps.ts"], // loads step definitions
+    format: "json: e2e/e2e-output.txt",               // enable console output
   },
   onPrepare() {
     require("ts-node").register({
-      project: "tsconfig.e2e.json" //enable typescript
+      project: "e2e/tsconfig.e2e.json" //enable typescript
     });
   }
 };
