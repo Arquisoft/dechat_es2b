@@ -16,8 +16,3 @@ image::../images/10_quality_tree.png[ATAM Tree]
 - As you add a contact:
 
  + The app should open a conversation with said contact to begin to send messages.
- 
-
-
-TODO (These scenarios describe what should happen when a stimulus arrives at the system - Concretizaion of (sometimes vague or implicit) quality requirements using (quality) scenarios.)
-
