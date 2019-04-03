@@ -1,19 +1,18 @@
 [[section-building-block-view]]
 
-
 == Building Block View
 
 === Scope & Context
 
 image::../images/Diagram%202019-04-01%2014-22-12.png[Overview]
 
--A user deploys the app on their POD, sets another user as a contact and "sends" a message through the app. That's what is seen from the outside.
+- As the app is independent from an external server (since the only one it uses is the one that the app is deployed in, the contact's notwithstanding) we can present the app this way. The users will interact with other users without a server in the middle so they only have to worry about the connection among themselves
 
 === Level 1
 
 image::../images/Diagram%202019-04-01%2014-09-13.png[Level 1]
 
-- Repository takes care of:
+- Repository is responsible of:
 
  + Adding messages to the POD. 
  
@@ -34,8 +33,3 @@ image::../images/Diagram%202019-04-01%2014-20-32.png[Level 2]
 - Mock_Repository is a Repository spacifically made to test the aplication in a local enviroment while Pod_Repository is for online purposes.
 
 - Within Component we find Component.ts (Component), Component.html (HTML) and Component.css (CSS).
-
-=== Whitebox Overall System
-
-
-The decomposition of the app is motivated by the decision to keep an MVC architecture so every part can be changed if the need arises.
