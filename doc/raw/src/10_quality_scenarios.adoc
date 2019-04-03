@@ -13,6 +13,6 @@ image::../images/10_quality_tree.png[ATAM Tree]
 
  + The app should alert the user that a new message has arrived if they are not on the conversation.
 
-- As you add a contact:
+- As the user adds another user as a contact:
 
  + The app should open a conversation with said contact to begin to send messages.
