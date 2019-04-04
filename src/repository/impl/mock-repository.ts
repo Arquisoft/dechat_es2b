@@ -70,4 +70,8 @@ export class MockRepository implements Repository {
   deleteNotifications(chatIdentificator: string) {
   }
 
+  deleteContact(contact: Contact): Promise<void> {
+    return undefined;
+  }
+
 }

@@ -141,6 +141,75 @@ export class Serializer {
     return resultTurtle;
   };
 
+  static serializeDeleteContact = async (delContact: Contact, oldData: string) => {
+    if (delContact != null) {
+      const writer = new N3.Writer();
+      let i = 0;
+      let identificator = '';
+      const parsePromisePrefixes = new Promise((resolve, reject) => {
+        const parser = new N3.Parser();
+        parser.parse(
+          oldData,
+          (error, quadC, prefixes) => {
+            if (error) {
+              reject(error);
+            }
+            if (prefixes) {
+              for (const prefix in prefixes) { //Check if the existing prefixes end with # or /
+                const size = prefixes[prefix].length;
+                const finalLetter = prefixes[prefix].substring(size - 1, size);
+                if (finalLetter !== '#' && finalLetter !== '/') {
+                  prefixes[prefix] = prefixes[prefix] + '/'; //Add a /
+                }
+                const solToEval = prefixes[prefix];
+                const urlContact = delContact.urlPod + 'profile/card#me/';
+                if (solToEval === urlContact) {
+                  prefixes[prefix] = '';
+                }
+              }
+              writer.addPrefixes(prefixes, null);
+              resolve('Finish');
+            }
+          });
+      });
+
+      const parsePromiseQuads = new Promise((resolve, reject) => {
+        const parser = new N3.Parser();
+        parser.parse(
+          oldData,
+          (error, quadC, prefixes) => {
+            if (quadC) {
+              const urlContact = delContact.urlPod + 'profile/card#me/';
+              if (quadC.object.value !== urlContact && quadC.object.value !== urlContact + 'me'
+                && quadC.subject.value !== urlContact + 'me') {
+                writer.addQuad(quadC);
+              }
+            } else {
+              resolve('Finish');
+            }
+          });
+      });
+      let resultTurtle = '';
+      parsePromisePrefixes.then(res => {
+        parsePromiseQuads.then(res2 => {
+          writer.end((error, result) => {
+            i = 100;
+            resultTurtle = result.toString().replace(/undefined/gi, '').replace(/null/gi, '');
+          });
+        });
+      }, err => {
+        i = 100;
+      });
+
+      while (i === 0) {
+        const e = await new Promise(resolve => setTimeout(resolve, 1000));
+      }
+      return resultTurtle;
+    } else {
+      return null;
+    }
+  };
+
   static deserializeContacts = async (data: string) => {
     const parser = new N3.Parser();
     const contactUrlQuads = [];

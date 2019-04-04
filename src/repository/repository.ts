@@ -5,6 +5,8 @@ import {Notification} from '../model/notification';
 export interface Repository {
   addContact(contact: Contact): Promise<void>;
 
+  deleteContact(contact: Contact): Promise<void>;
+
   getContacts(): Promise<Contact[]>;
 
   addNotification(notification: Notification);

@@ -12,6 +12,27 @@ export class PodRepository implements Repository {
   constructor(private login: LoginService) {
   }
 
+  async deleteContact(contact: Contact): Promise<void> {
+    return this.login.myContact().then(cont => {
+      const urlContacts = cont.urlPod + 'profile/card';
+      return PodUtil.readFile(urlContacts).then(res => {
+        if (res != null) {
+          return Serializer.serializeDeleteContact(contact, res).then(res2 => {
+            if (res2.trim() === '') {
+              throw new Error('error');
+            } else {
+              PodUtil.updateFile(urlContacts, res2);
+            }
+          });
+        } else {
+          throw new Error('error');
+        }
+      }, err => {
+        reject(err);
+      });
+    });
+  }
+
   addContact(contact: Contact): Promise<void> {
     return this.login.myContact().then(cont => {
       const urlContacts = cont.urlPod + 'profile/card';
