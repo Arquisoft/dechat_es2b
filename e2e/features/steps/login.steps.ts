@@ -1,4 +1,4 @@
-import {Before, Given, Then, When} from 'cucumber';
+import {Given, Then, When} from 'cucumber';
 import {by, element} from 'protractor';
 import * as chai from 'chai';
 import * as chaiAsPromised from 'chai-as-promised';
@@ -7,13 +7,8 @@ import {AppPage} from '../../pageobjects/App.po';
 
 const expect = chai.use(chaiAsPromised).expect;
 
-let appPage: LoginPage;
 const password = 'XXXX!';
 const podUrl = 'https://dechates2b.inrupt.net/profile/card#me';
-
-Before(() => {
-  appPage = new LoginPage();
-});
 
 Given('The login form', () => {
   AppPage.navigateTo();
@@ -21,12 +16,12 @@ Given('The login form', () => {
 
 Given('The app with a login account', () => {
   AppPage.navigateTo().then(() => {
-    appPage.login(podUrl, password);
+    LoginPage.login(podUrl, password);
   });
 });
 
 When('The user insert his pod\'s url and password', () => {
-  appPage.login(podUrl, password);
+  LoginPage.login(podUrl, password);
 });
 
 When('The user click the logout button', () => {

@@ -3,7 +3,7 @@ Feature: Contact
 
   Scenario: List the user's contacts
     Given The app init with a session
-    When The user do nothing
+    When The user does nothing
     Then The user can see its contacts
 
   Scenario: Add new contact
@@ -13,6 +13,6 @@ Feature: Contact
     Then The user can chat with this contact
 
   Scenario: Select a contact
-    Given The app init
+    Given The app init with a session
     When The user click on a contact
     Then The user can see the conversation on the messages side
