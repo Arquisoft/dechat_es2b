@@ -32,7 +32,7 @@ export class Serializer {
             let valorNombre = quadC.object.value;
             valorNombre = valorNombre.replace('undefined', '');
             const arrayName = valorNombre.split('.');
-            if (arrayName != null && arrayName.length >= 0 && arrayName[0] === 'dechat') {
+            if (arrayName != null && arrayName.length >= 0 && arrayName[0] === 'dechat' && arrayName[arrayName.length - 1] === 'json') {
               names.push(valorNombre.toString());
             }
           }
@@ -44,7 +44,7 @@ export class Serializer {
       const e = await new Promise(resolve => setTimeout(resolve, 1000));
     }
     return names;
-  }
+  };
 
   static deserializeNotification = (data: string): Notification => {
     let notificaction = null;
@@ -62,7 +62,7 @@ export class Serializer {
       return notificaction;
     }
     return notificaction;
-  }
+  };
 
   static deserializeMessages = (data: string): Message[] => {
     const messages = [];
