@@ -19,9 +19,9 @@ export class MessagesComponent implements OnInit {
   message = '';
   hashMessages: Map<string, Message[]>;
   controlFind: boolean;
-  @ViewChild('messages') private messagesContainer: ElementRef;
   appComponent: AppComponent;
   initState: boolean;
+  @ViewChild('messages') private messagesContainer: ElementRef;
 
   constructor(public repositoryFactoryService: RepositoryFactoryService, private messageService: MessageService, private contactService: ContactService,
               private notificationService: NotificationService) {
@@ -49,6 +49,9 @@ export class MessagesComponent implements OnInit {
     if ((event == null || event.key === 'Enter') && this.message !== '') {
       const mess = new Message(this.myContact, this.contact, new Date(), this.message);
       this.messageService.addMessage(mess);
+      if (!this.hashMessages.has(this.contact.urlPod)) {
+        this.hashMessages.set(this.contact.urlPod, []);
+      }
       this.hashMessages.get(this.contact.urlPod).push(mess);
       this.message = '';
       if (event != null) {
