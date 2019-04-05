@@ -14,6 +14,7 @@
     <div class="action_menu">
       <ul>
         <li (click)="logout()"><i class="fas fa-power-off"></i>Logout</li>
+        <li *ngIf="contact != null" (click)="deleteContact()"><i class="fas fa-user-minus"></i>Delete contact</li>
       </ul>
     </div>
   </div>
