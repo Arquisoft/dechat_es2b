@@ -70,4 +70,7 @@ export class MockRepository implements Repository {
   deleteNotifications(chatIdentificator: string) {
   }
 
+  getImageContacts(contact: Contact[]) {
+  }
+
 }

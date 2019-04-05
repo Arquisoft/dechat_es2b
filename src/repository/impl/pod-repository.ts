@@ -48,6 +48,17 @@ export class PodRepository implements Repository {
       : await PodUtil.readFile(myContact.urlPod + 'profile/card#me'));
   }
 
+  async getImageContacts(contact: Contact[]) {
+    for (let i = 0; i < contact.length; ++i) {
+      const imgUrl = Serializer.deserializeImageContacts(await PodUtil.readFile(contact[i].urlPod + 'profile/card#me'));
+      imgUrl.then(res => {
+        if (res != null) {
+          contact[i].imageUrl = contact[i].urlPod + 'profile/' + res;
+        }
+      });
+    }
+  }
+
   async getMessages(contact: Contact): Promise<Message[]> {
     const myContact = await this.login.myContact();
     const allMessages = [];

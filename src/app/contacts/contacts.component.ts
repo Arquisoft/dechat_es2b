@@ -116,6 +116,7 @@ export class ContactsComponent implements OnInit {
   ngOnInit() {
     this.contactService.getContacts().then(res => {
       this.messageLoadingOrEmpty = false;
+      this.contactService.getContactsImages(res);
       this.allContacts = res;
       this.contacts = res;
     });

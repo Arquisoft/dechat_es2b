@@ -164,6 +164,30 @@ export class Serializer {
     return Serializer.rebuildContacts(contactUrlQuads, nickNameQuads);
   };
 
+  static deserializeImageContacts = async (data: string) => {
+    const parser = new N3.Parser();
+    let i = 0;
+    let image = null;
+    parser.parse(
+      data,
+      (error, quadC, prefixes) => {
+        if (error) {
+          i = 1;
+        }
+        if (quadC) {
+          if (quadC.predicate.value === 'http://www.w3.org/2006/vcard/ns#hasPhoto') {
+            image = quadC.object.value.replace('undefined', '');
+          }
+        } else {
+          i = 1;
+        }
+      });
+    while (i === 0) {
+      const e = await new Promise(resolve => setTimeout(resolve, 1000));
+    }
+    return image;
+  };
+
   private static classifyQuads(quadC, contactUrlQuads, nickNameQuads) {
     if (quadC.predicate.value === 'http://xmlns.com/foaf/0.1/nick') {
       nickNameQuads.push(quadC);

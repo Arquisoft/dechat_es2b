@@ -13,6 +13,8 @@ export interface Repository {
 
   deleteNotifications(chatIdentificator: string);
 
+  getImageContacts(contact: Contact[]);
+
   addMessage(message: Message);
 
   getMessages(contact: Contact): Promise<Message[]>;
