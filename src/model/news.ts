@@ -1,6 +1,6 @@
 import {Message} from './message';
 
-export class Notification {
+export class News {
   constructor(chatIdentificator: string, message: Message) {
     this._chatIdentificator = chatIdentificator;
     this._message = message;

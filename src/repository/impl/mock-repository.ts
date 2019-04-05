@@ -2,7 +2,7 @@ import {Repository} from '../repository';
 import {Contact} from '../../model/contact';
 import {Message} from '../../model/message';
 import {reject} from 'q';
-import {Notification} from '../../model/notification';
+import {News} from '../../model/news';
 
 export class MockRepository implements Repository {
   contacts: Contact[] = [];
@@ -60,10 +60,10 @@ export class MockRepository implements Repository {
     }
   }
 
-  addNotification(notification: Notification) {
+  addNotification(notification: News) {
   }
 
-  getNotifications(chatIdentificator: string, deleteAfterRead: boolean): Promise<Notification[]> {
+  getNotifications(chatIdentificator: string, deleteAfterRead: boolean): Promise<News[]> {
     return undefined;
   }
 

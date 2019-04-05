@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {RepositoryFactoryService} from '../repository/repository-factory.service';
 import {Message} from '../model/message';
-import {Notification} from '../model/notification';
+import {News} from '../model/news';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +11,7 @@ export class NotificationService {
   constructor(public repository: RepositoryFactoryService) { }
 
   sendNewMessageNotification(message: Message) {
-    const notification = new Notification(message.from.urlPod, message);
+    const notification = new News(message.from.urlPod, message);
     this.repository.repository.addNotification(notification);
   }
 

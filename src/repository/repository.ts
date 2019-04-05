@@ -1,15 +1,15 @@
 import {Contact} from '../model/contact';
 import {Message} from '../model/message';
-import {Notification} from '../model/notification';
+import {News} from '../model/news';
 
 export interface Repository {
   addContact(contact: Contact): Promise<void>;
 
   getContacts(): Promise<Contact[]>;
 
-  addNotification(notification: Notification);
+  addNotification(notification: News);
 
-  getNotifications(chatIdentificator: string, deleteAfterRead: boolean): Promise<Notification[]>;
+  getNotifications(chatIdentificator: string, deleteAfterRead: boolean): Promise<News[]>;
 
   deleteNotifications(chatIdentificator: string);
 
