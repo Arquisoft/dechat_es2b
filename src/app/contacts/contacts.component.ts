@@ -124,7 +124,7 @@ export class ContactsComponent implements OnInit {
 
   selectContact(contact: Contact) {
     this.selectedContact = contact;
-    this.parent.selectContact(contact);
+    this.parent.selectContact(contact, this);
   }
 
   writeSearch() {

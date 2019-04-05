@@ -5,6 +5,7 @@ import {MessageService} from '../../service/message.service';
 import {RepositoryFactoryService} from '../../repository/repository-factory.service';
 import {NotificationService} from '../../service/notification.service';
 import {ContactService} from '../../service/contact.service';
+import {AppComponent} from '../app.component';
 
 @Component({
   selector: 'app-messages',
@@ -19,12 +20,15 @@ export class MessagesComponent implements OnInit {
   hashMessages: Map<string, Message[]>;
   controlFind: boolean;
   @ViewChild('messages') private messagesContainer: ElementRef;
+  appComponent: AppComponent;
+  initState: boolean;
 
   constructor(public repositoryFactoryService: RepositoryFactoryService, private messageService: MessageService, private contactService: ContactService,
               private notificationService: NotificationService) {
     this.makeSureLogin();
     this.hashMessages = new Map<string, Message[]>();
     this.controlFind = false;
+    this.initState = true;
   }
 
   makeSureLogin = async () => {
@@ -36,6 +40,7 @@ export class MessagesComponent implements OnInit {
   }
 
   logout() {
+    this.showMenu();
     this.repositoryFactoryService.repository.logout(null);
   }
 
@@ -66,7 +71,7 @@ export class MessagesComponent implements OnInit {
           const hashNew = this.notificationService.classifyNotificationsPerChat(res);
           let arrayAux = [];
           // First the current chat
-          if (hashNew.has(this.contact.urlPod) && this.hashMessages.has(this.contact.urlPod)) {
+          if (this.contact != null && hashNew.has(this.contact.urlPod) && this.hashMessages.has(this.contact.urlPod)) {
             arrayAux = hashNew.get(this.contact.urlPod);
             this.hashMessages.get(this.contact.urlPod).push(...arrayAux);
             this.hashMessages.get(this.contact.urlPod).sort((a, b) => {
@@ -96,8 +101,10 @@ export class MessagesComponent implements OnInit {
     }
   };
 
-  selectConversation(contact: Contact) {
-    if (this.contact == null) {
+  selectConversation(contact: Contact, appComponent) {
+    if (this.contact == null && this.initState) {
+      this.initState = false;
+      this.appComponent = appComponent;
       setInterval(this.findNewMessages, 1000);
     }
     this.contact = contact;
@@ -114,8 +121,11 @@ export class MessagesComponent implements OnInit {
 
   deleteContact(): void {
     if (this.contact != null) {
+      this.showMenu();
       this.contactService.deleteContact(this.contact, () => {
-        window.location.reload();
+        this.appComponent.getContactsComponent().ngOnInit();
+        this.hashMessages.delete(this.contact.urlPod);
+        this.contact = null;
       });
     }
   }
