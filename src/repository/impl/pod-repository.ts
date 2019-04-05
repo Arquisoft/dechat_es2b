@@ -12,7 +12,7 @@ export class PodRepository implements Repository {
   constructor(private login: LoginService) {
   }
 
-  async deleteContact(contact: Contact): Promise<void> {
+  async deleteContact(contact: Contact, callback): Promise<void> {
     return this.login.myContact().then(cont => {
       const urlContacts = cont.urlPod + 'profile/card';
       return PodUtil.readFile(urlContacts).then(res => {
@@ -21,7 +21,10 @@ export class PodRepository implements Repository {
             if (res2.trim() === '') {
               throw new Error('error');
             } else {
-              PodUtil.updateFile(urlContacts, res2);
+              PodUtil.updateFile(urlContacts, res2).then(res3 => {
+                callback();
+              }, err => {
+              });
             }
           });
         } else {

@@ -23,7 +23,7 @@ export class PodUtil {
   }
 
   static updateFile = async (url: string, data: string) => {
-    solidfc.updateFile(url, data);
+    return solidfc.updateFile(url, data);
   }
 
   static readFile = async (url: string) => {

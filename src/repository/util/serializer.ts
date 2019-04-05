@@ -181,7 +181,11 @@ export class Serializer {
             if (quadC) {
               const urlContact = delContact.urlPod + 'profile/card#me/';
               if (quadC.object.value !== urlContact && quadC.object.value !== urlContact + 'me'
-                && quadC.subject.value !== urlContact + 'me') {
+                && quadC.object.value !== urlContact.substr(0, urlContact.length - 1) + 'me'
+                && quadC.object.value !== urlContact.substr(0, urlContact.length - 1)
+                && quadC.subject.value !== urlContact + 'me' && quadC.subject.value !== urlContact
+                && quadC.subject.value !== urlContact.substr(0, urlContact.length - 1)
+                && quadC.subject.value !== urlContact.substr(0, urlContact.length - 1) + 'me') {
                 writer.addQuad(quadC);
               }
             } else {

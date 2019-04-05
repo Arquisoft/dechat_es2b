@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, SimpleChanges, ViewChild} from '@angular/core';
+import {Component, ElementRef, Inject, OnInit, SimpleChanges, ViewChild} from '@angular/core';
 import {Contact} from '../../model/contact';
 import {Message} from '../../model/message';
 import {MessageService} from '../../service/message.service';
@@ -113,7 +113,11 @@ export class MessagesComponent implements OnInit {
   }
 
   deleteContact(): void {
-    this.contactService.deleteContact(this.contact).then(() => window.location.reload());
+    if (this.contact != null) {
+      this.contactService.deleteContact(this.contact, () => {
+        window.location.reload();
+      });
+    }
   }
 
   ngOnInit(): void {
