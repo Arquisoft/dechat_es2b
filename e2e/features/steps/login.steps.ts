@@ -7,7 +7,7 @@ import {AppPage} from '../../pageobjects/App.po';
 
 const expect = chai.use(chaiAsPromised).expect;
 
-const password = 'XXXX!';
+const password = '¡Dechat_es2B!';
 const podUrl = 'https://dechates2b.inrupt.net/profile/card#me';
 
 Given('The login form', () => {

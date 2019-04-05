@@ -11,6 +11,7 @@ Feature: Contact
     When The user click on the add contact button
     And Write the new contact's info
     Then The user can chat with this contact
+    And Delete this contact
 
   Scenario: Select a contact
     Given The app init with a session

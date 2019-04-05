@@ -17,32 +17,29 @@
         "type": "scenario",
         "steps": [
           {
-            "keyword": "Before",
-            "hidden": true,
-            "match": {
-              "location": "e2e\\features\\steps\\login.steps.ts:13"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 2000000
-            }
-          },
-          {
             "arguments": [],
             "keyword": "Given ",
             "line": 5,
             "name": "The app init with a session",
+            "match": {
+              "location": "e2e\\features\\steps\\contact.steps.ts:15"
+            },
             "result": {
-              "status": "undefined"
+              "status": "passed",
+              "duration": 4000000
             }
           },
           {
             "arguments": [],
             "keyword": "When ",
             "line": 6,
-            "name": "The user do nothing",
+            "name": "The user does nothing",
+            "match": {
+              "location": "e2e\\features\\steps\\contact.steps.ts:21"
+            },
             "result": {
-              "status": "undefined"
+              "status": "passed",
+              "duration": 1000000
             }
           },
           {
@@ -50,8 +47,12 @@
             "keyword": "Then ",
             "line": 7,
             "name": "The user can see its contacts",
+            "match": {
+              "location": "e2e\\features\\steps\\contact.steps.ts:37"
+            },
             "result": {
-              "status": "undefined"
+              "status": "passed",
+              "duration": 4000000
             }
           },
           {
@@ -62,7 +63,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 2000000
+              "duration": 1000000
             }
           }
         ]
@@ -76,22 +77,16 @@
         "type": "scenario",
         "steps": [
           {
-            "keyword": "Before",
-            "hidden": true,
-            "match": {
-              "location": "e2e\\features\\steps\\login.steps.ts:13"
-            },
-            "result": {
-              "status": "passed"
-            }
-          },
-          {
             "arguments": [],
             "keyword": "Given ",
             "line": 10,
             "name": "The app init with a session",
+            "match": {
+              "location": "e2e\\features\\steps\\contact.steps.ts:15"
+            },
             "result": {
-              "status": "undefined"
+              "status": "passed",
+              "duration": 1000000
             }
           },
           {
@@ -99,8 +94,12 @@
             "keyword": "When ",
             "line": 11,
             "name": "The user click on the add contact button",
+            "match": {
+              "location": "e2e\\features\\steps\\contact.steps.ts:25"
+            },
             "result": {
-              "status": "undefined"
+              "status": "passed",
+              "duration": 3000000
             }
           },
           {
@@ -108,8 +107,12 @@
             "keyword": "And ",
             "line": 12,
             "name": "Write the new contact's info",
+            "match": {
+              "location": "e2e\\features\\steps\\contact.steps.ts:29"
+            },
             "result": {
-              "status": "undefined"
+              "status": "passed",
+              "duration": 1000000
             }
           },
           {
@@ -117,8 +120,25 @@
             "keyword": "Then ",
             "line": 13,
             "name": "The user can chat with this contact",
+            "match": {
+              "location": "e2e\\features\\steps\\contact.steps.ts:41"
+            },
             "result": {
-              "status": "undefined"
+              "status": "passed",
+              "duration": 1000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 14,
+            "name": "Delete this contact",
+            "match": {
+              "location": "e2e\\features\\steps\\contact.steps.ts:51"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1000000
             }
           },
           {
@@ -128,7 +148,8 @@
               "location": "node_modules\\protractor-cucumber-framework\\lib\\resultsCapturer.js:26"
             },
             "result": {
-              "status": "passed"
+              "status": "passed",
+              "duration": 1000000
             }
           }
         ]
@@ -136,16 +157,18 @@
       {
         "id": "contact;select-a-contact",
         "keyword": "Scenario",
-        "line": 15,
+        "line": 16,
         "name": "Select a contact",
         "tags": [],
         "type": "scenario",
         "steps": [
           {
-            "keyword": "Before",
-            "hidden": true,
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 17,
+            "name": "The app init with a session",
             "match": {
-              "location": "e2e\\features\\steps\\login.steps.ts:13"
+              "location": "e2e\\features\\steps\\contact.steps.ts:15"
             },
             "result": {
               "status": "passed"
@@ -153,29 +176,28 @@
           },
           {
             "arguments": [],
-            "keyword": "Given ",
-            "line": 16,
-            "name": "The app init",
-            "result": {
-              "status": "undefined"
-            }
-          },
-          {
-            "arguments": [],
             "keyword": "When ",
-            "line": 17,
+            "line": 18,
             "name": "The user click on a contact",
+            "match": {
+              "location": "e2e\\features\\steps\\contact.steps.ts:33"
+            },
             "result": {
-              "status": "undefined"
+              "status": "passed",
+              "duration": 1000000
             }
           },
           {
             "arguments": [],
             "keyword": "Then ",
-            "line": 18,
+            "line": 19,
             "name": "The user can see the conversation on the messages side",
+            "match": {
+              "location": "e2e\\features\\steps\\contact.steps.ts:45"
+            },
             "result": {
-              "status": "undefined"
+              "status": "passed",
+              "duration": 1000000
             }
           },
           {
@@ -185,7 +207,8 @@
               "location": "node_modules\\protractor-cucumber-framework\\lib\\resultsCapturer.js:26"
             },
             "result": {
-              "status": "passed"
+              "status": "passed",
+              "duration": 1000000
             }
           }
         ]
@@ -210,26 +233,16 @@
         "type": "scenario",
         "steps": [
           {
-            "keyword": "Before",
-            "hidden": true,
-            "match": {
-              "location": "e2e\\features\\steps\\login.steps.ts:13"
-            },
-            "result": {
-              "status": "passed"
-            }
-          },
-          {
             "arguments": [],
             "keyword": "Given ",
             "line": 5,
             "name": "The login form",
             "match": {
-              "location": "e2e\\features\\steps\\login.steps.ts:17"
+              "location": "e2e\\features\\steps\\login.steps.ts:13"
             },
             "result": {
               "status": "passed",
-              "duration": 3000000
+              "duration": 1000000
             }
           },
           {
@@ -238,11 +251,11 @@
             "line": 6,
             "name": "The user insert his pod's url and password",
             "match": {
-              "location": "e2e\\features\\steps\\login.steps.ts:27"
+              "location": "e2e\\features\\steps\\login.steps.ts:23"
             },
             "result": {
               "status": "passed",
-              "duration": 2000000
+              "duration": 1000000
             }
           },
           {
@@ -251,11 +264,11 @@
             "line": 7,
             "name": "The session has been init",
             "match": {
-              "location": "e2e\\features\\steps\\login.steps.ts:37"
+              "location": "e2e\\features\\steps\\login.steps.ts:33"
             },
             "result": {
               "status": "passed",
-              "duration": 3000000
+              "duration": 1000000
             }
           },
           {
@@ -265,7 +278,8 @@
               "location": "node_modules\\protractor-cucumber-framework\\lib\\resultsCapturer.js:26"
             },
             "result": {
-              "status": "passed"
+              "status": "passed",
+              "duration": 1000000
             }
           }
         ]
@@ -279,10 +293,12 @@
         "type": "scenario",
         "steps": [
           {
-            "keyword": "Before",
-            "hidden": true,
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 10,
+            "name": "The app with a login account",
             "match": {
-              "location": "e2e\\features\\steps\\login.steps.ts:13"
+              "location": "e2e\\features\\steps\\login.steps.ts:17"
             },
             "result": {
               "status": "passed",
@@ -291,23 +307,11 @@
           },
           {
             "arguments": [],
-            "keyword": "Given ",
-            "line": 10,
-            "name": "The app with a login account",
-            "match": {
-              "location": "e2e\\features\\steps\\login.steps.ts:21"
-            },
-            "result": {
-              "status": "passed"
-            }
-          },
-          {
-            "arguments": [],
             "keyword": "When ",
             "line": 11,
             "name": "The user click the logout button",
             "match": {
-              "location": "e2e\\features\\steps\\login.steps.ts:31"
+              "location": "e2e\\features\\steps\\login.steps.ts:27"
             },
             "result": {
               "status": "passed",
@@ -320,7 +324,7 @@
             "line": 12,
             "name": "The app log out the user",
             "match": {
-              "location": "e2e\\features\\steps\\login.steps.ts:43"
+              "location": "e2e\\features\\steps\\login.steps.ts:39"
             },
             "result": {
               "status": "passed",
@@ -360,10 +364,12 @@
         "type": "scenario",
         "steps": [
           {
-            "keyword": "Before",
-            "hidden": true,
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 5,
+            "name": "The init app",
             "match": {
-              "location": "e2e\\features\\steps\\login.steps.ts:13"
+              "location": "e2e\\features\\steps\\message.steps.ts:16"
             },
             "result": {
               "status": "passed"
@@ -371,20 +377,15 @@
           },
           {
             "arguments": [],
-            "keyword": "Given ",
-            "line": 5,
-            "name": "The init app",
-            "result": {
-              "status": "undefined"
-            }
-          },
-          {
-            "arguments": [],
             "keyword": "When ",
             "line": 6,
             "name": "The user select a conversation",
+            "match": {
+              "location": "e2e\\features\\steps\\message.steps.ts:30"
+            },
             "result": {
-              "status": "undefined"
+              "status": "passed",
+              "duration": 1000000
             }
           },
           {
@@ -392,8 +393,11 @@
             "keyword": "Then ",
             "line": 7,
             "name": "The user can read the messages",
+            "match": {
+              "location": "e2e\\features\\steps\\message.steps.ts:42"
+            },
             "result": {
-              "status": "undefined"
+              "status": "passed"
             }
           },
           {
@@ -417,10 +421,12 @@
         "type": "scenario",
         "steps": [
           {
-            "keyword": "Before",
-            "hidden": true,
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 10,
+            "name": "An open conversation",
             "match": {
-              "location": "e2e\\features\\steps\\login.steps.ts:13"
+              "location": "e2e\\features\\steps\\message.steps.ts:22"
             },
             "result": {
               "status": "passed"
@@ -428,20 +434,15 @@
           },
           {
             "arguments": [],
-            "keyword": "Given ",
-            "line": 10,
-            "name": "An open conversation",
-            "result": {
-              "status": "undefined"
-            }
-          },
-          {
-            "arguments": [],
             "keyword": "When ",
             "line": 11,
             "name": "The user type a message",
+            "match": {
+              "location": "e2e\\features\\steps\\message.steps.ts:34"
+            },
             "result": {
-              "status": "undefined"
+              "status": "passed",
+              "duration": 2000000
             }
           },
           {
@@ -449,8 +450,12 @@
             "keyword": "And ",
             "line": 12,
             "name": "Click on send button",
+            "match": {
+              "location": "e2e\\features\\steps\\message.steps.ts:38"
+            },
             "result": {
-              "status": "undefined"
+              "status": "passed",
+              "duration": 6000000
             }
           },
           {
@@ -458,8 +463,12 @@
             "keyword": "Then ",
             "line": 13,
             "name": "The user can see the message on the conversation side",
+            "match": {
+              "location": "e2e\\features\\steps\\message.steps.ts:46"
+            },
             "result": {
-              "status": "undefined"
+              "status": "passed",
+              "duration": 2000000
             }
           },
           {

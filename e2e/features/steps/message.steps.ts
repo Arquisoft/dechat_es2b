@@ -10,7 +10,7 @@ import {MessagePage} from '../../pageobjects/Message.po';
 
 const expect = chai.use(chaiAsPromised).expect;
 
-const password = 'XXXX!';
+const password = '¡Dechat_es2B!';
 const podUrl = 'https://dechates2b.inrupt.net/profile/card#me';
 
 Given('The init app', () => {

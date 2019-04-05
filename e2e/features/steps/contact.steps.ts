@@ -2,14 +2,14 @@ import {Given, Then, When} from 'cucumber';
 import {by, element} from 'protractor';
 import * as chai from 'chai';
 import * as chaiAsPromised from 'chai-as-promised';
-
+import {delay} from 'q';
 import {AppPage} from '../../pageobjects/App.po';
 import {LoginPage} from '../../pageobjects/Login.po';
 import {ContactPage} from '../../pageobjects/Contact.po';
 
 const expect = chai.use(chaiAsPromised).expect;
 
-const password = 'XXXX!';
+const password = '¡Dechat_es2B!';
 const podUrl = 'https://dechates2b.inrupt.net/profile/card#me';
 
 Given('The app init with a session', () => {
@@ -45,5 +45,17 @@ Then('The user can chat with this contact', () => {
 Then('The user can see the conversation on the messages side', () => {
   element(by.css('.user_info span')).getText().then(text => {
     expect(text).contain('enolgargon');
+  });
+});
+
+Then('Delete this contact', () => {
+  ContactPage.clickContact('enolgargon.inrupt.net').then(() => {
+    element(by.id('action_menu_btn')).click().then(() => {
+      element(by.id('delete_contact_btn')).click().then(() => {
+        delay(1000).then(() => {
+          expect(element(by.text('enolgargon.inrupt.net'))).to.be.a('null');
+        });
+      });
+    });
   });
 });
