@@ -23,4 +23,8 @@ export class ContactService {
   getContacts(): Promise<Contact[]> {
     return this.repository.repository.getContacts();
   }
+
+  getContactsImages(contact: Contact[]) {
+    this.repository.repository.getImageContacts(contact);
+  }
 }
