@@ -23,4 +23,17 @@ export class Contact {
   set nickname(value: string) {
     this._nickname = value;
   }
+
+  private _imageUrl: string;
+
+  get imageUrl(): string {
+    if (this._imageUrl == null) {
+      return 'assets/default_icon.png';
+    }
+    return this._imageUrl;
+  }
+
+  set imageUrl(value: string) {
+    this._imageUrl = value;
+  }
 }

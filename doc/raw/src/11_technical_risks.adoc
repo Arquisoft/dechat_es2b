@@ -1,5 +1,24 @@
 [[section-technical-risks]]
 == Risks and Technical Debts
-TODO
 
+[options="header"]
+|===
+|Description|Solution
+|Since we use the POD technology we are subject to its changes and bugs, wich can end up making the user lose information due to a bug unrelated to the app.|Unfortunately there is little we can do without interceding in Solid's development.
 
+|Because we have to depend on Solid's confusing interface it may lead to authentication problems due to the different authentication ways Solid has which can confuse an amateur user of Solid.|This point is easily supressed once the user gets used to interacting with solid, however, to ensure that it doesn't cause problems, we've made our own interface where the user can choose its provider of PODs and then access.
+
+|As every application on SOLID, once the user has verified its identity, this application, if something goes wrong, can make undesired changes, corrupt the system or touch data that other application may be using, causing it to malfunction|As this is an inherent problem of the POD architecture it isn't possible for us to solve this issue, at most we can try to limit the data that the application may try to touch in hopes that it doesn't damage anything.
+
+|Related to the previous point, privacy is at risk as well. Since the POD's data can be read by every application you use it with then your conversations can be read by every other app. |Unfortunately we couldn't come up with a solution to this one, since using a key to encrypt the data wouldn't work because the place where you save the key is also public to the other applications.
+
+|A notable deficiency is that, as SOLID is implemented right now, gathering information is not as fast as it would be desirable|No solution has been found as of now.
+
+|Another deficiency could be the small number of libraries of RDF, and their resistance to being used, making the code messy|With time other libraries will, probably, appear, and this deficiency will be solved.
+
+|If a user takes down its POD then it would leave any user that had a conversation with the first with only half the conversation.|It's the other side of the decentralization, as information remains in each POD it makes sense that, since a POD is no longer there then the information isn't either.
+
+|If a POD is temporarily inaccessible, due to a failure in the server or faulty connection, then users would only be able to see their part of the conversation with the faulty POD's user|A downside of decentralization.
+
+|Since the communications are done via API REST they could be inercepted and modified as the POD doesn't have a verification system|A current error of SOLID.
+|===

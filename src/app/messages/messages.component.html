@@ -1,6 +1,9 @@
 <div class="card">
   <div class="card-header msg_head">
     <div class="d-flex bd-highlight">
+      <div class="img_cont">
+        <img src="{{contact == null ? 'assets/default_icon.png' : contact.imageUrl}}" class="rounded-circle user_img">
+      </div>
       <div class="user_info">
         <span *ngIf="contact as value; else select">{{value.nickname}}</span>
         <ng-template #select><span style="color:white; font-size:0.8em;">&copy; All rights reserved</span></ng-template>

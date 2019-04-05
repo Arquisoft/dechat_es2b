@@ -132,24 +132,27 @@ export class PodRepository implements Repository {
         const readFiles = new Promise((resolve, decline) => {
           for (let i = 0; i < selectedFiles.length; ++i) {
             PodUtil.readFile(urlInbox + selectedFiles[i]).then((leido) => {
-              const not = Serializer.deserializeNotification(leido);
-              if (not != null) {
-                notifications.push(not);
-                if (deleteAfterRead) {
-                  PodUtil.removeFile(urlInbox + selectedFiles[i]).then((opt) => {
+              try {
+                const not = Serializer.deserializeNotification(leido);
+                if (not != null) {
+                  notifications.push(not);
+                  if (deleteAfterRead) {
+                    PodUtil.removeFile(urlInbox + selectedFiles[i]).then((opt) => {
+                      ++control;
+                      if (control === selectedFiles.length) {
+                        resolve('Finish');
+                      }
+                    });
+                  } else {
                     ++control;
-                    if (control === selectedFiles.length) {
-                      resolve('Finish');
-                    }
-                  });
+                  }
                 } else {
-                  ++ control;
+                  ++control;
                 }
-              } else {
-                ++ control;
-              }
-              if (control === selectedFiles.length) {
-                resolve('Finish');
+                if (control === selectedFiles.length) {
+                  resolve('Finish');
+                }
+              } catch {
               }
             });
           }
