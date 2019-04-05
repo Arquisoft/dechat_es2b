@@ -27,6 +27,9 @@ export class Contact {
   private _imageUrl: string;
 
   get imageUrl(): string {
+    if (this._imageUrl == null) {
+      return 'assets/default_icon.png';
+    }
     return this._imageUrl;
   }
 
