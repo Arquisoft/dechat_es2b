@@ -23,8 +23,7 @@
 | TypeScript | TypeScript is an open-source programming language developed and maintained by Microsoft and a superset of ECMAScript 6 (ES6), which is also backwards compatible with ECMAScript 5 (JavaScript).
 | Node | Node.js is an open-source, cross-platform JavaScript run-time environment that executes JavaScript code outside of a browser. Since TypeScript is backwards compatible with JavaScript, it also works with Node.
 | API | An API (application programming interface) is a set of subroutine definitions, communication protocols, and tools for building software.
-| REST | REST (Representational State Transfer) is a software architectural style that defines a set of constraints to be used for creating Web services.
-| API Rest | It's an API that implements the REST architecture.
+| REST | REST (Representational State Transfer) is a software architectural style that defines a set of constraints to be used for creating Web services. There is also the API Rest which is an API that implements the REST architecture.
 | Web Petition | It's, in a client-server computing model (sort of what we are using), a request from the client side (the app) to the server (the POD).
 | Mock up | mockups are a way of designing user interfaces on paper or in computer images. A software mockup will thus look like the real thing, but will not do useful work beyond what the user sees.
 | Uri|  A Uniform Resource Identifier (URI) is a string of characters that unambiguously identifies a particular resource.
@@ -33,4 +32,11 @@
 | Open-closed principle| it's a computer programming principle that states that classes should be open for extension but closed to modification.
 | Dependency inversion principle| it's a computer programming principle that states that high-level modules should not depend on low-level modules, both should depend on abstractions (interfaces), an that abstractions should not depend on details. Details (classes) should depend on abstractions.
 | Bug | An error that can, and normally will, cause damage to your data.
+| Card | It's the location inside the POD where the user's information is stored.
+| Inbox | It's the folder in the POD where everyone else can write but can't read or modify; this is used for notifications.
+| Karma | It's a tool which spawns a web server that executes source code against test code for each of the browsers connected.
+| Cucumber | It's a tool used to make end-to-end tests; this kind of tests are used test the entire application in one go.
+| Selenium | It's a portable framework for testing web applications. In our case we need it as a driver to use Cucumber. 
+| Protractor | It's an end-to-end test framework for Angular and AngularJS applications. Same as Selenium, we need it as a driver for Cucumber to work.
+| Testing | It's a practice which consists on trying to run the application to confirm that it works when it has to work, and that it doesn't when it shouldn't.
 |===
