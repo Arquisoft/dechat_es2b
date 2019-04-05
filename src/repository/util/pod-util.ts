@@ -14,8 +14,16 @@ export class PodUtil {
     });
   };
 
+  static readFolder = async (url: string) => {
+    return solidfc.readFile(url).then((res) => {
+      return res;
+    }, err => {
+      return null;
+    });
+  }
+
   static updateFile = async (url: string, data: string) => {
-    solidfc.updateFile(url, data);
+    return solidfc.updateFile(url, data);
   }
 
   static readFile = async (url: string) => {
@@ -26,11 +34,15 @@ export class PodUtil {
     });
   };
 
+  static removeFile = async (url: string) => {
+    return solidfc.deleteFile(url);
+  }
+
   static giveGrantsTo = async (file, contact) => {
     PodUtil.writeToFile(file + '.acl', PodUtil.buildGrantText(contact, file));
   };
 
-  private static createFile = async (url: string, data: string) => {
+  static createFile = async (url: string, data: string) => {
     solidfc.createFile(url, data);
   };
 

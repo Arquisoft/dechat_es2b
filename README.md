@@ -4,7 +4,13 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+After you run `npm install` to update the dependencies you need to do one of the followings:
+
+· If you use UNIX: Run `sed -i 's/node: false/node: {stream: true, crypto: true}/g' node_modules/@angular-devkit/build-angular/src/angular-cli-files/models/webpack-configs/browser.js`
+
+· Go to `node_modules/@angular-devkit/build-angular/src/angular-cli-files/models/webpack-configs/browser.js` and use `node: {crypto: true, stream: true}` at the end of the file.
+
+Finally run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
 ## Code scaffolding
 

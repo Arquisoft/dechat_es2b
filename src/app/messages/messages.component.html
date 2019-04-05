@@ -1,6 +1,10 @@
 <div class="card">
   <div class="card-header msg_head">
     <div class="d-flex bd-highlight">
+      <div class="img_cont">
+        <img *ngIf="contact != null" src="{{contact == null ? 'assets/default_icon.png' : contact.imageUrl}}" class="rounded-circle user_img">
+        <img *ngIf="contact == null" src="assets/favicon.png" class="rounded-circle user_img">
+      </div>
       <div class="user_info">
         <span *ngIf="contact as value; else select">{{value.nickname}}</span>
         <ng-template #select><span style="color:white; font-size:0.8em;">&copy; All rights reserved</span></ng-template>
@@ -10,16 +14,18 @@
     <span id="action_menu_btn" (click)="showMenu()"><i class="fas fa-ellipsis-v"></i></span>
     <div class="action_menu">
       <ul>
-        <li (click)="logout()" id="logout_btn"><i class="fas fa-power-off"></i>Logout</li>
+        <li (click)="logout()"><i class="fas fa-power-off"></i>Logout</li>
+        <li *ngIf="contact != null" (click)="deleteContact()"><i class="fas fa-user-minus"></i>Delete contact</li>
       </ul>
     </div>
   </div>
   <div #messsages class="card-body msg_card_body" id="messagesBox">
     <p *ngIf="contact == null" style="color: white; text-align: center;">Welcome to DeChat!</p>
-    <app-message *ngFor="let message of messages"
+    <app-message *ngFor="let message of messages; last as isLast"
                  [message]="message"
                  [ngClass]="[message.to.urlPod == myContact.urlPod ? 'justify-content-start' : 'justify-content-end', 'd-flex', 'mb-4']"
-                 [received]="message.to.urlPod == myContact.urlPod"></app-message>
+                 [received]="message.to.urlPod == myContact.urlPod"
+                 bind-target = "isLast"></app-message>
   </div>
   <div class="card-footer">
     <div class="input-group">

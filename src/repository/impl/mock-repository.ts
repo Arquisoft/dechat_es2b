@@ -2,6 +2,7 @@ import {Repository} from '../repository';
 import {Contact} from '../../model/contact';
 import {Message} from '../../model/message';
 import {reject} from 'q';
+import {Notification} from '../../model/notification';
 
 export class MockRepository implements Repository {
   contacts: Contact[] = [];
@@ -59,4 +60,21 @@ export class MockRepository implements Repository {
     }
   }
 
+  addNotification(notification: Notification) {
+  }
+
+  getNotifications(chatIdentificator: string, deleteAfterRead: boolean): Promise<Notification[]> {
+    return undefined;
+  }
+
+  deleteNotifications(chatIdentificator: string) {
+  }
+
+
+  getImageContacts(contact: Contact[]) {
+  }
+
+  deleteContact(contact: Contact, callback): Promise<void> {
+    return undefined;
+  }
 }

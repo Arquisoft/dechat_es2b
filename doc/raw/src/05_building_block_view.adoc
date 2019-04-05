@@ -1,111 +1,35 @@
 [[section-building-block-view]]
 
-
 == Building Block View
 
+=== Scope & Context
 
+image::../images/Diagram%202019-04-01%2014-22-12.png[Overview]
 
-=== Whitebox Overall System
-TODO
+- As the app is independent from an external server (since the only one it uses is the one that the app is deployed in, the contact's notwithstanding) we can present the app this way. The users will interact with other users without a server in the middle so they only have to worry about the connection among themselves
 
+=== Level 1
 
-_**<Overview Diagram>**_
+image::../images/Diagram%202019-04-01%2014-09-13.png[Level 1]
 
-Motivation::
-TODO
-_<text explanation>_
+- Repository is responsible of:
 
+ + Adding messages to the POD. 
+ 
+ + Gets the Contacts of the user. 
+ 
+ + Gets the messages between the user and their contacts.
+ 
+ + Login out the user.
 
-Contained Building Blocks::
-TODO
-_<Description of contained building block (black boxes)>_
+- Services can be divided into: account, contact, message and login.
 
-Important Interfaces::
-TODO
-_<Description of important interfaces>_
-
-
-
-
-==== <Name black box 1>
-
-
-
-_<Purpose/Responsibility>_
-
-_<Interface(s)>_
-
-_<(Optional) Quality/Performance Characteristics>_
-
-_<(Optional) Directory/File Location>_
-
-_<(Optional) Fulfilled Requirements>_
-
-_<(optional) Open Issues/Problems/Risks>_
-
-
-
-
-==== <Name black box 2>
-
-_<black box template>_
-
-==== <Name black box n>
-
-_<black box template>_
-
-
-==== <Name interface 1>
-
-...
-
-==== <Name interface m>
-
-
+- From the external libraries that are used the most remarkable among them are N3 for RDF and Solid-file-client to manage the data.
 
 === Level 2
 
+image::../images/Diagram%202019-04-05%2015-18-00.png[Level 2]
 
+- Mock_Repository is a Repository spacifically made to test the aplication in a local enviroment while Pod_Repository is for online purposes.
 
-==== White Box _<building block 1>_
-
-
-
-_<white box template>_
-
-==== White Box _<building block 2>_
-
-
-_<white box template>_
-
-...
-
-==== White Box _<building block m>_
-
-
-_<white box template>_
-
-
-
-=== Level 3
-
-
-
-
-==== White Box <_building block x.1_>
-
-
-
-
-_<white box template>_
-
-
-==== White Box <_building block x.2_>
-
-_<white box template>_
-
-
-
-==== White Box <_building block y.1_>
-
-_<white box template>_
+- Within Component we find Component.ts (Component), Component.html (HTML), Component.css (CSS) along with Message and Messages, Contact and Contacts and Module.

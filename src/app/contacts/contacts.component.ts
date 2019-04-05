@@ -116,6 +116,7 @@ export class ContactsComponent implements OnInit {
   ngOnInit() {
     this.contactService.getContacts().then(res => {
       this.messageLoadingOrEmpty = false;
+      this.contactService.getContactsImages(res);
       this.allContacts = res;
       this.contacts = res;
     });
@@ -123,7 +124,7 @@ export class ContactsComponent implements OnInit {
 
   selectContact(contact: Contact) {
     this.selectedContact = contact;
-    this.parent.selectContact(contact);
+    this.parent.selectContact(contact, this);
   }
 
   writeSearch() {
