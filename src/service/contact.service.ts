@@ -17,7 +17,7 @@ export class ContactService {
   }
 
   deleteContact(contact: Contact) {
-    return this.repository.repository.deleteContact(contact).then(() => 1, () => 0);
+    return this.repository.repository.deleteContact(contact);
   }
 
   getContacts(): Promise<Contact[]> {

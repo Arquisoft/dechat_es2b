@@ -4,6 +4,7 @@ import {Message} from '../../model/message';
 import {MessageService} from '../../service/message.service';
 import {RepositoryFactoryService} from '../../repository/repository-factory.service';
 import {NotificationService} from '../../service/notification.service';
+import {ContactService} from '../../service/contact.service';
 
 @Component({
   selector: 'app-messages',
@@ -15,11 +16,11 @@ export class MessagesComponent implements OnInit {
   contact: Contact;
   messages: Message[];
   message = '';
-  @ViewChild('messages') private messagesContainer: ElementRef;
   hashMessages: Map<string, Message[]>;
   controlFind: boolean;
+  @ViewChild('messages') private messagesContainer: ElementRef;
 
-  constructor(public repositoryFactoryService: RepositoryFactoryService, private messageService: MessageService,
+  constructor(public repositoryFactoryService: RepositoryFactoryService, private messageService: MessageService, private contactService: ContactService,
               private notificationService: NotificationService) {
     this.makeSureLogin();
     this.hashMessages = new Map<string, Message[]>();
@@ -109,6 +110,10 @@ export class MessagesComponent implements OnInit {
       this.findNewMessages();
       this.showMessages();
     }
+  }
+
+  deleteContact(): void {
+    this.contactService.deleteContact(this.contact).then(() => window.location.reload());
   }
 
   ngOnInit(): void {
