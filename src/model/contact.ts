@@ -23,4 +23,14 @@ export class Contact {
   set nickname(value: string) {
     this._nickname = value;
   }
+
+  private _imageUrl: string;
+
+  get imageUrl(): string {
+    return this._imageUrl;
+  }
+
+  set imageUrl(value: string) {
+    this._imageUrl = value;
+  }
 }
