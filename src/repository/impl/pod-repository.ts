@@ -66,6 +66,24 @@ export class PodRepository implements Repository {
     PodUtil.giveGrantsTo(urlMessage, message.to.urlPod);
   }
 
+  async addUnknownContact(contact: Contact) {
+    const myContact = await this.login.myContact();
+    const pathUrl = myContact.urlPod + 'dechat/' + 'unknownContacts.json';
+    const text = await  PodUtil.readFile(pathUrl);
+    const contacts: Contact[] = text == null ? [] : Serializer.deserializeUnknownContacts(text);
+    contact.isUnknown = true;
+    contacts.push(contact);
+    PodUtil.writeToFile(pathUrl, Serializer.serializeUnknownContacts(contacts));
+  }
+
+  async getUnknownContacts() {
+    const myContact = await this.login.myContact();
+    const pathUrl = myContact.urlPod + 'dechat/' + 'unknownContacts.json';
+    const text = await PodUtil.readFile(pathUrl);
+    const contacts: Contact[] = text == null ? [] : Serializer.deserializeUnknownContacts(text);
+    return contacts;
+  }
+
   async getContacts(): Promise<Contact[]> {
     const myContact = await this.login.myContact();
     return Serializer.deserializeContacts(await PodUtil.readFile(myContact.urlPod + 'profile/card#me') == null ? ''

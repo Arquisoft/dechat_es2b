@@ -84,7 +84,7 @@ export class Serializer {
     return messages;
   };
 
-  static deserializeUnknownContacts = (data: string): Message[] => {
+  static deserializeUnknownContacts = (data: string): Contact[] => {
     const contacts = [];
     if (data == null || data.length === 0) {
       return contacts;
