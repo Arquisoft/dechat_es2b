@@ -23,6 +23,8 @@ export interface Repository {
 
   getUnknownContacts();
 
+  removeUnknownContact(contacts: Contact[], contact, callback);
+
   getMessages(contact: Contact): Promise<Message[]>;
 
   getMyContact(): Promise<Contact>;

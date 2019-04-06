@@ -20,8 +20,12 @@ export class ContactService {
     this.repository.repository.addUnknownContact(contact);
   }
 
-  deleteContact(contact: Contact, callback) {
-    return this.repository.repository.deleteContact(contact, callback);
+  deleteContact(contact: Contact, callback, contacts: Contact[]) {
+    if (contact.isUnknown) {
+      return this.repository.repository.removeUnknownContact(contacts, contact, callback);
+    } else {
+      return this.repository.repository.deleteContact(contact, callback);
+    }
   }
 
   getContacts(): Promise<Contact[]> {

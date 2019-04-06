@@ -20,7 +20,6 @@ export class MessagesComponent implements OnInit {
   hashMessages: Map<string, Message[]>;
   controlFind: boolean;
   appComponent: AppComponent;
-  initState: boolean;
   @ViewChild('messages') private messagesContainer: ElementRef;
 
   constructor(public repositoryFactoryService: RepositoryFactoryService, private messageService: MessageService, private contactService: ContactService,
@@ -28,7 +27,6 @@ export class MessagesComponent implements OnInit {
     this.makeSureLogin();
     this.hashMessages = new Map<string, Message[]>();
     this.controlFind = false;
-    this.initState = true;
     setInterval(this.findNewMessages, 1000);
   }
 
@@ -142,10 +140,6 @@ export class MessagesComponent implements OnInit {
   }
 
   selectConversation(contact: Contact, appComponent) {
-    if (this.initState) {
-      this.initState = false;
-      this.appComponent = appComponent;
-    }
     this.contact = contact;
     if (!this.hashMessages.has(this.contact.urlPod)) {
       this.messageService.getMessages(contact).then((res) => {
@@ -166,7 +160,7 @@ export class MessagesComponent implements OnInit {
         this.messages = [];
         this.hashMessages.delete(this.contact.urlPod);
         this.contact = null;
-      });
+      }, this.appComponent.getContactsComponent().contacts);
     }
   }
 
