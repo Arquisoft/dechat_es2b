@@ -29,6 +29,7 @@ export class MessagesComponent implements OnInit {
     this.hashMessages = new Map<string, Message[]>();
     this.controlFind = false;
     this.initState = true;
+    setInterval(this.findNewMessages, 1000);
   }
 
   makeSureLogin = async () => {
@@ -86,7 +87,11 @@ export class MessagesComponent implements OnInit {
           const iteratorKeys = hashNew.keys();
           let key = iteratorKeys.next().value;
           while (key != null) {
-            if (key !== this.contact.urlPod) {
+            let currentUrl = null;
+            if (this.contact != null) {
+              currentUrl = this.contact.urlPod;
+            }
+            if (key !== currentUrl) {
               if (this.hashMessages.has(key)) {
                 arrayAux = hashNew.get(key);
                 this.hashMessages.get(key).push(...arrayAux);
@@ -95,6 +100,16 @@ export class MessagesComponent implements OnInit {
                 });
               } else {
                 // Here we would be able to check if someone who we don't have added as contact have written to us
+                if (this.appComponent == null) {
+                  this.contactService.getContacts().then(resCont => {
+                    this.contactService.getUnknownContacts().then(resCont2 => {
+                      resCont.push(... resCont2);
+                      this.checkAndSaveNewUnknownContacts(resCont, key);
+                    });
+                  });
+                } else {
+                  this.checkAndSaveNewUnknownContacts(this.appComponent.contactsComponent.contacts, key);
+                }
               }
             }
             key = iteratorKeys.next().value;
@@ -104,11 +119,32 @@ export class MessagesComponent implements OnInit {
     }
   };
 
+  checkAndSaveNewUnknownContacts(contacts, key) {
+    let unknown = true;
+    for (let i = 0; i < contacts.length; ++i) {
+      if (contacts[i].urlPod === key) {
+        unknown = false;
+        break;
+      }
+    }
+    if (unknown) {
+      const contact = new Contact(key, 'Unknown');
+      contact.isUnknown = true;
+      this.contactService.addUnknownContact(contact);
+      if (this.appComponent != null) {
+        this.appComponent.getContactsComponent().ngOnInit();
+      }
+    }
+  }
+
+  setAppComponent(appComponent): void {
+    this.appComponent = appComponent;
+  }
+
   selectConversation(contact: Contact, appComponent) {
-    if (this.contact == null && this.initState) {
+    if (this.initState) {
       this.initState = false;
       this.appComponent = appComponent;
-      setInterval(this.findNewMessages, 1000);
     }
     this.contact = contact;
     if (!this.hashMessages.has(this.contact.urlPod)) {
@@ -127,6 +163,7 @@ export class MessagesComponent implements OnInit {
       this.showMenu();
       this.contactService.deleteContact(this.contact, () => {
         this.appComponent.getContactsComponent().ngOnInit();
+        this.messages = [];
         this.hashMessages.delete(this.contact.urlPod);
         this.contact = null;
       });

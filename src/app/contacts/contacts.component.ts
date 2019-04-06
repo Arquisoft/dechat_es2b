@@ -115,10 +115,14 @@ export class ContactsComponent implements OnInit {
 
   ngOnInit() {
     this.contactService.getContacts().then(res => {
-      this.messageLoadingOrEmpty = false;
-      this.contactService.getContactsImages(res);
-      this.allContacts = res;
-      this.contacts = res;
+      this.contactService.getUnknownContacts().then(res2 => {
+        res.push(... res2);
+        this.messageLoadingOrEmpty = false;
+        this.contactService.getContactsImages(res);
+        this.allContacts = res;
+        this.contacts = res;
+        this.parent.setContactsComponente(this);
+      });
     });
   }
 

@@ -28,8 +28,9 @@ export class ContactService {
     return this.repository.repository.getContacts();
   }
 
-  getUnknownContacts(): Contact[] {
-    return this.repository.repository.getUnknownContacts();
+  async getUnknownContacts() {
+    const contacts = await this.repository.repository.getUnknownContacts();
+    return contacts;
   }
 
   getContactsImages(contact: Contact[]) {
