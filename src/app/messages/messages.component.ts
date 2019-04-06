@@ -106,7 +106,7 @@ export class MessagesComponent implements OnInit {
                     });
                   });
                 } else {
-                  this.checkAndSaveNewUnknownContacts(this.appComponent.contactsComponent.contacts, key);
+                  this.checkAndSaveNewUnknownContacts(this.appComponent.contactsComponent.allContacts, key);
                 }
               }
             }
@@ -160,7 +160,7 @@ export class MessagesComponent implements OnInit {
         this.messages = [];
         this.hashMessages.delete(this.contact.urlPod);
         this.contact = null;
-      }, this.appComponent.getContactsComponent().contacts);
+      }, this.appComponent.getContactsComponent().allContacts);
     }
   }
 
