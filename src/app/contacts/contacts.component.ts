@@ -38,7 +38,7 @@ export class ContactsComponent implements OnInit {
 
   openAddContact(url) {
     document.getElementById('addContactButton').click();
-    this.contactID = url;
+    this.contactID = url + 'profile/card#me';
   }
 
   open(content) {
