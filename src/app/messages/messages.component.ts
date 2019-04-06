@@ -21,13 +21,15 @@ export class MessagesComponent implements OnInit {
   controlFind: boolean;
   appComponent: AppComponent;
   @ViewChild('messages') private messagesContainer: ElementRef;
+  toggleShowed: boolean;
 
   constructor(public repositoryFactoryService: RepositoryFactoryService, private messageService: MessageService, private contactService: ContactService,
-              private notificationService: NotificationService) {
+              private notificationService: NotificationService, public eRef: ElementRef) {
     this.makeSureLogin();
     this.hashMessages = new Map<string, Message[]>();
     this.controlFind = false;
     setInterval(this.findNewMessages, 1000);
+    this.toggleShowed = false;
   }
 
   makeSureLogin = async () => {
@@ -36,6 +38,7 @@ export class MessagesComponent implements OnInit {
 
   showMenu() {
     $('.action_menu').toggle();
+    this.toggleShowed = ! this.toggleShowed;
   }
 
   logout() {
@@ -150,6 +153,10 @@ export class MessagesComponent implements OnInit {
       this.findNewMessages();
       this.showMessages();
     }
+  }
+
+  addToContact() {
+    this.appComponent.getContactsComponent().openAddContact(this.contact.urlPod);
   }
 
   deleteContact(): void {
