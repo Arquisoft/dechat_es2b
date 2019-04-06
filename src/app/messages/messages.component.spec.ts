@@ -51,12 +51,15 @@ describe('MessagesComponent', () => {
 
   it('should can select a conversation', () => {
     const contact = new Contact('htpps://prueba.mock.up/profile/card#me', 'prueba');
-    component.selectConversation(contact);
+    component.selectConversation(contact, null);
     expect(component.contact).toBe(contact);
   });
 
   it('should can send a message pressing the button', () => {
     const text = 'Hi, this is a test';
+    const contact = new Contact('htpps://prueba.mock.up/profile/card#me', 'prueba');
+    component.selectConversation(contact, null);
+    component.myContact = new Contact('htpps://prueba2.mock.up/profile/card#me', 'prueba2');
     component.message = text;
     component.sendMessage(null).then(() => {
       expect(repo.messages.length).toBe(1);
@@ -66,6 +69,9 @@ describe('MessagesComponent', () => {
 
   it('should can send a message pressing intro', () => {
     const text = 'Hi, this is a test';
+    const contact = new Contact('htpps://prueba.mock.up/profile/card#me', 'prueba');
+    component.selectConversation(contact, null);
+    component.myContact = new Contact('htpps://prueba2.mock.up/profile/card#me', 'prueba2');
     component.message = text;
     component.sendMessage(new KeyboardEvent('keydown', {
       key: 'Enter',
