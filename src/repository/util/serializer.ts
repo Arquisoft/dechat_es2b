@@ -12,6 +12,11 @@ export class Serializer {
     return json;
   };
 
+  static serializeUnknownContacts = (contacts: Contact[]): string => {
+    const json = JSON.stringify(contacts);
+    return json;
+  };
+
   static serializeNotification = (notification: Notification): string => {
     const json = JSON.stringify(notification);
     return json;
@@ -77,6 +82,20 @@ export class Serializer {
       messages.push(messg);
     }
     return messages;
+  };
+
+  static deserializeUnknownContacts = (data: string): Message[] => {
+    const contacts = [];
+    if (data == null || data.length === 0) {
+      return contacts;
+    }
+    const objJSON = JSON.parse(data);
+    for (let i = 0; i < objJSON.length; ++i) {
+      const contact = new Contact(objJSON[i]['_urlPod'], 'Unknown');
+      contact.isUnknown = true;
+      contacts.push(contact);
+    }
+    return contacts;
   };
 
 

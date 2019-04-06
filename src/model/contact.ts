@@ -6,6 +6,16 @@ export class Contact {
 
   private _urlPod: string;
 
+  private _isUnknown: boolean;
+
+  get isUnknown(): boolean {
+    return this._isUnknown;
+  }
+
+  set isUnknown(value: boolean) {
+    this._isUnknown = value;
+  }
+
   get urlPod(): string {
     return this._urlPod;
   }
