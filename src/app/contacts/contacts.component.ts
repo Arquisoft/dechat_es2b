@@ -1,55 +1,195 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {RdfService} from '../services/rdf.service';
-import {Router} from '@angular/router';
-import {NamedNode} from 'rdf-js';
-import {Contact} from '../contact';
-import {MessagingComponent} from '../message/messaging.component';
+import {Component, HostListener, Inject, OnInit} from '@angular/core';
+import {Contact} from '../../model/contact';
+import {AppComponent} from '../app.component';
+import {ContactService} from '../../service/contact.service';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'app-contactos',
+  selector: 'app-contacts',
   templateUrl: './contacts.component.html',
   styleUrls: ['./contacts.component.css']
 })
-export class ContactsComponent {
+export class ContactsComponent implements OnInit {
+  allContacts: Contact[];
   contacts: Contact[];
   selectedContact: Contact;
+  searchCall;
+  search = '';
+  messageLoadingOrEmpty;
 
-  constructor(@Inject(MessagingComponent) private parent: MessagingComponent, private rdf: RdfService, private router: Router) {
+  addMessageResult: string;
+  contactID;
+  contactNick;
+
+  constructor(@Inject(AppComponent) private parent: AppComponent, public contactService: ContactService,
+              private modalService: NgbModal) {
     this.contacts = [];
-    this.loadContacts();
+    this.messageLoadingOrEmpty = true;
   }
 
-  selectContact(contact: Contact) {
-    this.selectedContact = contact;
-    this.parent.selectContact(contact);
-  }
-
-  async loadContacts() {
-    const me = await this.rdf.getMe();
-    if (me == null) {
-      this.router.navigateByUrl('/login');
-    } else {
-      const contacts = await this.rdf.getContacts(me);
-      console.log(contacts);
-      if ((<NamedNode>contacts).value) {
-        this.insertContact(contacts);
-      } else {
-        this.insertContacts(contacts);
+  @HostListener('document:click', ['$event'])
+  clickout(event) {
+    if (!this.parent.messages.eRef.nativeElement.querySelector('#action_menu_btn').contains(event.target)) {
+      if (this.parent.messages.toggleShowed) {
+        this.parent.messages.showMenu();
       }
     }
   }
 
-  insertContacts(results: [NamedNode]) {
-    results.forEach(function (value) {
-      this.insertContact(value.object);
-    }.bind(this));
+  openAddContact(url) {
+    document.getElementById('addContactButton').click();
+    this.contactID = url + 'profile/card#me';
   }
 
-  insertContact(node: NamedNode) {
-    this.contacts.push(new Contact(node.value, "Nombre"));
+  open(content) {
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+      this.addNewContact();
+    }, (reason) => {
+      this.addMessageResult = '';
+    });
   }
 
-  addContact() {
-    this.router.navigateByUrl('contact-add');
+  addNewContact() {
+    if (this.contactID == null) {
+      this.contactID = '';
+    }
+    if (this.contactNick == null) {
+      this.contactNick = '';
+    }
+    const result = this.checkContact();
+
+    if (result.result) {
+      const newContact = new Contact(result.contID, result.nickContact);
+      const res = this.contactService.addContact(newContact);
+      if (this.checkIsUnknown(newContact)) {
+        const cont = new Contact(newContact.urlPod.replace('profile/card#me', ''), '');
+        cont.isUnknown = true;
+        this.contactService.deleteContact(cont, () => {this.auxFunctAdd(res, result); }, this.allContacts);
+      } else {
+        this.auxFunctAdd(res, result);
+      }
+    } else {
+      this.showResultMessage(result.message);
+    }
+  }
+
+  auxFunctAdd(res, result) {
+    res.then(r => {
+      if (r) {
+        const wait = new Promise(resolve => setTimeout(resolve, 1500)).then(() => {
+          if (this.selectedContact != null && result.contID.replace('profile/card#me', '') === this.selectedContact.urlPod) {
+            this.auxOnInit(result.contID.replace('profile/card#me', ''));
+          } else {
+            this.ngOnInit();
+          }
+        });
+      } else {
+        result.message = 'Unknown error has occurred';
+      }
+      this.resetAddContact();
+      this.showResultMessage(result.message);
+    });
+  }
+
+  checkIsUnknown(contact): boolean {
+    for (let i = 0; i < this.allContacts.length; ++i) {
+      if (this.allContacts[i].isUnknown && this.allContacts[i].urlPod + 'profile/card#me' === contact.urlPod) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  showResultMessage(message) {
+    this.addMessageResult = message;
+    const wait = new Promise(resolve => setTimeout(resolve, 1500)).then(() => {
+      this.addMessageResult = '';
+    });
+  }
+
+  checkContact() {
+    const arrayID = this.contactID.split('/');
+    let showError = 'ERROR: ';
+    let uri = '';
+    let nick = '';
+    if (arrayID.length === 5) {
+      if (arrayID[0] !== 'https:' || arrayID[1] !== '' || arrayID[2].trim() === '' || arrayID[3] !== 'profile' || arrayID[4] !== 'card#me'){
+        showError = 'ERROR: Invalid URL format';
+      } else {
+        uri = 'https://' + arrayID[2].trim() + '/profile/card#me';
+        if (this.checkIfExistContact(uri)) {
+          showError = 'ERROR: The contact already exists';
+        } else {
+          nick = this.contactNick.trim();
+        }
+      }
+    } else {
+      showError = 'ERROR: Invalid URL format';
+    }
+
+    if (showError.trim() === 'ERROR:') {
+      return {result: true, message: 'Contact added correctly', contID: uri, nickContact: nick};
+    } else {
+      return {result: false, message: showError, contID: uri, nickContact: nick};
+    }
+  }
+
+  checkIfExistContact(url) {
+    if (this.allContacts != null) {
+      for (let i = 0; i < this.allContacts.length; ++i) {
+        if (!this.allContacts[i].isUnknown && (this.allContacts[i].urlPod + 'profile/card#me' === url || this.allContacts[i].urlPod + 'profile/card#me/' === url)) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  resetAddContact() {
+    this.contactNick = '';
+    this.contactID = '';
+  }
+
+  auxOnInit(contactToSelectURL) {
+    this.contactService.getContacts().then(res => {
+      this.contactService.getUnknownContacts().then(res2 => {
+        res.push(... res2);
+        this.messageLoadingOrEmpty = false;
+        this.contactService.getContactsImages(res);
+        this.allContacts = res;
+        this.contacts = res;
+        this.parent.setContactsComponente(this);
+        if (contactToSelectURL != null) {
+          for (let i = 0; i < this.allContacts.length; ++i) {
+            if (this.allContacts[i].urlPod === contactToSelectURL) {
+              this.selectContact(this.allContacts[i]);
+              break;
+            }
+          }
+        }
+      });
+    });
+  }
+
+  ngOnInit() {
+    this.auxOnInit(null);
+  }
+
+  selectContact(contact: Contact) {
+    this.selectedContact = contact;
+    this.parent.selectContact(contact, this);
+  }
+
+  writeSearch() {
+    if (this.searchCall != null) {
+      clearTimeout(this.searchCall);
+    }
+    if (this.search !== '') {
+      this.searchCall = setTimeout(this.makeSearch.bind(this), 500);
+    }
+  }
+
+  makeSearch() {
+    this.contacts = this.allContacts.filter(c => c.nickname.indexOf(this.search) >= 0 || c.urlPod.indexOf(this.search) >= 0);
   }
 }

@@ -1,6 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import { popupLogin } from 'solid-auth-client/dist-lib/solid-auth-client.bundle.js';
-
+import {Component, ViewChild} from '@angular/core';
+import {MessagesComponent} from './messages/messages.component';
+import {Contact} from '../model/contact';
+import {LoginService} from '../service/login.service';
+import {ContactsComponent} from './contacts/contacts.component';
 
 @Component({
   selector: 'app-root',
@@ -8,5 +10,24 @@ import { popupLogin } from 'solid-auth-client/dist-lib/solid-auth-client.bundle.
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app';
+  @ViewChild(MessagesComponent) messages: MessagesComponent;
+  contactsComponent: ContactsComponent;
+
+  constructor(protected loginService: LoginService) {
+    loginService.myContact();
+  }
+
+  getContactsComponent() {
+    return this.contactsComponent;
+  }
+
+  setContactsComponente(contactsComponent): void {
+    this.contactsComponent = contactsComponent;
+    this.messages.setAppComponent(this);
+  }
+
+  selectContact(contact: Contact, contactsComponent): void {
+    this.contactsComponent = contactsComponent;
+    this.messages.selectConversation(contact, this);
+  }
 }

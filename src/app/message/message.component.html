@@ -1,0 +1,4 @@
+<div [ngClass]="received ?  'msg_cotainer_send' : 'msg_cotainer'" [ngStyle]="received ? {'text-align': 'left'} : {'text-align': 'right'}">
+  {{message.text}}
+  <span class="msg_time" [ngStyle]="received ? {'width': '100px'} : {'right': '0', 'left': 'auto', 'width': '100px'}">{{message.date | date:'dd-MM HH:mm'}}</span>
+</div>

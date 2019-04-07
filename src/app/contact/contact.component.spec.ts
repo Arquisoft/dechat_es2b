@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ContactComponent } from './contact.component';
+import {Contact} from '../../model/contact';
 
 describe('ContactComponent', () => {
   let component: ContactComponent;
@@ -16,6 +17,7 @@ describe('ContactComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ContactComponent);
     component = fixture.componentInstance;
+    component.contact = new Contact('https://prueba.mock.up/', 'Prueba');
     fixture.detectChanges();
   });
 

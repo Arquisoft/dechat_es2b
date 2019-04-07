@@ -2,16 +2,18 @@
 == Solution Strategy
 
 === Contents
-To achieve a satisfactory solution we've decided to use Angular, because of the many libraries related to SOLID that Angulas has.
+To achieve a satisfactory solution we have decided to use Angular, because of the many libraries related to SOLID that exist in javascript and the amount of documentation available to use this framework.
 
 === Motivation
-These decisions form the cornerstones for our architecture. They are the basis for many other detailed decisions or implementation rules.
+These decisions are the hot spot of our architecture. They are the base of many other decisions and implementation rules.
 
 === Form
 
-[options="header",cols="1,2,3,2"]
+[options="header",cols="1,2,3"]
 |===
-|Quality goal|Scenario|Solution approach|Link to Details
-|Send/recieve messages|A user sends a message to another user|The receptor gets a link to the message that the sender wanted him to read and access the message with that|TODO
-|Have a contacts list|A user has a list of all the peolpe they have had communication with|The other's person POD's link is registered and saved for future use|TODO
+|Quality goal|Scenario|Solution approach
+|Send messages|A user sends a message to another user|The sender write the message in its POD and inform the receiver using the inbox of the receiver's POD.
+|Receive messages|A user receive messages from another user|The receptor access to the sender's POD and gets the list of messages that the sender want him to read.
+|Add contacts|A user add a new contact|The user write the uri of the other user's POD and a nickname to store it.
+|Read contacts|A user wants to see its contacts to chat with|The user has a list of all the people it has added to its POD. This list of people is stored in the own POD as URIs and nicknames.
 |===
