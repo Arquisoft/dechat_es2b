@@ -66,6 +66,44 @@ export class PodRepository implements Repository {
     PodUtil.giveGrantsTo(urlMessage, message.to.urlPod);
   }
 
+  async removeUnknownContact(contacts: Contact[], contact, callback) {
+    const contactsUnknown = [];
+    for (let i = 0; i < contacts.length; ++i) {
+      if (contacts[i].isUnknown) {
+        contactsUnknown.push(contacts[i]);
+      }
+    }
+    for (let i = 0; i < contactsUnknown.length; ++i) {
+      if (contactsUnknown[i].urlPod === contact.urlPod) {
+        contactsUnknown.splice(i);
+        const myContact = await this.login.myContact();
+        const pathUrl = myContact.urlPod + 'dechat/' + 'unknown.Contacts.json';
+        PodUtil.updateFile(pathUrl, Serializer.serializeUnknownContacts(contactsUnknown)).then(res3 => {
+          callback();
+        }, err => {});
+        break;
+      }
+    }
+  }
+
+  async addUnknownContact(contact: Contact) {
+    const myContact = await this.login.myContact();
+    const pathUrl = myContact.urlPod + 'dechat/' + 'unknown.Contacts.json';
+    const text = await  PodUtil.readFile(pathUrl);
+    const contacts: Contact[] = text == null ? [] : Serializer.deserializeUnknownContacts(text);
+    contact.isUnknown = true;
+    contacts.push(contact);
+    PodUtil.writeToFile(pathUrl, Serializer.serializeUnknownContacts(contacts));
+  }
+
+  async getUnknownContacts() {
+    const myContact = await this.login.myContact();
+    const pathUrl = myContact.urlPod + 'dechat/' + 'unknown.Contacts.json';
+    const text = await PodUtil.readFile(pathUrl);
+    const contacts: Contact[] = text == null ? [] : Serializer.deserializeUnknownContacts(text);
+    return contacts;
+  }
+
   async getContacts(): Promise<Contact[]> {
     const myContact = await this.login.myContact();
     return Serializer.deserializeContacts(await PodUtil.readFile(myContact.urlPod + 'profile/card#me') == null ? ''

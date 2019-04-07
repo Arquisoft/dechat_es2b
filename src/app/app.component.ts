@@ -21,6 +21,11 @@ export class AppComponent {
     return this.contactsComponent;
   }
 
+  setContactsComponente(contactsComponent): void {
+    this.contactsComponent = contactsComponent;
+    this.messages.setAppComponent(this);
+  }
+
   selectContact(contact: Contact, contactsComponent): void {
     this.contactsComponent = contactsComponent;
     this.messages.selectConversation(contact, this);

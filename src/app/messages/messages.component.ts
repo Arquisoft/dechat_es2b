@@ -20,15 +20,16 @@ export class MessagesComponent implements OnInit {
   hashMessages: Map<string, Message[]>;
   controlFind: boolean;
   appComponent: AppComponent;
-  initState: boolean;
   @ViewChild('messages') private messagesContainer: ElementRef;
+  toggleShowed: boolean;
 
   constructor(public repositoryFactoryService: RepositoryFactoryService, private messageService: MessageService, private contactService: ContactService,
-              private notificationService: NotificationService) {
+              private notificationService: NotificationService, public eRef: ElementRef) {
     this.makeSureLogin();
     this.hashMessages = new Map<string, Message[]>();
     this.controlFind = false;
-    this.initState = true;
+    setInterval(this.findNewMessages, 1000);
+    this.toggleShowed = false;
   }
 
   makeSureLogin = async () => {
@@ -37,6 +38,7 @@ export class MessagesComponent implements OnInit {
 
   showMenu() {
     $('.action_menu').toggle();
+    this.toggleShowed = ! this.toggleShowed;
   }
 
   logout() {
@@ -86,7 +88,11 @@ export class MessagesComponent implements OnInit {
           const iteratorKeys = hashNew.keys();
           let key = iteratorKeys.next().value;
           while (key != null) {
-            if (key !== this.contact.urlPod) {
+            let currentUrl = null;
+            if (this.contact != null) {
+              currentUrl = this.contact.urlPod;
+            }
+            if (key !== currentUrl) {
               if (this.hashMessages.has(key)) {
                 arrayAux = hashNew.get(key);
                 this.hashMessages.get(key).push(...arrayAux);
@@ -95,6 +101,16 @@ export class MessagesComponent implements OnInit {
                 });
               } else {
                 // Here we would be able to check if someone who we don't have added as contact have written to us
+                if (this.appComponent == null) {
+                  this.contactService.getContacts().then(resCont => {
+                    this.contactService.getUnknownContacts().then(resCont2 => {
+                      resCont.push(... resCont2);
+                      this.checkAndSaveNewUnknownContacts(resCont, key);
+                    });
+                  });
+                } else {
+                  this.checkAndSaveNewUnknownContacts(this.appComponent.contactsComponent.allContacts, key);
+                }
               }
             }
             key = iteratorKeys.next().value;
@@ -104,12 +120,29 @@ export class MessagesComponent implements OnInit {
     }
   };
 
-  selectConversation(contact: Contact, appComponent) {
-    if (this.contact == null && this.initState) {
-      this.initState = false;
-      this.appComponent = appComponent;
-      setInterval(this.findNewMessages, 1000);
+  checkAndSaveNewUnknownContacts(contacts, key) {
+    let unknown = true;
+    for (let i = 0; i < contacts.length; ++i) {
+      if (contacts[i].urlPod === key) {
+        unknown = false;
+        break;
+      }
     }
+    if (unknown) {
+      const contact = new Contact(key, 'Unknown');
+      contact.isUnknown = true;
+      this.contactService.addUnknownContact(contact);
+      if (this.appComponent != null) {
+        this.appComponent.getContactsComponent().ngOnInit();
+      }
+    }
+  }
+
+  setAppComponent(appComponent): void {
+    this.appComponent = appComponent;
+  }
+
+  selectConversation(contact: Contact, appComponent) {
     this.contact = contact;
     if (!this.hashMessages.has(this.contact.urlPod)) {
       this.messageService.getMessages(contact).then((res) => {
@@ -122,14 +155,19 @@ export class MessagesComponent implements OnInit {
     }
   }
 
+  addToContact() {
+    this.appComponent.getContactsComponent().openAddContact(this.contact.urlPod);
+  }
+
   deleteContact(): void {
     if (this.contact != null) {
       this.showMenu();
       this.contactService.deleteContact(this.contact, () => {
         this.appComponent.getContactsComponent().ngOnInit();
+        this.messages = [];
         this.hashMessages.delete(this.contact.urlPod);
         this.contact = null;
-      });
+      }, this.appComponent.getContactsComponent().allContacts);
     }
   }
 

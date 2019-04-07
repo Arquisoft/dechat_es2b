@@ -19,6 +19,12 @@ export interface Repository {
 
   addMessage(message: Message);
 
+  addUnknownContact(contact: Contact);
+
+  getUnknownContacts();
+
+  removeUnknownContact(contacts: Contact[], contact, callback);
+
   getMessages(contact: Contact): Promise<Message[]>;
 
   getMyContact(): Promise<Contact>;

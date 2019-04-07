@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, HostListener, Inject, OnInit} from '@angular/core';
 import {Contact} from '../../model/contact';
 import {AppComponent} from '../app.component';
 import {ContactService} from '../../service/contact.service';
@@ -27,6 +27,20 @@ export class ContactsComponent implements OnInit {
     this.messageLoadingOrEmpty = true;
   }
 
+  @HostListener('document:click', ['$event'])
+  clickout(event) {
+    if (!this.parent.messages.eRef.nativeElement.querySelector('#action_menu_btn').contains(event.target)) {
+      if (this.parent.messages.toggleShowed) {
+        this.parent.messages.showMenu();
+      }
+    }
+  }
+
+  openAddContact(url) {
+    document.getElementById('addContactButton').click();
+    this.contactID = url + 'profile/card#me';
+  }
+
   open(content) {
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
       this.addNewContact();
@@ -47,20 +61,43 @@ export class ContactsComponent implements OnInit {
     if (result.result) {
       const newContact = new Contact(result.contID, result.nickContact);
       const res = this.contactService.addContact(newContact);
-      res.then(r => {
-        if (r) {
-          const wait = new Promise(resolve => setTimeout(resolve, 1500)).then(() => {
-            this.ngOnInit();
-          });
-        } else {
-          result.message = 'Unknown error has occurred';
-        }
-        this.resetAddContact();
-        this.showResultMessage(result.message);
-      });
+      if (this.checkIsUnknown(newContact)) {
+        const cont = new Contact(newContact.urlPod.replace('profile/card#me', ''), '');
+        cont.isUnknown = true;
+        this.contactService.deleteContact(cont, () => {this.auxFunctAdd(res, result); }, this.allContacts);
+      } else {
+        this.auxFunctAdd(res, result);
+      }
     } else {
       this.showResultMessage(result.message);
     }
+  }
+
+  auxFunctAdd(res, result) {
+    res.then(r => {
+      if (r) {
+        const wait = new Promise(resolve => setTimeout(resolve, 1500)).then(() => {
+          if (this.selectedContact != null && result.contID.replace('profile/card#me', '') === this.selectedContact.urlPod) {
+            this.auxOnInit(result.contID.replace('profile/card#me', ''));
+          } else {
+            this.ngOnInit();
+          }
+        });
+      } else {
+        result.message = 'Unknown error has occurred';
+      }
+      this.resetAddContact();
+      this.showResultMessage(result.message);
+    });
+  }
+
+  checkIsUnknown(contact): boolean {
+    for (let i = 0; i < this.allContacts.length; ++i) {
+      if (this.allContacts[i].isUnknown && this.allContacts[i].urlPod + 'profile/card#me' === contact.urlPod) {
+        return true;
+      }
+    }
+    return false;
   }
 
   showResultMessage(message) {
@@ -100,7 +137,7 @@ export class ContactsComponent implements OnInit {
   checkIfExistContact(url) {
     if (this.allContacts != null) {
       for (let i = 0; i < this.allContacts.length; ++i) {
-        if (this.allContacts[i].urlPod + 'profile/card#me' === url || this.allContacts[i].urlPod + 'profile/card#me/' === url) {
+        if (!this.allContacts[i].isUnknown && (this.allContacts[i].urlPod + 'profile/card#me' === url || this.allContacts[i].urlPod + 'profile/card#me/' === url)) {
           return true;
         }
       }
@@ -113,13 +150,29 @@ export class ContactsComponent implements OnInit {
     this.contactID = '';
   }
 
-  ngOnInit() {
+  auxOnInit(contactToSelectURL) {
     this.contactService.getContacts().then(res => {
-      this.messageLoadingOrEmpty = false;
-      this.contactService.getContactsImages(res);
-      this.allContacts = res;
-      this.contacts = res;
+      this.contactService.getUnknownContacts().then(res2 => {
+        res.push(... res2);
+        this.messageLoadingOrEmpty = false;
+        this.contactService.getContactsImages(res);
+        this.allContacts = res;
+        this.contacts = res;
+        this.parent.setContactsComponente(this);
+        if (contactToSelectURL != null) {
+          for (let i = 0; i < this.allContacts.length; ++i) {
+            if (this.allContacts[i].urlPod === contactToSelectURL) {
+              this.selectContact(this.allContacts[i]);
+              break;
+            }
+          }
+        }
+      });
     });
+  }
+
+  ngOnInit() {
+    this.auxOnInit(null);
   }
 
   selectContact(contact: Contact) {
