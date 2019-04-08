@@ -9,4 +9,10 @@ describe('LoginService', () => {
     const service: LoginService = TestBed.get(LoginService);
     expect(service).toBeTruthy();
   });
+
+  it('should logout and reload the location of the window', () => {
+    const service: LoginService = TestBed.get(LoginService);
+    expect(service).toBeTruthy();
+    service.logout(() => false);
+  });
 });
