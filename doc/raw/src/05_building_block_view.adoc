@@ -4,13 +4,13 @@
 
 === Scope & Context
 
-image::../images/Diagram%202019-04-01%2014-22-12.png[Overview]
+image::../images/Diagram%202019-04-08%2015-18-15.png[Overview]
 
 - As the app is independent from an external server (since the only one it uses is the one that the app is deployed in, the contact's notwithstanding) we can present the app this way. The users will interact with other users without a server in the middle so they only have to worry about the connection among themselves
 
 === Level 1
 
-image::../images/Diagram%202019-04-01%2014-09-13.png[Level 1]
+image::../images/Diagram%202019-04-09%2011-41-25.png[Level 1]
 
 - Repository is responsible of:
 
@@ -25,6 +25,8 @@ image::../images/Diagram%202019-04-01%2014-09-13.png[Level 1]
 - Services can be divided into: account, contact, message and login.
 
 - From the external libraries that are used the most remarkable among them are N3 for RDF and Solid-file-client to manage the data.
+
+- Model includes Message, Contact and Notification
 
 === Level 2
 
