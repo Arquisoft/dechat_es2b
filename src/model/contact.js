@@ -1,4 +1,6 @@
-export class Contact {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+class Contact {
     constructor(urlPod, nickname) {
         this._urlPod = urlPod;
         this._nickname = nickname;
@@ -31,4 +33,5 @@ export class Contact {
         this._imageUrl = value;
     }
 }
+exports.Contact = Contact;
 //# sourceMappingURL=contact.js.map
