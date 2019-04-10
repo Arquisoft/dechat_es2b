@@ -20,6 +20,6 @@ export class MessageService {
   }
 
   private error(message: Message) {
-    alert('No se ha podido enviar tu mensaje para ' + message.to.nickname + '\nTexto:' + message.text);
+    // alert('No se ha podido enviar tu mensaje para ' + message.to.nickname + '\nTexto:' + message.text);
   }
 }

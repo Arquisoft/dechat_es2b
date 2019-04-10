@@ -4,12 +4,12 @@ import {Message} from '../../model/message';
 import {Serializer} from '../util/serializer';
 import {PodUtil} from '../util/pod-util';
 import {reject} from 'q';
-import {LoginService} from '../../service/login.service';
 import {Notification} from '../../model/notification';
 import {Md5} from 'ts-md5/dist/md5';
+import {ILoginService} from '../../service/ILoginService';
 
 export class PodRepository implements Repository {
-  constructor(private login: LoginService) {
+  constructor(private login: ILoginService) {
   }
 
   async deleteContact(contact: Contact, callback): Promise<void> {

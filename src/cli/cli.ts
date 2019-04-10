@@ -1,9 +1,16 @@
-const inquirer = require('inquirer');
-const readline = require('readline');
+import {RepositoryFactoryService} from '../repository/repository-factory.service';
 
-const SolidClient = require('../../node_modules/@solid/cli/src/SolidClient');
-const IdentityManager = require('../../node_modules/@solid/cli/src/IdentityManager');
+const inquirer = require('inquirer');
+
 import {Contact} from '../model/contact';
+import {ContactService} from '../service/contact.service';
+import {MessageService} from '../service/message.service';
+import {CLILoginService} from './CLILoginService';
+
+const loginService = new CLILoginService();
+const repository = new RepositoryFactoryService(loginService);
+const messageService = new MessageService(repository);
+const contactService = new ContactService(repository);
 
 function printLogo() {
   console.log('\n' +
@@ -15,8 +22,8 @@ function printLogo() {
     '                                    \n');
 }
 
-function showMenu() {
-  if (user == null) {
+async function showMenu() {
+  if ((await loginService.myContact()) == null) {
     showNotLoggedMenu();
   } else {
     showLoggedMenu();
@@ -45,8 +52,8 @@ function showNotLoggedMenu() {
   });
 }
 
-function showLoggedMenu() {
-  console.log('Logged as ' + user.urlPod);
+async function showLoggedMenu() {
+  console.log('Logged as ' + (await loginService.myContact()).urlPod);
   inquirer.prompt([{
     name: 'main-menu',
     type: 'list',
@@ -62,13 +69,20 @@ function showLoggedMenu() {
   }]).then(answers => {
     switch (answers['main-menu']) {
       case 'List all my contacts':
+        listContacts();
+        showMenu();
         break;
       case 'Show messages of a contact':
+        showMessagesOf(chooseContact());
+        showMenu();
         break;
       case 'Show unread messages':
+        showUnreadMessages();
+        showMenu();
         break;
       case 'Log out':
-        logout().then(() => showMenu());
+        logout();
+        showMenu();
         break;
       case 'Exit':
         quit();
@@ -92,17 +106,9 @@ function login() {
     default: 'https://solid.community'
   }]).then(async answers => {
     console.log('Logging in...');
-    const {identityProvider, username, password} = answers;
-    const identityManager = IdentityManager.fromJSON('{}');
-    const client = new SolidClient({identityManager});
-
     try {
-      const session = await client.login(identityProvider, {username, password});
-      user = new Contact(session.idClaims.sub, 'I');
-      /*readline.clearLine(process.stdout, undefined);
-      readline.cursorTo(process.stdout, 0);*/
+      await loginService.login(answers);
     } catch (e) {
-      console.log(e);
       console.error(`Something went wrong when logging in. Try again?`);
     } finally {
       showMenu();
@@ -110,27 +116,27 @@ function login() {
   });
 }
 
-async function logout() {
-  //await cli.logout();
-  user = null;
+function logout() {
+  loginService.logout(null);
+}
+
+function listContacts() {
+}
+
+function chooseContact(): Contact {
+  return null;
+}
+
+function showMessagesOf(contact: Contact) {
+}
+
+function showUnreadMessages() {
 }
 
 function quit() {
-  if (user != null) {
-    logout().then(() => quit());
-  } else {
-    process.exit(0);
-  }
+  logout();
+  process.exit(0);
 }
-
-let user: Contact = null;
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout
-});
 
 printLogo();
 showMenu();
-
-

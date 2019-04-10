@@ -64,7 +64,18 @@
     // "emitDecoratorMetadata": true         /* Enables experimental support for emitting type metadata for decorators. */
   },
   "include": [
-    "cli.ts",
-    "../model/contact.ts"
+    "./cli.ts",
+    "./CLILoginService.ts",
+    "../model/contact.ts",
+    "../model/message.ts",
+    "../model/notification.ts",
+    "../service/message.service.ts",
+    "../service/contact.service.ts",
+    "../service/ILoginService.ts",
+    "../repository/repository-factory.service.ts",
+    "../repository/util/serializer.ts",
+    "../repository/util/pod-util.ts",
+    "../repository/repository.ts",
+    "../repository/impl/pod-repository.ts"
   ]
 }

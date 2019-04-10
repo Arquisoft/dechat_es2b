@@ -1,13 +1,13 @@
 import {Injectable} from '@angular/core';
 import {Repository} from './repository';
 import {PodRepository} from './impl/pod-repository';
-import {LoginService} from '../service/login.service';
+import {ILoginService} from '../service/ILoginService';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RepositoryFactoryService {
-  constructor(private login: LoginService) {
+  constructor(private login: ILoginService) {
     this._repository = new PodRepository(login);
   }
   private _repository: Repository;

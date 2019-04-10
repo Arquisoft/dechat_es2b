@@ -1,11 +1,12 @@
 import {Injectable} from '@angular/core';
 import {Contact} from '../model/contact';
 import * as auth from 'solid-auth-client';
+import {ILoginService} from './ILoginService';
 
 @Injectable({
   providedIn: 'root'
 })
-export class LoginService {
+export class LoginService implements ILoginService {
   constructor() {
   }
 
