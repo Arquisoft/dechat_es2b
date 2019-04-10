@@ -5,7 +5,7 @@
         <img *ngIf="contact != null" src="{{contact == null ? 'assets/default_icon.png' : contact.imageUrl}}" class="rounded-circle user_img">
         <img *ngIf="contact == null" src="assets/favicon.png" class="rounded-circle user_img">
       </div>
-      <div class="user_info">
+      <div class="user_info" style="color: white;">
         <span *ngIf="contact as value; else select">{{value.nickname}}</span>
         <ng-template #select><span style="color:white; font-size:0.8em;">&copy; All rights reserved</span></ng-template>
         <p *ngIf="contact as value;">{{value.urlPod}}</p>
@@ -36,8 +36,17 @@
                 class="form-control type_msg" name="message"
                 type="text"
                 (keypress)="sendMessage($event)" [(ngModel)]="message" [disabled]="contact == null"></textarea>
-      <div class="input-group-append" (click)="sendMessage(null)">
-        <span class="input-group-text send_btn"><i class="fas fa-location-arrow"></i></span>
+      <div class="input-group-append" (click)="sendMessage(null)" [hidden]="contact == null">
+        <span class="input-group-text send_btn simulateButton"><i class="fas fa-location-arrow"></i></span>
+      </div>
+      <div class="input-group-append" style="margin-left: 1em;" (click)="sendImage()" [hidden]="contact == null">
+        <span class="input-group-text send_btnEnd simulateButton"><i class="far fa-image"></i></span>
+      </div>
+      <div class="input-group-append" (click)="sendAudio()" [hidden]="contact == null">
+        <span class="input-group-text send_btnPrev simulateButton"><i class="fas fa-microphone"></i></span>
+      </div>
+      <div class="input-group-append" (click)="sendPdf()" [hidden]="contact == null">
+        <span class="input-group-text send_btn simulateButton"><i class="far fa-file-pdf"></i></span>
       </div>
     </div>
   </div>

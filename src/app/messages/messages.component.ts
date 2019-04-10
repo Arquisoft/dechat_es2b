@@ -46,6 +46,21 @@ export class MessagesComponent implements OnInit {
     this.repositoryFactoryService.repository.logout(null);
   }
 
+  async sendAudio() {
+    // Check size (max 1mb)
+    // Check extension .mp3
+  }
+
+  async sendImage() {
+    // Check size (max 1mb)
+    // Check extension .jpg o .png
+  }
+
+  async sendPdf() {
+    // Check size (max 1mb)
+    // Check extension .pdf
+  }
+
   async sendMessage(event: KeyboardEvent) {
     this.message.trim();
     if ((event == null || event.key === 'Enter') && this.message !== '') {

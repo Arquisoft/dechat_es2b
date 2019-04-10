@@ -15,6 +15,11 @@ export class MessageService {
     }, () => this.error(message));
   }
 
+  addMediaMessage(content, message: Message) {
+    this.repository.repository.addMediaMessage(content, message).then(() => {
+    }, () => this.error(message));
+  }
+
   getMessages(contact: Contact): Promise<Message[]> {
     return this.repository.repository.getMessages(contact);
   }
