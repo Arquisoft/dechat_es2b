@@ -15,7 +15,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
     MessagesComponent,
     ContactsComponent,
     MessageComponent,
-    ContactComponent
+    ContactComponent,
   ],
   imports: [
     BrowserModule,

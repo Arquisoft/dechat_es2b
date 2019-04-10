@@ -1,4 +1,4 @@
-import {Component, ElementRef, Inject, OnInit, SimpleChanges, ViewChild} from '@angular/core';
+import {Component, ElementRef, Inject, OnInit, SimpleChanges, TemplateRef, ViewChild} from '@angular/core';
 import {Contact} from '../../model/contact';
 import {Message} from '../../model/message';
 import {MessageService} from '../../service/message.service';
@@ -6,6 +6,7 @@ import {RepositoryFactoryService} from '../../repository/repository-factory.serv
 import {NotificationService} from '../../service/notification.service';
 import {ContactService} from '../../service/contact.service';
 import {AppComponent} from '../app.component';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-messages',
@@ -22,9 +23,13 @@ export class MessagesComponent implements OnInit {
   appComponent: AppComponent;
   @ViewChild('messages') private messagesContainer: ElementRef;
   toggleShowed: boolean;
+  optUploaded: string;
+  optionUploaded: string;
+  @ViewChild('contentModal')
+  private editModal: TemplateRef<any>;
 
   constructor(public repositoryFactoryService: RepositoryFactoryService, private messageService: MessageService, private contactService: ContactService,
-              private notificationService: NotificationService, public eRef: ElementRef) {
+              private notificationService: NotificationService, public eRef: ElementRef, private modalService: NgbModal) {
     this.makeSureLogin();
     this.hashMessages = new Map<string, Message[]>();
     this.controlFind = false;
@@ -46,39 +51,77 @@ export class MessagesComponent implements OnInit {
     this.repositoryFactoryService.repository.logout(null);
   }
 
-  async sendMultimedia(option: string) {
+  manageFileUploadEvent(event) {
+    const reader = new FileReader();
+    if (event.target.files && event.target.files.length > 0) {
+      const file = event.target.files[0];
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        this.modalService.dismissAll();
+        this.manageFileUpload(reader.result, file.size, file.type);
+      };
+    }
+  }
+
+  async manageFileUpload(content, size, type) {
     let check = false;
-    if (option != null) {
-      // Load window to select file
-      // Check size (max 1mb) if not alert(); if valid check = true
-      if (check && option === 'audio') {
+    let errorMessage = '';
+    if (content != null) {
+      const maxSizeAllowed = 1048576;
+      // Check size (max 1mb)
+      if (size <= maxSizeAllowed) {
+        check = true;
+      } else {
+        errorMessage = 'The maximum size allowed is 1Mb';
+      }
+      const extType = type.split('/')[1];
+      if (check && this.optUploaded === 'audio') {
         check = false;
         // Check extension .mp3 if valid check = true
-      } else if (check && option === 'image') {
+      } else if (check && this.optUploaded === 'image') {
         check = false;
-        // Check extension .jpg o .png if valid check = true
-      } else if (check && option === 'pdf') {
+        // Check extension .jpeg o .png if valid check = true
+      } else if (check && this.optUploaded === 'pdf') {
         check = false;
         // Check extension .pdf if valid check = true
       } else {
         check = false;
       }
       if (check) {
+        // generate Message
         // generate hash md5 to use as name
         // send to messageService the content
+      } else {
+        this.appComponent.getContactsComponent().showResultMessage(errorMessage);
+        alert(errorMessage);
       }
+    } else {
+      this.appComponent.getContactsComponent().showResultMessage('Uploading error');
+      alert('Uploading error');
+    }
+  }
+
+  async sendMultimedia(option: string) {
+    if (option != null) {
+      this.optUploaded = option;
+      // Load window to select file
+      this.modalService.open(this.editModal, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+      }, err => {});
     }
   }
 
   async sendAudio() {
+    this.optionUploaded = 'Select an audio file (mp3)';
     await this.sendMultimedia('audio');
   }
 
   async sendImage() {
+    this.optionUploaded = 'Select an image file (jpg or png)';
     await this.sendMultimedia('image');
   }
 
   async sendPdf() {
+    this.optionUploaded = 'Select a pdf file';
     await this.sendMultimedia('pdf');
   }
 

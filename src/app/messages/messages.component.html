@@ -51,3 +51,21 @@
     </div>
   </div>
 </div>
+
+<ng-template #contentModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">{{optionUploaded}}</h4>
+    <button type="button" style="color:black;" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      x
+    </button>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="form-group">
+        <div class="input-group">
+          <input id="fileSelectionID" (change)="manageFileUploadEvent($event)" type="file" class="form-control-file" name="fileSelectionID"/>
+        </div>
+      </div>
+    </form>
+  </div>
+</ng-template>
