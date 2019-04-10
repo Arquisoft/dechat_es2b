@@ -87,4 +87,8 @@ export class MockRepository implements Repository {
 
   removeUnknownContact(contacts: Contact[], contact, callback) {
   }
+
+  updateContact(contact: Contact, callback): Promise<void> {
+    return undefined;
+  }
 }

@@ -7,6 +7,8 @@ export interface Repository {
 
   deleteContact(contact: Contact, callback): Promise<void>;
 
+  updateContact(contact: Contact, callback): Promise<void>;
+
   getContacts(): Promise<Contact[]>;
 
   addNotification(notification: Notification);
