@@ -64,6 +64,9 @@ export class Serializer {
       const text = objJSON['_message']['_text'];
       const date = new Date(objJSON['_message']['_date']);
       const messg = new Message(from, to, date, text);
+      if (objJSON['_isMedia'] != null) {
+        messg.isMedia = objJSON['_isMedia'];
+      }
 
       notificaction = new Notification(chatIdentificator, messg);
       return notificaction;

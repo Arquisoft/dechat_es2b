@@ -87,11 +87,14 @@ export class PodRepository implements Repository {
       const arrayName = message.text.split('.');
       if (arrayName.length === 2 && arrayName[0].match(/[a-f]|[0-9]/g).length === arrayName[0].length) {
         const myContact = await this.login.myContact();
-        const urlMedia = myContact.urlPod + 'dechat/files/' + message.text;
-        PodUtil.writeToFile(urlMedia, content).then(res => {
-          PodUtil.giveGrantsTo(urlMedia, message.to.urlPod);
-          this.addMessage(message);
-        }, err => {});
+        const urlFolder = myContact.urlPod + 'dechat/files';
+        const urlMedia = urlFolder + '/' + message.text;
+        PodUtil.createFolder(urlFolder).then(res1 => {
+          PodUtil.createFile(urlMedia, content).then(res2 => {
+            PodUtil.giveGrantsTo(urlMedia, message.to.urlPod);
+            this.addMessage(message);
+          }, err2 => {});
+        }, err1 => {});
       }
     }
   }

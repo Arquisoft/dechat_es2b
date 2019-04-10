@@ -7,6 +7,7 @@ import {NotificationService} from '../../service/notification.service';
 import {ContactService} from '../../service/contact.service';
 import {AppComponent} from '../app.component';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {Md5} from 'ts-md5';
 
 @Component({
   selector: 'app-messages',
@@ -55,7 +56,7 @@ export class MessagesComponent implements OnInit {
     const reader = new FileReader();
     if (event.target.files && event.target.files.length > 0) {
       const file = event.target.files[0];
-      reader.readAsDataURL(file);
+      reader.readAsArrayBuffer(file);
       reader.onload = () => {
         this.modalService.dismissAll();
         this.manageFileUpload(reader.result, file.size, file.type);
@@ -74,23 +75,40 @@ export class MessagesComponent implements OnInit {
       } else {
         errorMessage = 'The maximum size allowed is 1Mb';
       }
-      const extType = type.split('/')[1];
+      let extType = type.split('/')[1];
       if (check && this.optUploaded === 'audio') {
         check = false;
-        // Check extension .mp3 if valid check = true
+        // Check extension .mpeg
+        if (extType === 'mpeg') { check = true; extType = 'mp3'; } else { errorMessage = 'Only .mp3 files are allowed'; }
       } else if (check && this.optUploaded === 'image') {
         check = false;
-        // Check extension .jpeg o .png if valid check = true
+        // Check extension .jpeg o .png
+        if (extType === 'jpeg' || extType === 'png') { check = true; } else { errorMessage = 'Only .jpg or .png files are allowed'; }
       } else if (check && this.optUploaded === 'pdf') {
         check = false;
-        // Check extension .pdf if valid check = true
+        // Check extension .pdf
+        if (extType === 'pdf') { check = true; } else { errorMessage = 'Only .pdf files are allowed'; }
       } else {
         check = false;
       }
       if (check) {
-        // generate Message
-        // generate hash md5 to use as name
-        // send to messageService the content
+        const date = new Date();
+        let md5Util = new Md5();
+        const fileContentMD5hash = md5Util.appendStr(content).end();
+        // File name pattern: chatIdentificator.milliseconds.fileContentHashMD5
+        const generateKeyName = this.contact.urlPod.split('/')[2] + '.' + date.getTime() + '.' + fileContentMD5hash;
+        md5Util = new Md5();
+        // File name + ext
+        const fileName = md5Util.appendStr(generateKeyName).end() + '.' + extType;
+        const mssg = new Message(this.myContact, this.contact, date, fileName);
+        mssg.isMedia = true;
+        this.messageService.addMediaMessage(content, mssg);
+        if (!this.hashMessages.has(this.contact.urlPod)) {
+          this.hashMessages.set(this.contact.urlPod, []);
+        }
+        this.hashMessages.get(this.contact.urlPod).push(mssg);
+        this.message = '';
+        this.notificationService.sendNewMessageNotification(mssg);
       } else {
         this.appComponent.getContactsComponent().showResultMessage(errorMessage);
         alert(errorMessage);
