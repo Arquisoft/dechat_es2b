@@ -19,6 +19,8 @@ export interface Repository {
 
   getImageContacts(contact: Contact[]);
 
+  addMediaMessage(content, message: Message);
+
   addMessage(message: Message);
 
   addUnknownContact(contact: Contact);

@@ -81,6 +81,21 @@ export class PodRepository implements Repository {
     });
   }
 
+  async addMediaMessage(content, message: Message) {
+    if (message.text != null && message.isMedia) {
+      message.text = message.text.trim();
+      const arrayName = message.text.split('.');
+      if (arrayName.length === 2 && arrayName[0].match(/[a-f]|[0-9]/g).length === arrayName[0].length) {
+        const myContact = await this.login.myContact();
+        const urlMedia = myContact.urlPod + 'dechat/files/' + message.text;
+        PodUtil.writeToFile(urlMedia, content).then(res => {
+          PodUtil.giveGrantsTo(urlMedia, message.to.urlPod);
+          this.addMessage(message);
+        }, err => {});
+      }
+    }
+  }
+
   async addMessage(message: Message) {
     const urlMessage = await this.getChatUrl(message.to);
     const text = await PodUtil.readFile(urlMessage);

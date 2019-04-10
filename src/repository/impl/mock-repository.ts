@@ -91,4 +91,7 @@ export class MockRepository implements Repository {
   updateContact(contact: Contact, callback): Promise<void> {
     return undefined;
   }
+
+  addMediaMessage(content, message: Message) {
+  }
 }
