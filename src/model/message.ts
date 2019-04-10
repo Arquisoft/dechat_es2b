@@ -6,6 +6,17 @@ export class Message {
     this._to = to;
     this._date = date;
     this._text = text;
+    this._isMedia = false;
+  }
+
+  private _isMedia: boolean;
+
+  get isMedia(): boolean {
+    return this._isMedia;
+  }
+
+  set isMedia(value: boolean) {
+    this._isMedia = value;
   }
 
   private _from: Contact;

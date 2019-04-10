@@ -23,30 +23,32 @@ export class Serializer {
   };
 
   static deserializeFolderNameFiles = async (data: string): Promise<string[]> => {
-    const parser = new N3.Parser();
     const names = [];
-    let i = 0;
-    parser.parse(
-      data,
-      (error, quadC, prefixes) => {
-        if (error) {
-          i = 1;
-        }
-        if (quadC) {
-          if (quadC.predicate.value === 'http://www.w3.org/ns/ldp#contains') {
-            let valorNombre = quadC.object.value;
-            valorNombre = valorNombre.replace('undefined', '');
-            const arrayName = valorNombre.split('.');
-            if (arrayName != null && arrayName.length >= 0 && arrayName[0] === 'dechat' && arrayName[arrayName.length - 1] === 'json') {
-              names.push(valorNombre.toString());
-            }
+    if (data != null && data.trim() !== '') {
+      const parser = new N3.Parser();
+      let i = 0;
+      parser.parse(
+        data,
+        (error, quadC, prefixes) => {
+          if (error) {
+            i = 1;
           }
-        } else {
-          i = 1;
-        }
-      });
-    while (i === 0) {
-      const e = await new Promise(resolve => setTimeout(resolve, 1000));
+          if (quadC) {
+            if (quadC.predicate.value === 'http://www.w3.org/ns/ldp#contains') {
+              let valorNombre = quadC.object.value;
+              valorNombre = valorNombre.replace('undefined', '');
+              const arrayName = valorNombre.split('.');
+              if (arrayName != null && arrayName.length >= 0 && arrayName[0] === 'dechat' && arrayName[arrayName.length - 1] === 'json') {
+                names.push(valorNombre.toString());
+              }
+            }
+          } else {
+            i = 1;
+          }
+        });
+      while (i === 0) {
+        const e = await new Promise(resolve => setTimeout(resolve, 1000));
+      }
     }
     return names;
   };
@@ -79,6 +81,9 @@ export class Serializer {
       const from = new Contact(objJSON[i]['_from']['_urlPod'], null);
       const to = new Contact(objJSON[i]['_to']['_urlPod'], null);
       const messg = new Message(from, to, new Date(objJSON[i]['_date']), objJSON[i]['_text']);
+      if (objJSON[i]['_isMedia'] != null) {
+        messg.isMedia = objJSON[i]['_isMedia'];
+      }
       messages.push(messg);
     }
     return messages;
