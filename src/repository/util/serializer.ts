@@ -204,7 +204,10 @@ export class Serializer {
               reject(error);
             }
             if (quadC) {
-              const urlContact = changeContact.urlPod + 'profile/card#me/';
+              let urlContact = changeContact.urlPod + 'profile/card#me/';
+              if (modify) {
+                urlContact = changeContact.urlPod + '/';
+              }
               if (quadC.object.value !== urlContact && quadC.object.value !== urlContact + 'me'
                 && quadC.object.value !== urlContact.substr(0, urlContact.length - 1) + 'me'
                 && quadC.object.value !== urlContact.substr(0, urlContact.length - 1)
@@ -215,15 +218,17 @@ export class Serializer {
               } else {
                 if (modify) {
                   if (quadC.predicate.value === 'http://xmlns.com/foaf/0.1/nick') {
-                    console.log('SUBJECT ---> ');
-                    console.log(quadC.subject.value);
-                    console.log('OBJECT ---> ');
-                    console.log(quadC.object.value);
+                    writer.addQuad(namedNode(quadC.subject.value),
+                      namedNode('n0:nick'), literal(changeContact.nickname));
+                  } else {
+                    writer.addQuad(quadC);
                   }
-                  writer.addQuad(quadC);
                 }
               }
             } else {
+              if (modify) {
+                writer.addPrefixes(prefixes);
+              }
               resolve('Finish');
             }
           });

@@ -155,6 +155,12 @@ export class MessagesComponent implements OnInit {
     }
   }
 
+  editContact() {
+    if (!this.contact.isUnknown) {
+      this.appComponent.getContactsComponent().openModifyContact(this.contact);
+    }
+  }
+
   addToContact() {
     this.appComponent.getContactsComponent().openAddContact(this.contact.urlPod);
   }

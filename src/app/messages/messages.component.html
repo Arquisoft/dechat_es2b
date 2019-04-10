@@ -15,6 +15,7 @@
     <div class="action_menu">
       <ul>
         <li id="logout_btn" (click)="logout()"><i class="fas fa-power-off"></i>Logout</li>
+        <li id="edit_contact_btn" *ngIf="contact != null && !contact.isUnknown" (click)="editContact()"><i class="fas fa-edit"></i>Edit contact</li>
         <li id="add_contact_btn1" *ngIf="contact != null && contact.isUnknown" (click)="addToContact()"><i class="fas fa-user-plus"></i>Add to contacts</li>
         <li id="delete_contact_btn1" *ngIf="contact != null && contact.isUnknown" (click)="deleteContact()"><i class="fas fa-user-minus"></i>Delete</li>
         <li id="delete_contact_btn" *ngIf="contact != null && !contact.isUnknown" (click)="deleteContact()"><i class="fas fa-user-minus"></i>Delete contact</li>
