@@ -46,19 +46,40 @@ export class MessagesComponent implements OnInit {
     this.repositoryFactoryService.repository.logout(null);
   }
 
+  async sendMultimedia(option: string) {
+    let check = false;
+    if (option != null) {
+      // Load window to select file
+      // Check size (max 1mb) if not alert(); if valid check = true
+      if (check && option === 'audio') {
+        check = false;
+        // Check extension .mp3 if valid check = true
+      } else if (check && option === 'image') {
+        check = false;
+        // Check extension .jpg o .png if valid check = true
+      } else if (check && option === 'pdf') {
+        check = false;
+        // Check extension .pdf if valid check = true
+      } else {
+        check = false;
+      }
+      if (check) {
+        // generate hash md5 to use as name
+        // send to messageService the content
+      }
+    }
+  }
+
   async sendAudio() {
-    // Check size (max 1mb)
-    // Check extension .mp3
+    await this.sendMultimedia('audio');
   }
 
   async sendImage() {
-    // Check size (max 1mb)
-    // Check extension .jpg o .png
+    await this.sendMultimedia('image');
   }
 
   async sendPdf() {
-    // Check size (max 1mb)
-    // Check extension .pdf
+    await this.sendMultimedia('pdf');
   }
 
   async sendMessage(event: KeyboardEvent) {
