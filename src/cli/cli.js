@@ -10,7 +10,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const inquirer = require('inquirer');
 const readline = require('readline');
-const auth = require('solid-auth-client');
+const SolidClient = require('../../node_modules/@solid/cli/src/SolidClient');
+const IdentityManager = require('../../node_modules/@solid/cli/src/IdentityManager');
 const contact_1 = require("../model/contact");
 function printLogo() {
     console.log('\n' +
@@ -30,6 +31,7 @@ function showMenu() {
     }
 }
 function showNotLoggedMenu() {
+    console.log('You are not logged in');
     inquirer.prompt([{
             name: 'main-menu-not-logged',
             type: 'list',
@@ -50,6 +52,7 @@ function showNotLoggedMenu() {
     });
 }
 function showLoggedMenu() {
+    console.log('Logged as ' + user.urlPod);
     inquirer.prompt([{
             name: 'main-menu',
             type: 'list',
@@ -79,48 +82,42 @@ function showLoggedMenu() {
     });
 }
 function login() {
-    auth.currentSession().then(session => {
-        if (!session) {
-            inquirer.prompt([{
-                    name: 'username',
-                    type: 'input',
-                    message: 'What is your username?'
-                }, {
-                    name: 'password',
-                    type: 'password',
-                    message: 'What is your password?'
-                }, {
-                    name: 'identityProvider',
-                    type: 'input',
-                    message: 'What is your identify provider?',
-                    default: 'https://solid.community'
-                }]).then((answers) => __awaiter(this, void 0, void 0, function* () {
-                console.log('Logging in...');
-                const { identityProvider, username, password } = answers;
-                const identityManager = auth.IdentityManager.fromJSON('{}');
-                const client = new auth.SolidClient({ identityManager });
-                try {
-                    session = yield client.login(identityProvider, { username, password });
-                    user = new contact_1.Contact(session.idClaims.sub, 'I');
-                    /*readline.clearLine(process.stdout, undefined);
-                    readline.cursorTo(process.stdout, 0);*/
-                }
-                catch (e) {
-                    console.error(`Something went wrong when logging in. Try again?`);
-                }
-                finally {
-                    showMenu();
-                }
-            }));
+    inquirer.prompt([{
+            name: 'username',
+            type: 'input',
+            message: 'What is your username?'
+        }, {
+            name: 'password',
+            type: 'password',
+            message: 'What is your password?'
+        }, {
+            name: 'identityProvider',
+            type: 'input',
+            message: 'What is your identify provider?',
+            default: 'https://solid.community'
+        }]).then((answers) => __awaiter(this, void 0, void 0, function* () {
+        console.log('Logging in...');
+        const { identityProvider, username, password } = answers;
+        const identityManager = IdentityManager.fromJSON('{}');
+        const client = new SolidClient({ identityManager });
+        try {
+            const session = yield client.login(identityProvider, { username, password });
+            user = new contact_1.Contact(session.idClaims.sub, 'I');
+            /*readline.clearLine(process.stdout, undefined);
+            readline.cursorTo(process.stdout, 0);*/
         }
-        else {
-            user = new contact_1.Contact(session.webId, 'I');
+        catch (e) {
+            console.log(e);
+            console.error(`Something went wrong when logging in. Try again?`);
         }
-    });
+        finally {
+            showMenu();
+        }
+    }));
 }
 function logout() {
     return __awaiter(this, void 0, void 0, function* () {
-        yield auth.logout();
+        //await cli.logout();
         user = null;
     });
 }

@@ -1,7 +1,8 @@
 const inquirer = require('inquirer');
 const readline = require('readline');
 
-const auth = require('solid-auth-client');
+const SolidClient = require('../../node_modules/@solid/cli/src/SolidClient');
+const IdentityManager = require('../../node_modules/@solid/cli/src/IdentityManager');
 import {Contact} from '../model/contact';
 
 function printLogo() {
@@ -23,6 +24,7 @@ function showMenu() {
 }
 
 function showNotLoggedMenu() {
+  console.log('You are not logged in');
   inquirer.prompt([{
     name: 'main-menu-not-logged',
     type: 'list',
@@ -44,6 +46,7 @@ function showNotLoggedMenu() {
 }
 
 function showLoggedMenu() {
+  console.log('Logged as ' + user.urlPod);
   inquirer.prompt([{
     name: 'main-menu',
     type: 'list',
@@ -74,46 +77,41 @@ function showLoggedMenu() {
 }
 
 function login() {
-  auth.currentSession().then(session => {
-    if (!session) {
-      inquirer.prompt([{
-        name: 'username',
-        type: 'input',
-        message: 'What is your username?'
-      }, {
-        name: 'password',
-        type: 'password',
-        message: 'What is your password?'
-      }, {
-        name: 'identityProvider',
-        type: 'input',
-        message: 'What is your identify provider?',
-        default: 'https://solid.community'
-      }]).then(async answers => {
-        console.log('Logging in...');
-        const {identityProvider, username, password} = answers;
-        const identityManager = auth.IdentityManager.fromJSON('{}');
-        const client = new auth.SolidClient({identityManager});
+  inquirer.prompt([{
+    name: 'username',
+    type: 'input',
+    message: 'What is your username?'
+  }, {
+    name: 'password',
+    type: 'password',
+    message: 'What is your password?'
+  }, {
+    name: 'identityProvider',
+    type: 'input',
+    message: 'What is your identify provider?',
+    default: 'https://solid.community'
+  }]).then(async answers => {
+    console.log('Logging in...');
+    const {identityProvider, username, password} = answers;
+    const identityManager = IdentityManager.fromJSON('{}');
+    const client = new SolidClient({identityManager});
 
-        try {
-          session = await client.login(identityProvider, {username, password});
-          user = new Contact(session.idClaims.sub, 'I');
-          /*readline.clearLine(process.stdout, undefined);
-          readline.cursorTo(process.stdout, 0);*/
-        } catch (e) {
-          console.error(`Something went wrong when logging in. Try again?`);
-        } finally {
-          showMenu();
-        }
-      });
-    } else {
-      user = new Contact(session.webId, 'I');
+    try {
+      const session = await client.login(identityProvider, {username, password});
+      user = new Contact(session.idClaims.sub, 'I');
+      /*readline.clearLine(process.stdout, undefined);
+      readline.cursorTo(process.stdout, 0);*/
+    } catch (e) {
+      console.log(e);
+      console.error(`Something went wrong when logging in. Try again?`);
+    } finally {
+      showMenu();
     }
   });
 }
 
 async function logout() {
-  await auth.logout();
+  //await cli.logout();
   user = null;
 }
 
