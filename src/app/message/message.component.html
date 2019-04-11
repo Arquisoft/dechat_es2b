@@ -10,6 +10,6 @@
 </div>
 
 <div [ngClass]="received ?  'msg_cotainer_send' : 'msg_cotainer'" *ngIf="message.isMedia && !isRepresentable(message)" [ngStyle]="received ? {'text-align': 'left'} : {'text-align': 'right'}">
-  <span><a target="_blank" [href]="message.from.urlPod + 'dechat/files/' + message.text">Click to see the file ({{getExtension(message)}})</a></span>
+  <span><a target="_blank" [href]="message.from.urlPod + 'dechat/files/' + message.text">Click to see the file (.{{getExtension(message)}})</a></span>
   <span class="msg_time" [ngStyle]="received ? {'width': '100px'} : {'right': '0', 'left': 'auto', 'width': '100px'}">{{message.date | date:'dd-MM HH:mm'}}</span>
 </div>

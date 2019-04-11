@@ -87,7 +87,17 @@ export class MessagesComponent implements OnInit {
       } else if (check && this.optUploaded === 'pdf') {
         check = false;
         // Check extension .pdf
-        if (extType === 'pdf') { check = true; } else { errorMessage = 'Only .pdf files are allowed'; }
+        if (extType === 'pdf' || extType === 'plain' || extType === 'html' || extType === 'css'
+          || extType === 'xml' || extType === 'javascript' || extType === 'x-javascript') {
+          check = true;
+          if (extType === 'plain') {
+            extType = 'txt';
+          } else if (extType === 'javascript' || extType === 'x-javascript') {
+            extType = 'js';
+          }
+        } else {
+          errorMessage = 'Only .pdf, .txt, .html, .css, .xml or .js files are allowed';
+        }
       } else {
         check = false;
       }
@@ -139,7 +149,7 @@ export class MessagesComponent implements OnInit {
   }
 
   async sendPdf() {
-    this.optionUploaded = 'Select a pdf file';
+    this.optionUploaded = 'Select a file (pdf, txt, html, css, xml or js)';
     await this.sendMultimedia('pdf');
   }
 
