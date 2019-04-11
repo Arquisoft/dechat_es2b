@@ -146,8 +146,10 @@ function chooseContact(callback) {
 }
 
 function showMessagesOf(contact: Contact) {
-  console.log(contact);
-  showMenu();
+  messageService.getMessages(contact).then(messages => {
+    messages.forEach(message => console.log(message));
+    showMenu();
+  });
 }
 
 function showUnreadMessages() {
