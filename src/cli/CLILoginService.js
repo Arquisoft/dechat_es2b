@@ -21,7 +21,7 @@ class CLILoginService {
             const identityManager = IdentityManager.fromJSON('{}');
             const client = new SolidClient({ identityManager });
             const session = yield client.login(identityProvider, { username, password });
-            this.contact = new contact_1.Contact(session.idClaims.sub, 'I');
+            this.contact = new contact_1.Contact(session.idClaims.sub.replace('#me', '').replace('profile/card', ''), 'I');
         });
     }
     myContact() {

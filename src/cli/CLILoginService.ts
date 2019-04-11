@@ -14,7 +14,7 @@ export class CLILoginService implements ILoginService {
     const client = new SolidClient({identityManager});
 
     const session = await client.login(identityProvider, {username, password});
-    this.contact = new Contact(session.idClaims.sub, 'I');
+    this.contact = new Contact(session.idClaims.sub.replace('#me', '').replace('profile/card', ''), 'I');
   }
 
   async myContact(): Promise<Contact> {
