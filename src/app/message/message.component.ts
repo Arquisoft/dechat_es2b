@@ -22,5 +22,36 @@ export class MessageComponent {
     }
   }
 
+  isImage(message: Message): boolean {
+    if (message.isMedia) {
+      const ext = message.text.split('.')[1];
+      if (ext === 'jpeg' || ext === 'png') {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  isRepresentable(message: Message): boolean {
+    return this.isImage(message) || this.isAudio(message);
+  }
+
+  getExtension(message: Message): string {
+    if (message.isMedia) {
+      return message.text.split('.')[1];
+    }
+    return '';
+  }
+
+  isAudio(message: Message): boolean {
+    if (message.isMedia) {
+      const ext = message.text.split('.')[1];
+      if (ext === 'mp3') {
+        return true;
+      }
+    }
+    return false;
+  }
+
   constructor() { }
 }
