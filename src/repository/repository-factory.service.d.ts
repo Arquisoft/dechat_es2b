@@ -1,9 +1,5 @@
-import { Repository } from './repository';
 import { ILoginService } from '../service/ILoginService';
-export declare class RepositoryFactoryService {
-    private login;
+import { RepositoryFactoryBase } from './repository-factory.base';
+export declare class RepositoryFactoryService extends RepositoryFactoryBase {
     constructor(login: ILoginService);
-    private _repository;
-    readonly repository: Repository;
-    config: Repository;
 }

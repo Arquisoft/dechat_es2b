@@ -8,15 +8,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const repository_factory_service_1 = require("../repository/repository-factory.service");
+const contact_base_1 = require("../service/contact.base");
 const inquirer = require('inquirer');
-const contact_service_1 = require("../service/contact.service");
-const message_service_1 = require("../service/message.service");
 const CLILoginService_1 = require("./CLILoginService");
+const repository_factory_base_1 = require("../repository/repository-factory.base");
 const loginService = new CLILoginService_1.CLILoginService();
-const repository = new repository_factory_service_1.RepositoryFactoryService(loginService);
-const messageService = new message_service_1.MessageService(repository);
-const contactService = new contact_service_1.ContactService(repository);
+const repository = new repository_factory_base_1.RepositoryFactoryBase(loginService);
+const contactService = new contact_base_1.ContactBase(repository);
 function printLogo() {
     console.log('\n' +
         '    ____       ________          __ \n' +
@@ -76,11 +74,9 @@ function showLoggedMenu() {
             switch (answers['main-menu']) {
                 case 'List all my contacts':
                     listContacts();
-                    showMenu();
                     break;
                 case 'Show messages of a contact':
-                    showMessagesOf(chooseContact());
-                    showMenu();
+                    chooseContact(showMessagesOf);
                     break;
                 case 'Show unread messages':
                     showUnreadMessages();
@@ -127,11 +123,33 @@ function logout() {
     loginService.logout(null);
 }
 function listContacts() {
+    contactService.getContacts().then(contacts => {
+        console.log(contacts);
+        showMenu();
+    });
 }
-function chooseContact() {
-    return null;
+function chooseContact(callback) {
+    contactService.getContacts().then(contacts => {
+        const options = [];
+        contacts.forEach(contact => options.push(`${contact.nickname}\t${contact.urlPod}`));
+        inquirer.prompt([{
+                name: 'contacts-menu',
+                type: 'list',
+                message: 'What do you want to do?',
+                choices: options,
+                default: 0
+            }]).then(answers => {
+            contacts.forEach(contact => {
+                if (contact.urlPod === answers['contacts-menu'].split('\t')[1]) {
+                    callback(contact);
+                }
+            });
+        });
+    });
 }
 function showMessagesOf(contact) {
+    console.log(contact);
+    showMenu();
 }
 function showUnreadMessages() {
 }

@@ -7,17 +7,10 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const core_1 = require("@angular/core");
-const pod_repository_1 = require("./impl/pod-repository");
-let RepositoryFactoryService = class RepositoryFactoryService {
+const repository_factory_base_1 = require("./repository-factory.base");
+let RepositoryFactoryService = class RepositoryFactoryService extends repository_factory_base_1.RepositoryFactoryBase {
     constructor(login) {
-        this.login = login;
-        this._repository = new pod_repository_1.PodRepository(login);
-    }
-    get repository() {
-        return this._repository;
-    }
-    set config(value) {
-        this._repository = value;
+        super(login);
     }
 };
 RepositoryFactoryService = __decorate([

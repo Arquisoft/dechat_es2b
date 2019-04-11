@@ -1,16 +1,14 @@
-import {RepositoryFactoryService} from '../repository/repository-factory.service';
+import {ContactBase} from '../service/contact.base';
 
 const inquirer = require('inquirer');
 
 import {Contact} from '../model/contact';
-import {ContactService} from '../service/contact.service';
-import {MessageService} from '../service/message.service';
 import {CLILoginService} from './CLILoginService';
+import {RepositoryFactoryBase} from '../repository/repository-factory.base';
 
 const loginService = new CLILoginService();
-const repository = new RepositoryFactoryService(loginService);
-const messageService = new MessageService(repository);
-const contactService = new ContactService(repository);
+const repository = new RepositoryFactoryBase(loginService);
+const contactService = new ContactBase(repository);
 
 function printLogo() {
   console.log('\n' +
@@ -70,11 +68,9 @@ async function showLoggedMenu() {
     switch (answers['main-menu']) {
       case 'List all my contacts':
         listContacts();
-        showMenu();
         break;
       case 'Show messages of a contact':
-        showMessagesOf(chooseContact());
-        showMenu();
+        chooseContact(showMessagesOf);
         break;
       case 'Show unread messages':
         showUnreadMessages();
@@ -121,13 +117,35 @@ function logout() {
 }
 
 function listContacts() {
+  contactService.getContacts().then(contacts => {
+    console.log(contacts);
+    showMenu();
+  });
 }
 
-function chooseContact(): Contact {
-  return null;
+function chooseContact(callback) {
+  contactService.getContacts().then(contacts => {
+    const options = [];
+    contacts.forEach(contact => options.push(`${contact.nickname}\t${contact.urlPod}`));
+    inquirer.prompt([{
+      name: 'contacts-menu',
+      type: 'list',
+      message: 'What do you want to do?',
+      choices: options,
+      default: 0
+    }]).then(answers => {
+      contacts.forEach(contact => {
+        if (contact.urlPod === answers['contacts-menu'].split('\t')[1]) {
+          callback(contact);
+        }
+      });
+    });
+  });
 }
 
 function showMessagesOf(contact: Contact) {
+  console.log(contact);
+  showMenu();
 }
 
 function showUnreadMessages() {
