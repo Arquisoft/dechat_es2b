@@ -18,7 +18,7 @@ export class MessageComponent {
 
   showMessageOptions(event) {
     const tagHtmlTarget = event.target.tagName;
-    if (!this.received && tagHtmlTarget !== 'A') {
+    if (!this.received && tagHtmlTarget !== 'A' && tagHtmlTarget !== 'IMG' && !this.message.isDeleted) {
       this.modalService.open(this.editModal, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
         this.deleteMessage();
       }, err => {});

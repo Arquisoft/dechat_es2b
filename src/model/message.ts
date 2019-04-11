@@ -8,6 +8,7 @@ export class Message {
     this._date = date;
     this._text = text;
     this._isMedia = false;
+    this._isDeleted = false;
     let md5Util = new Md5();
     const messageContentMD5hash = md5Util.appendStr(text).end();
     // identificator of the message pattern: urlPodTo.milliseconds.hashMessageContent
@@ -20,6 +21,16 @@ export class Message {
 
   get id(): string {
     return this._id;
+  }
+
+  private _isDeleted: boolean;
+
+  get isDeleted(): boolean {
+    return this._isDeleted;
+  }
+
+  set isDeleted(value: boolean) {
+    this._isDeleted = value;
   }
 
   private _isMedia: boolean;

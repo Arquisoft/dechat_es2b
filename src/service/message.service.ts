@@ -15,8 +15,29 @@ export class MessageService {
     }, () => this.error(message));
   }
 
-  addMediaMessage(content, message: Message) {
-    this.repository.repository.addMediaMessage(content, message).then(() => {
+  deleteMessage(contact: Contact, message: Message, wasMedia: boolean) {
+    if (message.to.urlPod === contact.urlPod) {
+      if (wasMedia) {
+        this.repository.repository.deleteFileAttached(message.text);
+      }
+      this.getMessages(contact).then(res => {
+        const arrayOwnMessages = [];
+        for (let i = 0; i < res.length; ++i) {
+          if (message.id === res[i].id) {
+            res[i].isMedia = false;
+            res[i].isDeleted = true;
+          }
+          if (res[i].to.urlPod === contact.urlPod) {
+            arrayOwnMessages.push(res[i]);
+          }
+        }
+        this.repository.repository.updateMessages(arrayOwnMessages, contact);
+      });
+    }
+  }
+
+  addMediaMessage(content, message: Message, callback) {
+    this.repository.repository.addMediaMessage(content, message, callback).then(() => {
     }, () => this.error(message));
   }
 

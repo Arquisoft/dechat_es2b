@@ -47,7 +47,7 @@ export class PodUtil {
   };
 
   static createFile = async (url: string, data: string) => {
-    solidfc.createFile(url, data);
+    return solidfc.createFile(url, data);
   };
 
   private static buildGrantText(urlPod, file) {

@@ -1,16 +1,18 @@
 <div [ngClass]="received ?  'msg_cotainer_send' : 'msg_cotainer'" (click)="showMessageOptions($event)" *ngIf="!message.isMedia" [ngStyle]="received ? {'text-align': 'left'} : {'text-align': 'right'}">
-  <span>{{message.text}}</span>
+  <span *ngIf="!message.isDeleted">{{message.text}}</span>
+  <span *ngIf="message.isDeleted" style="font-style: oblique;">This message has been deleted</span>
   <span class="msg_time" [ngStyle]="received ? {'width': '100px'} : {'right': '0', 'left': 'auto', 'width': '100px'}">{{message.date | date:'dd-MM HH:mm'}}</span>
 </div>
 
 <div [ngClass]="received ?  'msg_cotainer_send' : 'msg_cotainer'" (click)="showMessageOptions($event)" *ngIf="message.isMedia && isRepresentable(message)" [ngStyle]="received ? {'text-align': 'left', 'background-color': 'rgba(255,255,255,0)'} : {'text-align': 'right', 'background-color': 'rgba(255,255,255,0)'}">
-  <span *ngIf="isAudio(message)"><audio style="border-radius: 25px;" controls><source [src]="message.from.urlPod + 'dechat/files/' + message.text" type="audio/mpeg"><a target="_blank" [href]="message.from.urlPod + 'dechat/files/' + message.text">Your browser does not support audio elements, click to listen!</a></audio></span>
-  <span *ngIf="isImage(message)"><a target="_blank" [href]="message.from.urlPod + 'dechat/files/' + message.text"><img style="height: 130px; max-width: 250px; border-radius: 25px;" [src]="message.from.urlPod + 'dechat/files/' + message.text"></a></span>
-  <span class="msg_time" [ngStyle]="received ? {'width': '100px'} : {'right': '0', 'left': 'auto', 'width': '100px'}">{{message.date | date:'dd-MM HH:mm'}}</span>
+  <span *ngIf="isAudio(message) && !message.isDeleted"><audio style="border-radius: 25px;" controls><source [src]="message.from.urlPod + 'dechat/files/' + message.text" type="audio/mpeg"><a target="_blank" [href]="message.from.urlPod + 'dechat/files/' + message.text">Your browser does not support audio elements, click to listen!</a></audio></span>
+  <span *ngIf="isImage(message) && !message.isDeleted"><a target="_blank" [href]="message.from.urlPod + 'dechat/files/' + message.text"><img style="height: 130px; max-width: 250px; border-radius: 25px;" [src]="message.from.urlPod + 'dechat/files/' + message.text"></a></span>
+  <span *ngIf="!received" class="msg_time" [ngStyle]="received ? {'width': '100px'} : {'right': '0', 'left': 'auto', 'width': '100px'}">{{message.date | date:'dd-MM HH:mm'}} <span style="color: #d0021b; background-color: white; cursor: pointer; border-radius: 25px; margin-left: 2px; padding-right: 3px; padding-left: 3px; font-size: 1.2em;">X</span></span>
+  <span *ngIf="received" class="msg_time" [ngStyle]="received ? {'width': '100px'} : {'right': '0', 'left': 'auto', 'width': '100px'}">{{message.date | date:'dd-MM HH:mm'}}</span>
 </div>
 
 <div [ngClass]="received ?  'msg_cotainer_send' : 'msg_cotainer'" (click)="showMessageOptions($event)" *ngIf="message.isMedia && !isRepresentable(message)" [ngStyle]="received ? {'text-align': 'left'} : {'text-align': 'right'}">
-  <span><a target="_blank" [href]="message.from.urlPod + 'dechat/files/' + message.text">Click to see the file (.{{getExtension(message)}})</a></span>
+  <span *ngIf="!message.isDeleted"><a target="_blank" [href]="message.from.urlPod + 'dechat/files/' + message.text">Click to see the file (.{{getExtension(message)}})</a></span>
   <span class="msg_time" [ngStyle]="received ? {'width': '100px'} : {'right': '0', 'left': 'auto', 'width': '100px'}">{{message.date | date:'dd-MM HH:mm'}}</span>
 </div>
 

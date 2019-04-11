@@ -92,6 +92,15 @@ export class MockRepository implements Repository {
     return undefined;
   }
 
-  addMediaMessage(content, message: Message) {
+  addMediaMessage(content, message: Message, callback) {
+  }
+
+  addNotificationDeletedMessage(notification: Notification) {
+  }
+
+  deleteFileAttached(fileName: string) {
+  }
+
+  updateMessages(messages: Message[], contact: Contact){
   }
 }

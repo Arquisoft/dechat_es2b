@@ -79,11 +79,19 @@ export class MessagesComponent implements OnInit {
       if (check && this.optUploaded === 'audio') {
         check = false;
         // Check extension .mpeg
-        if (extType === 'mpeg') { check = true; extType = 'mp3'; } else { errorMessage = 'Only .mp3 files are allowed'; }
+        if (extType === 'mpeg' || extType === 'mp3') {
+          check = true; extType = 'mp3';
+        } else {
+          errorMessage = 'Only .mp3 files are allowed';
+        }
       } else if (check && this.optUploaded === 'image') {
         check = false;
         // Check extension .jpeg o .png
-        if (extType === 'jpeg' || extType === 'png') { check = true; } else { errorMessage = 'Only .jpg or .png files are allowed'; }
+        if (extType === 'jpg' || extType === 'jpeg' || extType === 'png') {
+          check = true;
+        } else {
+          errorMessage = 'Only .jpg or .png files are allowed';
+        }
       } else if (check && this.optUploaded === 'pdf') {
         check = false;
         // Check extension .pdf
@@ -112,13 +120,14 @@ export class MessagesComponent implements OnInit {
         const fileName = md5Util.appendStr(generateKeyName).end() + '.' + extType;
         const mssg = new Message(this.myContact, this.contact, date, fileName);
         mssg.isMedia = true;
-        this.messageService.addMediaMessage(content, mssg);
-        if (!this.hashMessages.has(this.contact.urlPod)) {
-          this.hashMessages.set(this.contact.urlPod, []);
-        }
-        this.hashMessages.get(this.contact.urlPod).push(mssg);
-        this.message = '';
-        this.notificationService.sendNewMessageNotification(mssg);
+        this.messageService.addMediaMessage(content, mssg, () => {
+          if (!this.hashMessages.has(this.contact.urlPod)) {
+            this.hashMessages.set(this.contact.urlPod, []);
+          }
+          this.hashMessages.get(this.contact.urlPod).push(mssg);
+          this.message = '';
+          this.notificationService.sendNewMessageNotification(mssg);
+        });
       } else {
         this.appComponent.getContactsComponent().showResultMessage(errorMessage);
         alert(errorMessage);
@@ -171,7 +180,17 @@ export class MessagesComponent implements OnInit {
   }
 
   deleteMessage(message: Message) {
-      
+    const wasMedia = message.isMedia;
+    message.isMedia = false;
+    message.isDeleted = true;
+    for (let i = 0; i < this.messages.length; ++i) {
+      if (this.messages[i].id === message.id) {
+        this.messages[i].isDeleted = true;
+        this.messages[i].isMedia = false;
+      }
+    }
+    this.notificationService.deleteMessageNotification(message);
+    this.messageService.deleteMessage(this.contact, message, wasMedia);
   }
 
   showMessages = async () => {
@@ -189,7 +208,19 @@ export class MessagesComponent implements OnInit {
           // First the current chat
           if (this.contact != null && hashNew.has(this.contact.urlPod) && this.hashMessages.has(this.contact.urlPod)) {
             arrayAux = hashNew.get(this.contact.urlPod);
-            this.hashMessages.get(this.contact.urlPod).push(...arrayAux);
+            for (let i = 0; i < arrayAux.length; ++i) {
+              if (arrayAux[i].isDeleted) {
+                const currentHash = this.hashMessages.get(this.contact.urlPod)
+                for (let e = 0; e < currentHash.length; ++e) {
+                  if (currentHash[e].id === arrayAux[i].id) {
+                    currentHash[e].isDeleted = true;
+                    currentHash[e].isMedia = false;
+                  }
+                }
+              } else {
+                this.hashMessages.get(this.contact.urlPod).push(arrayAux[i]);
+              }
+            }
             this.hashMessages.get(this.contact.urlPod).sort((a, b) => {
               return a.date.getTime() - b.date.getTime();
             });
@@ -206,7 +237,19 @@ export class MessagesComponent implements OnInit {
             if (key !== currentUrl) {
               if (this.hashMessages.has(key)) {
                 arrayAux = hashNew.get(key);
-                this.hashMessages.get(key).push(...arrayAux);
+                for (let i = 0; i < arrayAux.length; ++i) {
+                  if (arrayAux[i].isDeleted) {
+                    const currentHash = this.hashMessages.get(key)
+                    for (let e = 0; e < currentHash.length; ++e) {
+                      if (currentHash[e].id === arrayAux[i].id) {
+                        currentHash[e].isDeleted = true;
+                        currentHash[e].isMedia = false;
+                      }
+                    }
+                  } else {
+                    this.hashMessages.get(key).push(arrayAux[i]);
+                  }
+                }
                 this.hashMessages.get(key).sort((a, b) => {
                   return a.date.getTime() - b.date.getTime();
                 });

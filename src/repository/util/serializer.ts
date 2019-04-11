@@ -67,6 +67,9 @@ export class Serializer {
       if (objJSON['_message']['_isMedia'] != null) {
         messg.isMedia = objJSON['_message']['_isMedia'];
       }
+      if (objJSON['_message']['_isDeleted'] != null) {
+        messg.isDeleted = objJSON['_message']['_isDeleted'];
+      }
 
       notificaction = new Notification(chatIdentificator, messg);
       return notificaction;
@@ -86,6 +89,9 @@ export class Serializer {
       const messg = new Message(from, to, new Date(objJSON[i]['_date']), objJSON[i]['_text']);
       if (objJSON[i]['_isMedia'] != null) {
         messg.isMedia = objJSON[i]['_isMedia'];
+      }
+      if (objJSON[i]['_isDeleted'] != null) {
+        messg.isDeleted = objJSON[i]['_isDeleted'];
       }
       messages.push(messg);
     }
