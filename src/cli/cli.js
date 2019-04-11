@@ -12,9 +12,11 @@ const contact_base_1 = require("../service/contact.base");
 const inquirer = require('inquirer');
 const CLILoginService_1 = require("./CLILoginService");
 const repository_factory_base_1 = require("../repository/repository-factory.base");
+const message_base_1 = require("../service/message.base");
 const loginService = new CLILoginService_1.CLILoginService();
 const repository = new repository_factory_base_1.RepositoryFactoryBase(loginService);
 const contactService = new contact_base_1.ContactBase(repository);
+const messageService = new message_base_1.MessageBase(repository);
 function printLogo() {
     console.log('\n' +
         '    ____       ________          __ \n' +

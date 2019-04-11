@@ -72,6 +72,7 @@
     "../service/ILoginService.ts",
     "../repository/repository-factory.base.ts",
     "../service/contact.base.ts",
+    "../service/message.base.ts",
     "../repository/util/serializer.ts",
     "../repository/util/pod-util.ts",
     "../repository/repository.ts",

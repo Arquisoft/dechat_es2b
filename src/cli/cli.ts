@@ -5,10 +5,12 @@ const inquirer = require('inquirer');
 import {Contact} from '../model/contact';
 import {CLILoginService} from './CLILoginService';
 import {RepositoryFactoryBase} from '../repository/repository-factory.base';
+import {MessageBase} from '../service/message.base';
 
 const loginService = new CLILoginService();
 const repository = new RepositoryFactoryBase(loginService);
 const contactService = new ContactBase(repository);
+const messageService = new MessageBase(repository);
 
 function printLogo() {
   console.log('\n' +
