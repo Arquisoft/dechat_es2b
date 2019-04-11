@@ -1,6 +1,7 @@
 import {ContactBase} from '../service/contact.base';
 
 const inquirer = require('inquirer');
+const cTable = require('console.table');
 
 import {Contact} from '../model/contact';
 import {CLILoginService} from './CLILoginService';
@@ -120,7 +121,12 @@ function logout() {
 
 function listContacts() {
   contactService.getContacts().then(contacts => {
-    console.log(contacts);
+    const formatedContacts = [];
+    contacts.forEach(contact => formatedContacts.push({
+      'Url del pod': contact.urlPod,
+      Nick: contact.nickname
+    }));
+    console.log(cTable.getTable(formatedContacts));
     showMenu();
   });
 }

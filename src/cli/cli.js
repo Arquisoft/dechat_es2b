@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const contact_base_1 = require("../service/contact.base");
 const inquirer = require('inquirer');
+const cTable = require('console.table');
 const CLILoginService_1 = require("./CLILoginService");
 const repository_factory_base_1 = require("../repository/repository-factory.base");
 const message_base_1 = require("../service/message.base");
@@ -126,7 +127,12 @@ function logout() {
 }
 function listContacts() {
     contactService.getContacts().then(contacts => {
-        console.log(contacts);
+        const formatedContacts = [];
+        contacts.forEach(contact => formatedContacts.push({
+            'Url del pod': contact.urlPod,
+            Nick: contact.nickname
+        }));
+        console.log(cTable.getTable(formatedContacts));
         showMenu();
     });
 }
