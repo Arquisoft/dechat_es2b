@@ -1,5 +1,9 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Inject, Input, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {Message} from '../../model/message';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {Md5} from 'ts-md5';
+import {MessageService} from '../../service/message.service';
+import {AppComponent} from '../app.component';
 
 @Component({
   selector: 'app-message',
@@ -9,6 +13,21 @@ import {Message} from '../../model/message';
 export class MessageComponent {
   @Input('message') message: Message;
   @Input('received') received: boolean;
+  @ViewChild('contentModal')
+  private editModal: TemplateRef<any>;
+
+  showMessageOptions(event) {
+    const tagHtmlTarget = event.target.tagName;
+    if (!this.received && tagHtmlTarget !== 'A') {
+      this.modalService.open(this.editModal, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+        this.deleteMessage();
+      }, err => {});
+    }
+  }
+
+  deleteMessage() {
+    this.appComponent.messages.deleteMessage(this.message);
+  }
 
   @Input('target')
   set target(value: boolean) {
@@ -53,5 +72,5 @@ export class MessageComponent {
     return false;
   }
 
-  constructor() { }
+  constructor(private modalService: NgbModal, private messageService: MessageService, @Inject(AppComponent) private appComponent: AppComponent) { }
 }

@@ -170,6 +170,10 @@ export class MessagesComponent implements OnInit {
     }
   }
 
+  deleteMessage(message: Message) {
+      
+  }
+
   showMessages = async () => {
     this.messages = this.hashMessages.get(this.contact.urlPod);
   };

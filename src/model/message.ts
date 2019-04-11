@@ -1,4 +1,5 @@
 import {Contact} from './contact';
+import {Md5} from 'ts-md5';
 
 export class Message {
   constructor(from: Contact, to: Contact, date: Date, text: string) {
@@ -7,6 +8,18 @@ export class Message {
     this._date = date;
     this._text = text;
     this._isMedia = false;
+    let md5Util = new Md5();
+    const messageContentMD5hash = md5Util.appendStr(text).end();
+    // identificator of the message pattern: urlPodTo.milliseconds.hashMessageContent
+    const dataToHash = to.urlPod + '.' + date.getTime() + '.' + messageContentMD5hash;
+    md5Util = new Md5();
+    this._id = md5Util.appendStr(dataToHash).end().toString();
+  }
+
+  private _id: string;
+
+  get id(): string {
+    return this._id;
   }
 
   private _isMedia: boolean;
