@@ -44,14 +44,21 @@ export class MessagesComponent implements OnInit {
 
   showDeleteAllOwnMessages(content) {
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
-
+      this.messages.forEach(message => {
+        if (message.to.urlPod === this.contact.urlPod) {
+          message.isDeleted = true;
+          message.isMedia = false;
+          this.notificationService.deleteMessageNotification(message);
+        }
+      });
+      // store in POD
     }, (reason) => {
     });
   }
 
   showMenu() {
     $('.action_menu').toggle();
-    this.toggleShowed = ! this.toggleShowed;
+    this.toggleShowed = !this.toggleShowed;
   }
 
   logout() {
@@ -87,7 +94,8 @@ export class MessagesComponent implements OnInit {
         check = false;
         // Check extension .mpeg
         if (extType === 'mpeg' || extType === 'mp3') {
-          check = true; extType = 'mp3';
+          check = true;
+          extType = 'mp3';
         } else {
           errorMessage = 'Only .mp3 files are allowed';
         }
@@ -150,7 +158,8 @@ export class MessagesComponent implements OnInit {
       this.optUploaded = option;
       // Load window to select file
       this.modalService.open(this.editModal, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
-      }, err => {});
+      }, err => {
+      });
     }
   }
 
@@ -216,16 +225,19 @@ export class MessagesComponent implements OnInit {
           if (this.contact != null && hashNew.has(this.contact.urlPod) && this.hashMessages.has(this.contact.urlPod)) {
             arrayAux = hashNew.get(this.contact.urlPod);
             for (let i = 0; i < arrayAux.length; ++i) {
-              if (arrayAux[i].isDeleted) {
-                const currentHash = this.hashMessages.get(this.contact.urlPod)
-                for (let e = 0; e < currentHash.length; ++e) {
-                  if (currentHash[e].id === arrayAux[i].id) {
+              const currentHash = this.hashMessages.get(this.contact.urlPod);
+              let control = false;
+              for (let e = 0; e < currentHash.length; ++e) {
+                if (currentHash[e].id === arrayAux[i].id) {
+                  control = true;
+                  if (arrayAux[i].isDeleted) {
                     currentHash[e].isDeleted = true;
                     currentHash[e].isMedia = false;
                   }
                 }
-              } else {
-                this.hashMessages.get(this.contact.urlPod).push(arrayAux[i]);
+              }
+              if (!control) {
+                currentHash.push(arrayAux[i]);
               }
             }
             this.hashMessages.get(this.contact.urlPod).sort((a, b) => {
@@ -246,7 +258,7 @@ export class MessagesComponent implements OnInit {
                 arrayAux = hashNew.get(key);
                 for (let i = 0; i < arrayAux.length; ++i) {
                   if (arrayAux[i].isDeleted) {
-                    const currentHash = this.hashMessages.get(key)
+                    const currentHash = this.hashMessages.get(key);
                     for (let e = 0; e < currentHash.length; ++e) {
                       if (currentHash[e].id === arrayAux[i].id) {
                         currentHash[e].isDeleted = true;
@@ -265,7 +277,7 @@ export class MessagesComponent implements OnInit {
                 if (this.appComponent == null) {
                   this.contactService.getContacts().then(resCont => {
                     this.contactService.getUnknownContacts().then(resCont2 => {
-                      resCont.push(... resCont2);
+                      resCont.push(...resCont2);
                       this.checkAndSaveNewUnknownContacts(resCont, key);
                     });
                   });
