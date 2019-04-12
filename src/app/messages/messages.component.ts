@@ -42,6 +42,13 @@ export class MessagesComponent implements OnInit {
     this.myContact = await this.repositoryFactoryService.repository.getMyContact();
   };
 
+  showDeleteAllOwnMessages(content) {
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+
+    }, (reason) => {
+    });
+  }
+
   showMenu() {
     $('.action_menu').toggle();
     this.toggleShowed = ! this.toggleShowed;

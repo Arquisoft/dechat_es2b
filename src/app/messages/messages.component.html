@@ -19,6 +19,7 @@
         <li id="add_contact_btn1" *ngIf="contact != null && contact.isUnknown" (click)="addToContact()"><i class="fas fa-user-plus"></i>Add to contacts</li>
         <li id="delete_contact_btn1" *ngIf="contact != null && contact.isUnknown" (click)="deleteContact()"><i class="fas fa-user-minus"></i>Delete</li>
         <li id="delete_contact_btn" *ngIf="contact != null && !contact.isUnknown" (click)="deleteContact()"><i class="fas fa-user-minus"></i>Delete contact</li>
+        <li id="delete_messages_btn" *ngIf="contact != null" (click)="showDeleteAllOwnMessages(contentModalDeleteAllMessages)"><i class="fas fa-trash"></i>Delete all own messages</li>
       </ul>
     </div>
   </div>
@@ -65,6 +66,22 @@
         <div class="input-group">
           <input id="fileSelectionID" (change)="manageFileUploadEvent($event)" type="file" class="form-control-file" name="fileSelectionID"/>
         </div>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+<ng-template #contentModalDeleteAllMessages let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">¿Are you sure?</h4>
+    <button type="button" style="color:black;" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      x
+    </button>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="form-group">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Delete all</button>
       </div>
     </form>
   </div>
