@@ -8,8 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const SolidClient = require('../../node_modules/@solid/cli/src/SolidClient');
-const IdentityManager = require('../../node_modules/@solid/cli/src/IdentityManager');
+const auth = require('solid-auth-cli');
 const contact_1 = require("../model/contact");
 class CLILoginService {
     constructor() {
@@ -17,11 +16,12 @@ class CLILoginService {
     }
     login(answers) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { identityProvider, username, password } = answers;
-            const identityManager = IdentityManager.fromJSON('{}');
-            const client = new SolidClient({ identityManager });
-            const session = yield client.login(identityProvider, { username, password });
-            this.contact = new contact_1.Contact(session.idClaims.sub.replace('#me', '').replace('profile/card', ''), 'I');
+            const session = yield auth.login({
+                idp: answers['identityProvider'],
+                username: answers['username'],
+                password: answers['password']
+            });
+            this.contact = new contact_1.Contact(session.webId.replace('#me', '').replace('profile/card', ''), 'I');
         });
     }
     myContact() {

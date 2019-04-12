@@ -108,13 +108,14 @@ function login() {
             name: 'identityProvider',
             type: 'input',
             message: 'What is your identify provider?',
-            default: 'https://solid.community'
+            default: 'https://solid.community/'
         }]).then((answers) => __awaiter(this, void 0, void 0, function* () {
         console.log('Logging in...');
         try {
             yield loginService.login(answers);
         }
         catch (e) {
+            console.log(e);
             console.error(`Something went wrong when logging in. Try again?`);
         }
         finally {

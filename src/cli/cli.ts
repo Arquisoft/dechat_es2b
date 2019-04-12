@@ -102,12 +102,13 @@ function login() {
     name: 'identityProvider',
     type: 'input',
     message: 'What is your identify provider?',
-    default: 'https://solid.community'
+    default: 'https://solid.community/'
   }]).then(async answers => {
     console.log('Logging in...');
     try {
       await loginService.login(answers);
     } catch (e) {
+      console.log(e);
       console.error(`Something went wrong when logging in. Try again?`);
     } finally {
       showMenu();
