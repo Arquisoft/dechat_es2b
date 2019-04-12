@@ -158,7 +158,23 @@ function chooseContact(callback) {
 }
 function showMessagesOf(contact) {
     messageService.getMessages(contact).then(messages => {
-        messages.forEach(message => console.log(message));
+        let first = true;
+        messages.forEach(message => {
+            if (first) {
+                first = false;
+            }
+            else {
+                console.log('---------------------------------');
+            }
+            if (message.to.nickname === contact.urlPod) {
+                console.log('From: I');
+            }
+            else {
+                console.log('From: ' + contact.nickname);
+            }
+            console.log(message.date.toLocaleString());
+            console.log(message.text);
+        });
         showMenu();
     });
 }

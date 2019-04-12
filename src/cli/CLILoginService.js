@@ -30,6 +30,7 @@ class CLILoginService {
         });
     }
     logout(action) {
+        auth.logout();
         this.contact = null;
         if (action) {
             action();
