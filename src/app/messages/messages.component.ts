@@ -257,16 +257,19 @@ export class MessagesComponent implements OnInit {
               if (this.hashMessages.has(key)) {
                 arrayAux = hashNew.get(key);
                 for (let i = 0; i < arrayAux.length; ++i) {
-                  if (arrayAux[i].isDeleted) {
-                    const currentHash = this.hashMessages.get(key);
-                    for (let e = 0; e < currentHash.length; ++e) {
+                  const currentHash = this.hashMessages.get(key);
+                  let control = false;
+                  for (let e = 0; e < currentHash.length; ++e) {
                       if (currentHash[e].id === arrayAux[i].id) {
-                        currentHash[e].isDeleted = true;
-                        currentHash[e].isMedia = false;
+                        control = true;
+                        if (arrayAux[i].isDeleted) {
+                          currentHash[e].isDeleted = true;
+                          currentHash[e].isMedia = false;
+                        }
                       }
-                    }
-                  } else {
-                    this.hashMessages.get(key).push(arrayAux[i]);
+                  }
+                  if (!control) {
+                    currentHash.push(arrayAux[i]);
                   }
                 }
                 this.hashMessages.get(key).sort((a, b) => {
