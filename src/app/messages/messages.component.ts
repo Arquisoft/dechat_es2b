@@ -44,14 +44,18 @@ export class MessagesComponent implements OnInit {
 
   showDeleteAllOwnMessages(content) {
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
-      this.messages.forEach(message => {
-        if (message.to.urlPod === this.contact.urlPod) {
+      const toDelete = [];
+      for (let i = 0; i < this.messages.length; ++i) {
+        const message = this.messages[i];
+        if (!message.isDeleted && message.to.urlPod === this.contact.urlPod) {
+          const wasMedia = message.isMedia;
           message.isDeleted = true;
           message.isMedia = false;
           this.notificationService.deleteMessageNotification(message);
+          toDelete.push(message);
         }
-      });
-      // store in POD
+      }
+      this.messageService.deleteMessages(this.contact, toDelete);
     }, (reason) => {
     });
   }
