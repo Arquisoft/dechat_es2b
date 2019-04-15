@@ -16,13 +16,25 @@ image::../images/Diagram%202019-04-09%2011-41-25.png[Level 1]
 
  + Adding messages to the POD. 
  
- + Gets the Contacts of the user. 
+ + Adding and deleting contacts.
  
- + Gets the messages between the user and their contacts.
+ + Adding and deleting unknown contacts.
+ 
+ + Adding and deleting notifications.
+ 
+ + Getting the Unknown contacts of the user.
+ 
+ + Getting the Contacts of the user. 
+ 
+ + Getting the contacts' user images.
+ 
+ + Getting notifications.
+ 
+ + Getting the messages between the user and their contacts.
  
  + Login out the user.
 
-- Services can be divided into: account, contact, message and login.
+- Services can be divided into: account, contact, message, notification and login.
 
 - From the external libraries that are used the most remarkable among them are N3 for RDF and Solid-file-client to manage the data.
 
@@ -34,4 +46,6 @@ image::../images/Diagram%202019-04-10%2016-59-46.png[Level 2]
 
 - Mock_Repository is a Repository spacifically made to test the aplication in a local enviroment while Pod_Repository is for online purposes.
 
-- Within Component we find Component.ts (Component), Component.html (HTML), Component.css (CSS) along with Message and Messages, Contact and Contacts and Module.
+- Within Component we find appComponent along with Message and Messages, Contact and Contacts and Module.
+
+- Service can be divided in Login, Message, Contact, Account and Notification.
