@@ -44,7 +44,7 @@ image::../images/Diagram%202019-04-09%2011-41-25.png[Level 1]
 
 image::../images/Diagram%202019-04-19%2001-49-18.png[Level 2]
 
-- Mock_Repository is a Repository spacifically made to test the aplication in a local enviroment while Pod_Repository is for online purposes.
+- Mock_Repository is a Repository specifically made to test the application in a local environment while Pod_Repository is for online purposes.
 
 - Within Component we find appComponent along with Message and Messages, Contact and Contacts and Module.
 
