@@ -103,4 +103,11 @@ describe('ContactsComponent', () => {
       expect(component.contacts[0]).toEqual(contact);
     });
   });
+
+  it('checkContact', () => {
+    component.openAddContact('https://test1.mock.up/profile/card#me');
+    component.contactNick = 'Test2';
+    expect(component.checkContact().result).toBe(false);
+
+  });
 });
