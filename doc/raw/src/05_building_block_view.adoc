@@ -4,32 +4,48 @@
 
 === Scope & Context
 
-image::../images/Diagram%202019-04-01%2014-22-12.png[Overview]
+image::../images/Diagram%202019-04-08%2015-18-15.png[Overview]
 
 - As the app is independent from an external server (since the only one it uses is the one that the app is deployed in, the contact's notwithstanding) we can present the app this way. The users will interact with other users without a server in the middle so they only have to worry about the connection among themselves
 
 === Level 1
 
-image::../images/Diagram%202019-04-01%2014-09-13.png[Level 1]
+image::../images/Diagram%202019-04-09%2011-41-25.png[Level 1]
 
 - Repository is responsible of:
 
- + Adding messages to the POD. 
- 
- + Gets the Contacts of the user. 
- 
- + Gets the messages between the user and their contacts.
- 
+ + Adding messages to the POD.
+
+ + Adding and deleting contacts.
+
+ + Adding and deleting unknown contacts.
+
+ + Adding and deleting notifications.
+
+ + Getting the Unknown contacts of the user.
+
+ + Getting the Contacts of the user.
+
+ + Getting the contacts' user images.
+
+ + Getting notifications.
+
+ + Getting the messages between the user and their contacts.
+
  + Login out the user.
 
-- Services can be divided into: account, contact, message and login.
+- Services can be divided into: account, contact, message, notification and login.
 
 - From the external libraries that are used the most remarkable among them are N3 for RDF and Solid-file-client to manage the data.
 
+- Model includes Message, Contact and Notification
+
 === Level 2
 
-image::../images/Diagram%202019-04-05%2015-18-00.png[Level 2]
+image::../images/Diagram%202019-04-19%2023-24-51.png[Level 2]
 
-- Mock_Repository is a Repository spacifically made to test the aplication in a local enviroment while Pod_Repository is for online purposes.
+- Mock_Repository is a Repository specifically made to test the application in a local environment while Pod_Repository is for online purposes.
 
-- Within Component we find Component.ts (Component), Component.html (HTML), Component.css (CSS) along with Message and Messages, Contact and Contacts and Module.
+- Within Component we find appComponent along with Message and Messages, Contact and Contacts and Module.
+
+- Service can be divided in Login, Message, Contact, Account and Notification.
