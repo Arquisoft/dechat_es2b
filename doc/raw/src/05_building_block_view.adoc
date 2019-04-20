@@ -42,7 +42,7 @@ image::../images/Diagram%202019-04-09%2011-41-25.png[Level 1]
 
 === Level 2
 
-image::../images/Diagram%202019-04-19%2001-49-18.png[Level 2]
+image::../images/Diagram%202019-04-19%2023-24-51.png[Level 2]
 
 - Mock_Repository is a Repository specifically made to test the application in a local environment while Pod_Repository is for online purposes.
 
