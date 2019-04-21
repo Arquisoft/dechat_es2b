@@ -43,4 +43,9 @@ describe('Serializer', () => {
     const noti = new Notification( '0', new Message(contacts[0], contacts[1], new Date(), 'First Message'));
     expect(Serializer.deserializeNotification(Serializer.serializeNotification(noti))).toEqual(noti);
   });
+  it('should return null', () => {
+    Serializer.serializeDeleteContact(null, '').then(res => {
+      expect(res).toEqual(null);
+    });
+  });
 });
