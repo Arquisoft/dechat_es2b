@@ -103,4 +103,9 @@ describe('ContactsComponent', () => {
       expect(component.contacts[0]).toEqual(contact);
     });
   });
+
+  it('should add profile/card#me to the url', () => {
+    component.openAddContact('https://test1.mock.up/');
+    expect(component.contactID).toEqual('https://test1.mock.up/profile/card#me');
+  });
 });
