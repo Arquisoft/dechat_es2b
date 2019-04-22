@@ -1,6 +1,5 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
-
 import {AppComponent} from './app.component';
 import {MessagesComponent} from './messages/messages.component';
 import {ContactsComponent} from './contacts/contacts.component';
@@ -15,7 +14,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
     MessagesComponent,
     ContactsComponent,
     MessageComponent,
-    ContactComponent
+    ContactComponent,
   ],
   imports: [
     BrowserModule,

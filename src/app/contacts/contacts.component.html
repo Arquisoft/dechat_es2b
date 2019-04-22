@@ -50,3 +50,29 @@
     <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Add</button>
   </div>
 </ng-template>
+
+<ng-template #contentModalEdit let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Edit Contact</h4>
+    <button type="button" style="color:black;" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      x
+    </button>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="form-group">
+        <label for="contactID">Contact ID</label>
+        <div class="input-group">
+          <input id="contactID" [(ngModel)]="contactID" class="form-control" placeholder="https://profileID.inrupt.net/profile/card#me" name="contactID" readonly/>
+        </div>
+        <label for="contactNick">Nick</label>
+        <div class="input-group">
+          <input id="contactNick" [(ngModel)]="contactNick" class="form-control" placeholder="'John'" name="contactNick"/>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Edit</button>
+  </div>
+</ng-template>

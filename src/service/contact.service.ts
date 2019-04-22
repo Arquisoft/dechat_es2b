@@ -28,6 +28,12 @@ export class ContactService {
     }
   }
 
+  updateContact(contact: Contact, callback) {
+    if (!contact.isUnknown) {
+      return this.repository.repository.updateContact(contact, callback);
+    }
+  }
+
   getContacts(): Promise<Contact[]> {
     return this.repository.repository.getContacts();
   }
