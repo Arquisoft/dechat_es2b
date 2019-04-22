@@ -116,7 +116,7 @@ export class PodRepository implements Repository {
     const text = await PodUtil.readFile(urlMessage);
     const messages: Message[] = text == null ? [] : Serializer.deserializeMessages(text);
     messages.push(message);
-    const urlFolder = this.login.myContact.urlPod + 'dechat/files';
+    const urlFolder = (await this.login.myContact()).urlPod + 'dechat';
     PodUtil.createFolder(urlFolder).then(res1 => {
       PodUtil.writeToFile(urlMessage, Serializer.serializeMessages(messages));
       PodUtil.giveGrantsTo(urlMessage, message.to.urlPod);
