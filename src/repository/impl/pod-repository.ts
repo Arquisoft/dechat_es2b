@@ -150,7 +150,10 @@ export class PodRepository implements Repository {
     const contacts: Contact[] = text == null ? [] : Serializer.deserializeUnknownContacts(text);
     contact.isUnknown = true;
     contacts.push(contact);
-    PodUtil.writeToFile(pathUrl, Serializer.serializeUnknownContacts(contacts));
+    const urlFolder = (await this.login.myContact()).urlPod + 'dechat';
+    PodUtil.createFolder(urlFolder).then(res1 => {
+      PodUtil.writeToFile(pathUrl, Serializer.serializeUnknownContacts(contacts));
+    });
   }
 
   async getUnknownContacts() {
