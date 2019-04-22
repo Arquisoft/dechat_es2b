@@ -62,7 +62,6 @@ async function showLoggedMenu() {
     choices: [
       'List all my contacts',
       'Show messages of a contact',
-      'Show unread messages',
       'Log out',
       'Exit'
     ],
@@ -74,10 +73,6 @@ async function showLoggedMenu() {
         break;
       case 'Show messages of a contact':
         chooseContact(showMessagesOf);
-        break;
-      case 'Show unread messages':
-        showUnreadMessages();
-        showMenu();
         break;
       case 'Log out':
         logout();
@@ -171,9 +166,6 @@ function showMessagesOf(contact: Contact) {
     });
     showMenu();
   });
-}
-
-function showUnreadMessages() {
 }
 
 function quit() {
