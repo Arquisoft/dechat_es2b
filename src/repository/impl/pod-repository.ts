@@ -116,8 +116,11 @@ export class PodRepository implements Repository {
     const text = await PodUtil.readFile(urlMessage);
     const messages: Message[] = text == null ? [] : Serializer.deserializeMessages(text);
     messages.push(message);
-    PodUtil.writeToFile(urlMessage, Serializer.serializeMessages(messages));
-    PodUtil.giveGrantsTo(urlMessage, message.to.urlPod);
+    const urlFolder = this.login.myContact.urlPod + 'dechat/files';
+    PodUtil.createFolder(urlFolder).then(res1 => {
+      PodUtil.writeToFile(urlMessage, Serializer.serializeMessages(messages));
+      PodUtil.giveGrantsTo(urlMessage, message.to.urlPod);
+    });
   }
 
   async removeUnknownContact(contacts: Contact[], contact, callback) {
