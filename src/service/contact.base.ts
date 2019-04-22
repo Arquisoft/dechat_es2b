@@ -11,6 +11,12 @@ export class ContactBase {
     return this.repository.repository.addContact(contact).then(() => 1, () => 0);
   }
 
+  updateContact(contact: Contact, callback) {
+    if (!contact.isUnknown) {
+      return this.repository.repository.updateContact(contact, callback);
+    }
+  }
+
   addUnknownContact(contact: Contact) {
     this.repository.repository.addUnknownContact(contact);
   }
