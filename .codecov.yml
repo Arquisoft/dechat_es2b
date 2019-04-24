@@ -5,6 +5,8 @@ codecov:
 ignore:
   - "src/repository/impl/pod-repository.ts"
   - "src/repository/util/pod-util.ts"
+  - "src/cli/.*"
+  - "src/cli/*"
 
 coverage:
   precision: 2
