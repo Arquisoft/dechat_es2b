@@ -4,12 +4,12 @@ import {Message} from '../../model/message';
 import {Serializer} from '../util/serializer';
 import {PodUtil} from '../util/pod-util';
 import {reject} from 'q';
-import {LoginService} from '../../service/login.service';
 import {Notification} from '../../model/notification';
 import {Md5} from 'ts-md5/dist/md5';
+import {ILoginService} from '../../service/ILoginService';
 
 export class PodRepository implements Repository {
-  constructor(private login: LoginService) {
+  constructor(private login: ILoginService) {
   }
 
   async deleteContact(contact: Contact, callback): Promise<void> {
@@ -116,8 +116,11 @@ export class PodRepository implements Repository {
     const text = await PodUtil.readFile(urlMessage);
     const messages: Message[] = text == null ? [] : Serializer.deserializeMessages(text);
     messages.push(message);
-    PodUtil.writeToFile(urlMessage, Serializer.serializeMessages(messages));
-    PodUtil.giveGrantsTo(urlMessage, message.to.urlPod);
+    const urlFolder = (await this.login.myContact()).urlPod + 'dechat';
+    PodUtil.createFolder(urlFolder).then(res1 => {
+      PodUtil.writeToFile(urlMessage, Serializer.serializeMessages(messages));
+      PodUtil.giveGrantsTo(urlMessage, message.to.urlPod);
+    });
   }
 
   async removeUnknownContact(contacts: Contact[], contact, callback) {
@@ -147,7 +150,10 @@ export class PodRepository implements Repository {
     const contacts: Contact[] = text == null ? [] : Serializer.deserializeUnknownContacts(text);
     contact.isUnknown = true;
     contacts.push(contact);
-    PodUtil.writeToFile(pathUrl, Serializer.serializeUnknownContacts(contacts));
+    const urlFolder = (await this.login.myContact()).urlPod + 'dechat';
+    PodUtil.createFolder(urlFolder).then(res1 => {
+      PodUtil.writeToFile(pathUrl, Serializer.serializeUnknownContacts(contacts));
+    });
   }
 
   async getUnknownContacts() {

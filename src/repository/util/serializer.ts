@@ -103,6 +103,7 @@ export class Serializer {
     if (data == null || data.length === 0) {
       return contacts;
     }
+
     const objJSON = JSON.parse(data);
     for (let i = 0; i < objJSON.length; ++i) {
       const contact = new Contact(objJSON[i]['_urlPod'], 'Unknown');
