@@ -22,6 +22,10 @@ export class PodUtil {
     });
   }
 
+  static createFolder = async (url: string) => {
+    return solidfc.createFolder(url);
+  }
+
   static updateFile = async (url: string, data: string) => {
     return solidfc.updateFile(url, data);
   }
@@ -43,7 +47,7 @@ export class PodUtil {
   };
 
   static createFile = async (url: string, data: string) => {
-    solidfc.createFile(url, data);
+    return solidfc.createFile(url, data);
   };
 
   private static buildGrantText(urlPod, file) {

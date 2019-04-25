@@ -15,6 +15,11 @@ export class NotificationService {
     this.repository.repository.addNotification(notification);
   }
 
+  deleteMessageNotification(message: Message) {
+    const notification = new Notification(message.from.urlPod, message);
+    this.repository.repository.addNotificationDeletedMessage(notification);
+  }
+
   getCurrentChatNotifications(chatIdentificator: string) {
     return this.repository.repository.getNotifications(chatIdentificator, false);
   }
