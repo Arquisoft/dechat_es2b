@@ -8,6 +8,7 @@ import {FormsModule} from '@angular/forms';
 import {AppComponent} from '../app.component';
 import {delay} from 'q';
 import {Contact} from '../../model/contact';
+import {MessagingComponent} from '../messaging/messaging.component';
 
 describe('ContactsComponent', () => {
   let component: ContactsComponent;
@@ -25,7 +26,7 @@ describe('ContactsComponent', () => {
         BrowserModule,
         FormsModule
       ], providers: [
-        AppComponent
+        MessagingComponent
       ]
     })
       .compileComponents();
