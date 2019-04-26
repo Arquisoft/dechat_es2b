@@ -13,3 +13,7 @@ As we studied the project we came to the conclusion that Angular was the most co
 === Why SOLID
 
 From the very beginning of this project, SOLID was a mandatory part of what this application had to be, so thinking about why became trivial.
+
+=== RDF
+
+As we use SOLID decentralized principles we need to use RDF to read data from the POD and to be able to store information on it.
