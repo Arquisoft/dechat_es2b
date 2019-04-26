@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {Component, ElementRef, HostListener, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {Contact} from '../../model/contact';
 import {Message} from '../../model/message';
 import {MessageService} from '../../service/message.service';
@@ -30,12 +30,21 @@ export class MessagesComponent implements OnInit {
   private editModal: TemplateRef<any>;
 
   constructor(public repositoryFactoryService: RepositoryFactoryService, private messageService: MessageService, private contactService: ContactService,
-              private notificationService: NotificationService, public eRef: ElementRef, private modalService: NgbModal) {
+              private notificationService: NotificationService, private modalService: NgbModal) {
     this.makeSureLogin();
     this.hashMessages = new Map<string, Message[]>();
     this.controlFind = false;
     setInterval(this.findNewMessages, 1000);
     this.toggleShowed = false;
+  }
+
+  @HostListener('document:click', ['$event'])
+  clickout(event) {
+    if (event.target.id !== 'action_menu_btn' && event.target.id !== 'action_menu_btn2') {
+      if (this.toggleShowed) {
+        this.showMenu();
+      }
+    }
   }
 
   makeSureLogin = async () => {

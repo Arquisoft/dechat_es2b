@@ -1,4 +1,4 @@
-import {Component, HostListener, Inject, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {Component, Inject, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {Contact} from '../../model/contact';
 import {AppComponent} from '../app.component';
 import {ContactService} from '../../service/contact.service';
@@ -27,15 +27,6 @@ export class ContactsComponent implements OnInit {
               private modalService: NgbModal) {
     this.contacts = [];
     this.messageLoadingOrEmpty = true;
-  }
-
-  @HostListener('document:click', ['$event'])
-  clickout(event) {
-    if (!this.parent.messages.eRef.nativeElement.querySelector('#action_menu_btn').contains(event.target)) {
-      if (this.parent.messages.toggleShowed) {
-        this.parent.messages.showMenu();
-      }
-    }
   }
 
   openAddContact(url) {
