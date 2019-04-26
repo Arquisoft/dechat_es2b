@@ -31,14 +31,19 @@
   </div>
   <div class="card-footer">
     <div class="input-group">
+      <div class="col-11">
+      <div class="lead emoji-picker-container">
       <textarea [placeholder]="contact != null ? 'Type your message...' : 'Select a contact to continue'"
                 class="form-control type_msg" name="message"
                 type="text"
                 data-emojiable="true"
                 (keypress)="sendMessage($event)" [(ngModel)]="message" [disabled]="contact == null"></textarea>
+      </div>
+      </div>
       <div class="input-group-append" (click)="sendMessage(null)">
         <span class="input-group-text send_btn"><i class="fas fa-location-arrow"></i></span>
       </div>
     </div>
   </div>
 </div>
+
