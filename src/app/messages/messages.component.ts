@@ -5,9 +5,9 @@ import {MessageService} from '../../service/message.service';
 import {RepositoryFactoryService} from '../../repository/repository-factory.service';
 import {NotificationService} from '../../service/notification.service';
 import {ContactService} from '../../service/contact.service';
-import {AppComponent} from '../app.component';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {Md5} from 'ts-md5';
+import {MessagingComponent} from '../messaging/messaging.component';
 
 @Component({
   selector: 'app-messages',
@@ -21,7 +21,7 @@ export class MessagesComponent implements OnInit {
   message = '';
   hashMessages: Map<string, Message[]>;
   controlFind: boolean;
-  appComponent: AppComponent;
+  appComponent: MessagingComponent;
   @ViewChild('messages') private messagesContainer: ElementRef;
   toggleShowed: boolean;
   optUploaded: string;
