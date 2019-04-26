@@ -1,4 +1,4 @@
-import {Component, ElementRef, Inject, OnInit, SimpleChanges, TemplateRef, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {Contact} from '../../model/contact';
 import {Message} from '../../model/message';
 import {MessageService} from '../../service/message.service';
@@ -8,6 +8,7 @@ import {ContactService} from '../../service/contact.service';
 import {AppComponent} from '../app.component';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {Md5} from 'ts-md5';
+import {MessageComponent} from '../message/message.component';
 
 @Component({
   selector: 'app-messages',
@@ -22,7 +23,6 @@ export class MessagesComponent implements OnInit {
   hashMessages: Map<string, Message[]>;
   controlFind: boolean;
   appComponent: AppComponent;
-  @ViewChild('messages') private messagesContainer: ElementRef;
   toggleShowed: boolean;
   optUploaded: string;
   optionUploaded: string;

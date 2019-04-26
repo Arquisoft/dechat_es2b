@@ -1,9 +1,8 @@
 import {Component, Inject, Input, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {Message} from '../../model/message';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {Md5} from 'ts-md5';
 import {MessageService} from '../../service/message.service';
-import {AppComponent} from '../app.component';
+import {MessagesComponent} from '../messages/messages.component';
 
 @Component({
   selector: 'app-message',
@@ -26,7 +25,7 @@ export class MessageComponent {
   }
 
   deleteMessage() {
-    this.appComponent.messages.deleteMessage(this.message);
+    this.messagesComponent.deleteMessage(this.message);
   }
 
   @Input('target')
@@ -72,5 +71,6 @@ export class MessageComponent {
     return false;
   }
 
-  constructor(private modalService: NgbModal, private messageService: MessageService, @Inject(AppComponent) private appComponent: AppComponent) { }
+  constructor(private modalService: NgbModal, private messageService: MessageService,
+              @Inject(MessagesComponent) private messagesComponent: MessagesComponent) { }
 }
