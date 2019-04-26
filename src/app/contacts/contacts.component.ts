@@ -1,8 +1,8 @@
-import {Component, HostListener, Inject, OnInit} from '@angular/core';
+import {Component, HostListener, Inject, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {Contact} from '../../model/contact';
-import {AppComponent} from '../app.component';
 import {ContactService} from '../../service/contact.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {MessagingComponent} from '../messaging/messaging.component';
 
 @Component({
   selector: 'app-contacts',
@@ -20,8 +20,10 @@ export class ContactsComponent implements OnInit {
   addMessageResult: string;
   contactID;
   contactNick;
+  @ViewChild('contentModalEdit')
+  private editModal: TemplateRef<any>;
 
-  constructor(@Inject(AppComponent) private parent: AppComponent, public contactService: ContactService,
+  constructor(@Inject(MessagingComponent) private parent: MessagingComponent, public contactService: ContactService,
               private modalService: NgbModal) {
     this.contacts = [];
     this.messageLoadingOrEmpty = true;
@@ -41,12 +43,46 @@ export class ContactsComponent implements OnInit {
     this.contactID = url + 'profile/card#me';
   }
 
+  openModifyContact(contact: Contact) {
+    this.contactID = contact.urlPod + 'profile/card#me';
+    this.contactNick = contact.nickname;
+    const previousNick = contact.nickname;
+    this.modalService.open(this.editModal, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+      this.editContact(previousNick);
+    }, err => {});
+  }
+
   open(content) {
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
       this.addNewContact();
     }, (reason) => {
       this.addMessageResult = '';
     });
+  }
+
+  editContact(previousNick: string) {
+    if (this.contactNick == null) {
+      this.contactNick = '';
+    }
+    if (this.contactID != null && this.contactID.trim() !== '') {
+      const result = {result: false, message: '', contID: this.contactID, nickContact: this.contactNick.trim()};
+      if (result.nickContact !== previousNick) {
+        if (result.nickContact === '') {
+          result.nickContact = result.contID.split('/')[2];
+        }
+        result.result = true;
+        result.message = 'Alias changed correctly';
+      }
+      if (result.result) {
+        const newContact = new Contact(result.contID, result.nickContact);
+        const res = this.contactService.updateContact(newContact, () => {
+          this.showResultMessage(result.message);
+          this.ngOnInit();
+          newContact.urlPod = newContact.urlPod.replace('profile/card#me', '');
+          this.selectContact(newContact);
+        });
+      }
+    }
   }
 
   addNewContact() {

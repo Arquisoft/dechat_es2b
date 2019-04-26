@@ -7,15 +7,25 @@ export interface Repository {
 
   deleteContact(contact: Contact, callback): Promise<void>;
 
+  updateContact(contact: Contact, callback): Promise<void>;
+
   getContacts(): Promise<Contact[]>;
 
   addNotification(notification: Notification);
+
+  addNotificationDeletedMessage(notification: Notification);
 
   getNotifications(chatIdentificator: string, deleteAfterRead: boolean): Promise<Notification[]>;
 
   deleteNotifications(chatIdentificator: string);
 
   getImageContacts(contact: Contact[]);
+
+  deleteFileAttached(fileName: string);
+
+  updateMessages(messages: Message[], contact: Contact);
+
+  addMediaMessage(content, message: Message, callback);
 
   addMessage(message: Message);
 

@@ -20,6 +20,19 @@ The skeleton project is a simple https://angular.io[Angular] application which c
 Once executed, the application should be available at: http://127.0.0.1:4200
 
 
+== Command Line Interface
+
+You can compile the project to execute it into command line. The command line application can be compiled by executing:
+----
+ tsc -p src/cli --outDir dist/cli
+----
+
+And then, it can be executed using:
+----
+node dist/cli/cli/cli.js
+----
+
+
 == Authors and Meetings
 
 The members that we develop in this repo are:

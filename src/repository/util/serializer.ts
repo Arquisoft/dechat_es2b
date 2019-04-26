@@ -23,30 +23,32 @@ export class Serializer {
   };
 
   static deserializeFolderNameFiles = async (data: string): Promise<string[]> => {
-    const parser = new N3.Parser();
     const names = [];
-    let i = 0;
-    parser.parse(
-      data,
-      (error, quadC, prefixes) => {
-        if (error) {
-          i = 1;
-        }
-        if (quadC) {
-          if (quadC.predicate.value === 'http://www.w3.org/ns/ldp#contains') {
-            let valorNombre = quadC.object.value;
-            valorNombre = valorNombre.replace('undefined', '');
-            const arrayName = valorNombre.split('.');
-            if (arrayName != null && arrayName.length >= 0 && arrayName[0] === 'dechat' && arrayName[arrayName.length - 1] === 'json') {
-              names.push(valorNombre.toString());
-            }
+    if (data != null && data.trim() !== '') {
+      const parser = new N3.Parser();
+      let i = 0;
+      parser.parse(
+        data,
+        (error, quadC, prefixes) => {
+          if (error) {
+            i = 1;
           }
-        } else {
-          i = 1;
-        }
-      });
-    while (i === 0) {
-      const e = await new Promise(resolve => setTimeout(resolve, 1000));
+          if (quadC) {
+            if (quadC.predicate.value === 'http://www.w3.org/ns/ldp#contains') {
+              let valorNombre = quadC.object.value;
+              valorNombre = valorNombre.replace('undefined', '');
+              const arrayName = valorNombre.split('.');
+              if (arrayName != null && arrayName.length >= 0 && arrayName[0] === 'dechat' && arrayName[arrayName.length - 1] === 'json') {
+                names.push(valorNombre.toString());
+              }
+            }
+          } else {
+            i = 1;
+          }
+        });
+      while (i === 0) {
+        const e = await new Promise(resolve => setTimeout(resolve, 1000));
+      }
     }
     return names;
   };
@@ -62,6 +64,12 @@ export class Serializer {
       const text = objJSON['_message']['_text'];
       const date = new Date(objJSON['_message']['_date']);
       const messg = new Message(from, to, date, text);
+      if (objJSON['_message']['_isMedia'] != null) {
+        messg.isMedia = objJSON['_message']['_isMedia'];
+      }
+      if (objJSON['_message']['_isDeleted'] != null) {
+        messg.isDeleted = objJSON['_message']['_isDeleted'];
+      }
 
       notificaction = new Notification(chatIdentificator, messg);
       return notificaction;
@@ -79,6 +87,12 @@ export class Serializer {
       const from = new Contact(objJSON[i]['_from']['_urlPod'], null);
       const to = new Contact(objJSON[i]['_to']['_urlPod'], null);
       const messg = new Message(from, to, new Date(objJSON[i]['_date']), objJSON[i]['_text']);
+      if (objJSON[i]['_isMedia'] != null) {
+        messg.isMedia = objJSON[i]['_isMedia'];
+      }
+      if (objJSON[i]['_isDeleted'] != null) {
+        messg.isDeleted = objJSON[i]['_isDeleted'];
+      }
       messages.push(messg);
     }
     return messages;
@@ -89,6 +103,7 @@ export class Serializer {
     if (data == null || data.length === 0) {
       return contacts;
     }
+
     const objJSON = JSON.parse(data);
     for (let i = 0; i < objJSON.length; ++i) {
       const contact = new Contact(objJSON[i]['_urlPod'], 'Unknown');
@@ -160,11 +175,14 @@ export class Serializer {
     return resultTurtle;
   };
 
-  static serializeDeleteContact = async (delContact: Contact, oldData: string) => {
-    if (delContact != null) {
+  static serializeUpdateContact = async (updateContact: Contact, oldData: string) => {
+    return await Serializer.serializeManageContact(updateContact, oldData, true);
+  };
+
+  private static serializeManageContact = async (changeContact: Contact, oldData: string, modify: boolean) => {
+    if (changeContact != null) {
       const writer = new N3.Writer();
       let i = 0;
-      let identificator = '';
       const parsePromisePrefixes = new Promise((resolve, reject) => {
         const parser = new N3.Parser();
         parser.parse(
@@ -181,7 +199,7 @@ export class Serializer {
                   prefixes[prefix] = prefixes[prefix] + '/'; //Add a /
                 }
                 const solToEval = prefixes[prefix];
-                const urlContact = delContact.urlPod + 'profile/card#me/';
+                const urlContact = changeContact.urlPod + 'profile/card#me/';
                 if (solToEval === urlContact) {
                   prefixes[prefix] = '';
                 }
@@ -197,8 +215,14 @@ export class Serializer {
         parser.parse(
           oldData,
           (error, quadC, prefixes) => {
+            if (error) {
+              reject(error);
+            }
             if (quadC) {
-              const urlContact = delContact.urlPod + 'profile/card#me/';
+              let urlContact = changeContact.urlPod + 'profile/card#me/';
+              if (modify) {
+                urlContact = changeContact.urlPod + '/';
+              }
               if (quadC.object.value !== urlContact && quadC.object.value !== urlContact + 'me'
                 && quadC.object.value !== urlContact.substr(0, urlContact.length - 1) + 'me'
                 && quadC.object.value !== urlContact.substr(0, urlContact.length - 1)
@@ -206,23 +230,46 @@ export class Serializer {
                 && quadC.subject.value !== urlContact.substr(0, urlContact.length - 1)
                 && quadC.subject.value !== urlContact.substr(0, urlContact.length - 1) + 'me') {
                 writer.addQuad(quadC);
+              } else {
+                if (modify) {
+                  if (quadC.predicate.value === 'http://xmlns.com/foaf/0.1/nick') {
+                    writer.addQuad(namedNode(quadC.subject.value),
+                      namedNode('n0:nick'), literal(changeContact.nickname));
+                  } else {
+                    writer.addQuad(quadC);
+                  }
+                }
               }
             } else {
+              if (modify) {
+                writer.addPrefixes(prefixes);
+              }
               resolve('Finish');
             }
           });
       });
       let resultTurtle = '';
-      parsePromisePrefixes.then(res => {
+      if (!modify) {
+        parsePromisePrefixes.then(res => {
+          parsePromiseQuads.then(res2 => {
+            writer.end((error, result) => {
+              i = 100;
+              resultTurtle = result.toString().replace(/undefined/gi, '').replace(/null/gi, '');
+            });
+          });
+        }, err => {
+          i = 100;
+        });
+      } else {
         parsePromiseQuads.then(res2 => {
           writer.end((error, result) => {
             i = 100;
             resultTurtle = result.toString().replace(/undefined/gi, '').replace(/null/gi, '');
           });
+        }, err => {
+          i = 100;
         });
-      }, err => {
-        i = 100;
-      });
+      }
 
       while (i === 0) {
         const e = await new Promise(resolve => setTimeout(resolve, 1000));
@@ -231,6 +278,10 @@ export class Serializer {
     } else {
       return null;
     }
+  };
+
+  static serializeDeleteContact = async (delContact: Contact, oldData: string) => {
+    return await Serializer.serializeManageContact(delContact, oldData, false);
   };
 
   static deserializeContacts = async (data: string) => {
@@ -257,27 +308,32 @@ export class Serializer {
   };
 
   static deserializeImageContacts = async (data: string) => {
-    const parser = new N3.Parser();
-    let i = 0;
-    let image = null;
-    parser.parse(
-      data,
-      (error, quadC, prefixes) => {
-        if (error) {
-          i = 1;
-        }
-        if (quadC) {
-          if (quadC.predicate.value === 'http://www.w3.org/2006/vcard/ns#hasPhoto') {
-            image = quadC.object.value.replace('undefined', '');
+    if (data != null) {
+      const parser = new N3.Parser();
+      let i = 0;
+      let image = null;
+      parser.parse(
+        data,
+        (error, quadC, prefixes) => {
+          if (error) {
+            i = 1;
           }
-        } else {
-          i = 1;
-        }
-      });
-    while (i === 0) {
-      const e = await new Promise(resolve => setTimeout(resolve, 1000));
+          if (quadC) {
+            if (quadC.predicate.value === 'http://www.w3.org/2006/vcard/ns#hasPhoto') {
+              image = quadC.object.value.replace('undefined', '');
+            }
+          } else {
+            i = 1;
+          }
+        });
+      while (i === 0) {
+        const e = await new Promise(resolve => setTimeout(resolve, 1000));
+      }
+      return image;
+    } else {
+      return null;
     }
-    return image;
+
   };
 
   private static classifyQuads(quadC, contactUrlQuads, nickNameQuads) {

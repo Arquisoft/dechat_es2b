@@ -87,4 +87,20 @@ export class MockRepository implements Repository {
 
   removeUnknownContact(contacts: Contact[], contact, callback) {
   }
+
+  updateContact(contact: Contact, callback): Promise<void> {
+    return undefined;
+  }
+
+  addMediaMessage(content, message: Message, callback) {
+  }
+
+  addNotificationDeletedMessage(notification: Notification) {
+  }
+
+  deleteFileAttached(fileName: string) {
+  }
+
+  updateMessages(messages: Message[], contact: Contact){
+  }
 }
