@@ -3,7 +3,7 @@ import {Message} from '../../model/message';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {Md5} from 'ts-md5';
 import {MessageService} from '../../service/message.service';
-import {AppComponent} from '../app.component';
+import {MessagingComponent} from '../messaging/messaging.component';
 
 @Component({
   selector: 'app-message',
@@ -72,5 +72,6 @@ export class MessageComponent {
     return false;
   }
 
-  constructor(private modalService: NgbModal, private messageService: MessageService, @Inject(AppComponent) private appComponent: AppComponent) { }
+  constructor(private modalService: NgbModal, private messageService: MessageService,
+              @Inject(MessagingComponent) private appComponent: MessagingComponent) { }
 }

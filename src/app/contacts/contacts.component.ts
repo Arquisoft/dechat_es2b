@@ -1,8 +1,8 @@
 import {Component, HostListener, Inject, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {Contact} from '../../model/contact';
-import {AppComponent} from '../app.component';
 import {ContactService} from '../../service/contact.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {MessagingComponent} from '../messaging/messaging.component';
 
 @Component({
   selector: 'app-contacts',
@@ -23,7 +23,7 @@ export class ContactsComponent implements OnInit {
   @ViewChild('contentModalEdit')
   private editModal: TemplateRef<any>;
 
-  constructor(@Inject(AppComponent) private parent: AppComponent, public contactService: ContactService,
+  constructor(@Inject(MessagingComponent) private parent: MessagingComponent, public contactService: ContactService,
               private modalService: NgbModal) {
     this.contacts = [];
     this.messageLoadingOrEmpty = true;

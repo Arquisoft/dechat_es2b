@@ -7,6 +7,26 @@ import {ContactComponent} from './contact/contact.component';
 import {MessageComponent} from './message/message.component';
 import {FormsModule} from '@angular/forms';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { MessagingComponent } from './messaging/messaging.component';
+import { LandingComponent } from './landing/landing.component';
+import {RouterModule, Routes} from '@angular/router';
+import {APP_BASE_HREF} from '@angular/common';
+
+const routes: Routes = [
+  {
+    path: '',
+    redirectTo: 'index',
+    pathMatch: 'full'
+  },
+  {
+    path: 'index',
+    component: LandingComponent
+  },
+  {
+    path: 'messaging',
+    component: MessagingComponent
+  }
+];
 
 @NgModule({
   declarations: [
@@ -15,13 +35,17 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
     ContactsComponent,
     MessageComponent,
     ContactComponent,
+    MessagingComponent,
+    LandingComponent,
   ],
   imports: [
     BrowserModule,
     FormsModule,
-    NgbModule
+    NgbModule,
+    RouterModule.forRoot(routes)
   ],
-  providers: [],
+  exports: [RouterModule],
+  providers: [{provide: APP_BASE_HREF, useValue : '/' }],
   bootstrap: [AppComponent]
 })
 export class AppModule {
