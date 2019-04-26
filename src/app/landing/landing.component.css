@@ -5,6 +5,7 @@ body {
 section {
   padding-top: 5rem;
   padding-bottom: 5rem;
+  background-color: transparent !important;
 }
 
 .lnr {
