@@ -209,7 +209,8 @@ export class Serializer {
             }
           });
       });
-
+      let controlHad = false;
+      let subjectValue;
       const parsePromiseQuads = new Promise((resolve, reject) => {
         const parser = new N3.Parser();
         parser.parse(
@@ -233,15 +234,22 @@ export class Serializer {
               } else {
                 if (modify) {
                   if (quadC.predicate.value === 'http://xmlns.com/foaf/0.1/nick') {
+                    controlHad = true;
                     writer.addQuad(namedNode(quadC.subject.value),
                       namedNode('n0:nick'), literal(changeContact.nickname));
+                    subjectValue = quadC.subject.value;
                   } else {
+                    subjectValue = quadC.object.value;
                     writer.addQuad(quadC);
                   }
                 }
               }
             } else {
               if (modify) {
+                if (!controlHad) {
+                  writer.addQuad(namedNode(subjectValue + '/me'),
+                    namedNode('n0:nick'), literal(changeContact.nickname));
+                }
                 writer.addPrefixes(prefixes);
               }
               resolve('Finish');
@@ -350,7 +358,9 @@ export class Serializer {
     contactUrlQuads.forEach(contactUrlQuad => {
       let nickControl = false;
       nickNameQuads.forEach(nickNameQuad => {
-        if (nickNameQuad.subject.value === contactUrlQuad.object.value) {
+        const subjectValue = nickNameQuad.subject.value.split('/')[2];
+        const objectValue = contactUrlQuad.object.value.split('/')[2];
+        if (subjectValue === objectValue) {
           const contact = new Contact(contactUrlQuad.object.value, nickNameQuad.object.value);
           const arrayContact = contact.urlPod.split('/');
           const urlFormatted = arrayContact[0] + '//' + arrayContact[2] + '/';
