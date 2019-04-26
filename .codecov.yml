@@ -3,10 +3,10 @@ codecov:
     require_ci_to_pass: yes
 
 ignore:
-  - "src/repository/impl/.*"
-  - "src/repository/impl/*"
-  - "src/repository/impl"
-  - "src/repository/util/pod-util.ts"
+  - "repository/impl/.*"
+  - "repository/impl/*"
+  - "repository/impl"
+  - "repository/util/pod-util.ts"
   - "src/service/*base*"
   - "test.ts"
   - "src/cli/.*"
