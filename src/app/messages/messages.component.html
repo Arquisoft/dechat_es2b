@@ -33,9 +33,17 @@
   </div>
   <div class="card-footer">
     <div class="input-group">
-      <textarea [placeholder]="contact != null ? 'Type your message...' : 'Select a contact to continue'"
+      <div *ngIf="contact != null" class="lead emoji-picker-container" style="width: 70%;">
+      <textarea id="inpArea" [placeholder]="contact != null ? 'Type your message...' : 'Select a contact to continue'"
                 class="form-control type_msg" name="message"
                 type="text"
+                data-emojiable="true"
+                (keypress)="sendMessage($event)" [(ngModel)]="message" [disabled]="contact == null"></textarea>
+      </div>
+      <textarea *ngIf="contact == null" [placeholder]="contact != null ? 'Type your message...' : 'Select a contact to continue'"
+                class="form-control type_msg" name="message"
+                type="text"
+                data-emojiable="false"
                 (keypress)="sendMessage($event)" [(ngModel)]="message" [disabled]="contact == null"></textarea>
       <div class="input-group-append" (click)="sendMessage(null)" [hidden]="contact == null">
         <span class="input-group-text send_btn simulateButton"><i class="fas fa-location-arrow"></i></span>
