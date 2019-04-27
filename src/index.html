@@ -11,10 +11,28 @@
         href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
   <script type="text/javascript"
           src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.js"></script>
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet" crossorigin="anonymous">
+  <link href="./assets/lib/css/emoji.css" rel="stylesheet">
 </head>
 <body>
 <div class="container-fluid h-100">
+  <script src="./assets/lib/js/config.js"></script>
+  <script src="./assets/lib/js/util.js"></script>
+  <script src="./assets/lib/js/jquery.emojiarea.js"></script>
+  <script src="./assets/lib/js/emoji-picker.js"></script>
   <app-root></app-root>
+  <script>
+    function emoji() {
+      $(function () {
+        window.emojiPicker = new EmojiPicker({
+          emojiable_selector: '[data-emojiable=true]',
+          assetsPath: './assets/lib/img/',
+          popupButtonClasses: 'far fa-laugh-beam'
+        });
+        window.emojiPicker.discover();
+      });
+    }
+  </script>
 </div>
 </body>
 </html>

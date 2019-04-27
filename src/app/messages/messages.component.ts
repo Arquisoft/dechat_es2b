@@ -145,6 +145,7 @@ export class MessagesComponent implements OnInit {
           }
           this.hashMessages.get(this.contact.urlPod).push(mssg);
           this.message = '';
+          $('.emoji-wysiwyg-editor').text('');
           this.notificationService.sendNewMessageNotification(mssg);
         });
       } else {
@@ -183,7 +184,7 @@ export class MessagesComponent implements OnInit {
   }
 
   async sendMessage(event: KeyboardEvent) {
-    this.message.trim();
+    this.message = this.message.trim();
     if ((event == null || event.key === 'Enter') && this.message !== '') {
       const mess = new Message(this.myContact, this.contact, new Date(), this.message);
       this.messageService.addMessage(mess);
@@ -192,6 +193,7 @@ export class MessagesComponent implements OnInit {
       }
       this.hashMessages.get(this.contact.urlPod).push(mess);
       this.message = '';
+      $('.emoji-wysiwyg-editor').text('');
       if (event != null) {
         event.preventDefault();
       }
@@ -324,6 +326,8 @@ export class MessagesComponent implements OnInit {
 
   selectConversation(contact: Contact, appComponent) {
     this.contact = contact;
+    this.message = '';
+    $('.emoji-wysiwyg-editor').text('');
     if (!this.hashMessages.has(this.contact.urlPod)) {
       this.messageService.getMessages(contact).then((res) => {
         this.hashMessages.set(this.contact.urlPod, res);
