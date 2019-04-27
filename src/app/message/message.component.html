@@ -1,4 +1,4 @@
-<div [ngClass]="received ?  'msg_cotainer_send' : 'msg_cotainer'" (click)="showMessageOptions($event)" *ngIf="!message.isMedia" [ngStyle]="received ? {'text-align': 'left'} : {'text-align': 'right'}">
+<div style="max-width: 100%;" [ngClass]="received ?  'msg_cotainer_send' : 'msg_cotainer'" (click)="showMessageOptions($event)" *ngIf="!message.isMedia" [ngStyle]="received ? {'text-align': 'left'} : {'text-align': 'right'}">
   <span *ngIf="!message.isDeleted">{{message.text}}</span>
   <span *ngIf="message.isDeleted" style="font-style: oblique;">This message has been deleted</span>
   <span class="msg_time" [ngStyle]="received ? {'width': '100px'} : {'right': '0', 'left': 'auto', 'width': '100px'}">{{message.date | date:'dd-MM HH:mm'}}</span>
