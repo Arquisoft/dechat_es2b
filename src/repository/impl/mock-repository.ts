@@ -64,7 +64,9 @@ export class MockRepository implements Repository {
   }
 
   getNotifications(chatIdentificator: string, deleteAfterRead: boolean): Promise<Notification[]> {
-    return undefined;
+    return new Promise<Notification[]>(() => {
+      return [];
+    });
   }
 
   deleteNotifications(chatIdentificator: string) {
@@ -75,21 +77,27 @@ export class MockRepository implements Repository {
   }
 
   deleteContact(contact: Contact, callback): Promise<void> {
-    return undefined;
+    return new Promise<void>(() => {
+      return;
+    });
   }
 
   addUnknownContact(contact: Contact) {
   }
 
   getUnknownContacts() {
-    return undefined;
+    return new Promise<Contact[]>(() => {
+      return [];
+    });
   }
 
   removeUnknownContact(contacts: Contact[], contact, callback) {
   }
 
   updateContact(contact: Contact, callback): Promise<void> {
-    return undefined;
+    return new Promise<void>(() => {
+      return;
+    });
   }
 
   addMediaMessage(content, message: Message, callback) {

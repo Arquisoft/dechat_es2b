@@ -5,7 +5,6 @@ import {MockRepository} from '../../repository/impl/mock-repository';
 import {ContactComponent} from '../contact/contact.component';
 import {BrowserModule} from '@angular/platform-browser';
 import {FormsModule} from '@angular/forms';
-import {AppComponent} from '../app.component';
 import {delay} from 'q';
 import {Contact} from '../../model/contact';
 import {MessagingComponent} from '../messaging/messaging.component';
@@ -14,6 +13,7 @@ describe('ContactsComponent', () => {
   let component: ContactsComponent;
   let fixture: ComponentFixture<ContactsComponent>;
   let repo: MockRepository;
+  let originalTimeout;
 
   beforeEach(async(() => {
     // @ts-ignore
@@ -33,6 +33,9 @@ describe('ContactsComponent', () => {
   }));
 
   beforeEach(() => {
+    originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+
     fixture = TestBed.createComponent(ContactsComponent);
     component = fixture.componentInstance;
     repo = new MockRepository();
@@ -40,15 +43,26 @@ describe('ContactsComponent', () => {
     fixture.detectChanges();
   });
 
+  afterEach(() => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
+  });
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should load contacts', () => {
-    component.ngOnInit();
-    delay(1000).then(() => {
+  it('should add contacts',async () => {
+    component.contactID = 'https://mkock.up/profile/card#me';
+    component.contactNick = 'Prueba';
+    component.addNewContact();
+    delay(2000).then(() => {
+      expect(repo.contacts.map(c => c.nickname)).toContain('Prueba');
+    });
+  });
+
+  it('should load contacts', async () => {
+    component.ngOnInit().then(res => {
       expect(component.contacts).toEqual(component.allContacts);
-      expect(component.contacts).toEqual(repo.contacts);
     });
   });
 
