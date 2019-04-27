@@ -239,7 +239,9 @@ export class Serializer {
                       namedNode('n0:nick'), literal(changeContact.nickname));
                     subjectValue = quadC.subject.value;
                   } else {
-                    subjectValue = quadC.object.value;
+                    if (quadC.predicate.value === 'http://xmlns.com/foaf/0.1/knows') {
+                      subjectValue = quadC.object.value;
+                    }
                     writer.addQuad(quadC);
                   }
                 }
