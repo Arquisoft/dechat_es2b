@@ -34,5 +34,9 @@ describe('NotificationService', () => {
     service.getCurrentChatNotifications(mock.contacts[0]).then(notifications => expect(notifications).toContain(mock.notifications[0]));
   });
 
+  it('should clasify notifications', async () => {
+    service.getAllNotifications().then(notifications => expect(service.classifyNotificationsPerChat(notifications).length).toBe(2));
+  });
+
 
 });
