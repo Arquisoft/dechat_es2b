@@ -46,6 +46,11 @@ export class MockRepository implements Repository {
     });
   }
 
+  login(contact: Contact) {
+    this.myContact = contact;
+    this.logedIn = true;
+  }
+
   getMyContact(): Promise<Contact> {
     return new Promise(() => {
       this.logedIn = true;

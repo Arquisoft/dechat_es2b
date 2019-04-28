@@ -51,11 +51,11 @@ describe('ContactsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should add contacts',async () => {
+  it('should add contacts', () => {
     component.contactID = 'https://mkock.up/profile/card#me';
     component.contactNick = 'Prueba';
     component.addNewContact();
-    delay(2000).then(() => {
+    delay(3000).then(() => {
       expect(repo.contacts.map(c => c.nickname)).toContain('Prueba');
     });
   });
