@@ -112,6 +112,7 @@ export class MockRepository implements Repository {
   }
 
   addNotificationDeletedMessage(notification: Notification) {
+    this.notifications = this.notifications.filter(n => n !== notification);
   }
 
   deleteFileAttached(fileName: string) {

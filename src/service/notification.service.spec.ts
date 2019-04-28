@@ -43,4 +43,10 @@ describe('NotificationService', () => {
     service.getCurrentChatNotifications(mock.contacts[0]).then(notifications =>
       expect(notifications).not.toContain(mock.notifications[0]));
   });
+
+  it ('should delete a single notificacion', () => {
+    const notification = mock.notifications[0];
+    service.deleteMessageNotification(notification.message);
+    service.getAllNotifications().then(notifications => expect(notifications).not.toContain(notification));
+  });
 });
