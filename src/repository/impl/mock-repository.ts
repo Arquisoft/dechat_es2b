@@ -7,6 +7,7 @@ import {Notification} from '../../model/notification';
 export class MockRepository implements Repository {
   contacts: Contact[] = [];
   messages: Message[] = [];
+  notifications: Notification[] = [];
   myContact: Contact = null;
   logedIn = false;
   nextAddContactError = false;
@@ -45,6 +46,11 @@ export class MockRepository implements Repository {
     });
   }
 
+  login(contact: Contact) {
+    this.myContact = contact;
+    this.logedIn = true;
+  }
+
   getMyContact(): Promise<Contact> {
     return new Promise(() => {
       this.logedIn = true;
@@ -61,13 +67,17 @@ export class MockRepository implements Repository {
   }
 
   addNotification(notification: Notification) {
+    this.notifications.push(notification);
   }
 
   getNotifications(chatIdentificator: string, deleteAfterRead: boolean): Promise<Notification[]> {
-    return undefined;
+    return new Promise<Notification[]>(() => {
+      return this.notifications;
+    });
   }
 
   deleteNotifications(chatIdentificator: string) {
+    this.notifications = this.notifications.filter(n => n.chatIdentificator !== chatIdentificator);
   }
 
 
@@ -75,16 +85,39 @@ export class MockRepository implements Repository {
   }
 
   deleteContact(contact: Contact, callback): Promise<void> {
-    return undefined;
+    return new Promise<void>(() => {
+      return;
+    });
   }
 
   addUnknownContact(contact: Contact) {
   }
 
   getUnknownContacts() {
-    return undefined;
+    return new Promise<Contact[]>(() => {
+      return [];
+    });
   }
 
   removeUnknownContact(contacts: Contact[], contact, callback) {
+  }
+
+  updateContact(contact: Contact, callback): Promise<void> {
+    return new Promise<void>(() => {
+      return;
+    });
+  }
+
+  addMediaMessage(content, message: Message, callback) {
+  }
+
+  addNotificationDeletedMessage(notification: Notification) {
+    this.notifications = this.notifications.filter(n => n !== notification);
+  }
+
+  deleteFileAttached(fileName: string) {
+  }
+
+  updateMessages(messages: Message[], contact: Contact){
   }
 }

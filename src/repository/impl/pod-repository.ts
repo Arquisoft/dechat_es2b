@@ -4,12 +4,12 @@ import {Message} from '../../model/message';
 import {Serializer} from '../util/serializer';
 import {PodUtil} from '../util/pod-util';
 import {reject} from 'q';
-import {LoginService} from '../../service/login.service';
 import {Notification} from '../../model/notification';
 import {Md5} from 'ts-md5/dist/md5';
+import {ILoginService} from '../../service/ILoginService';
 
 export class PodRepository implements Repository {
-  constructor(private login: LoginService) {
+  constructor(private login: ILoginService) {
   }
 
   async deleteContact(contact: Contact, callback): Promise<void> {
@@ -18,6 +18,30 @@ export class PodRepository implements Repository {
       return PodUtil.readFile(urlContacts).then(res => {
         if (res != null) {
           return Serializer.serializeDeleteContact(contact, res).then(res2 => {
+            if (res2.trim() === '') {
+              throw new Error('error');
+            } else {
+              PodUtil.updateFile(urlContacts, res2).then(res3 => {
+                callback();
+              }, err => {
+              });
+            }
+          });
+        } else {
+          throw new Error('error');
+        }
+      }, err => {
+        reject(err);
+      });
+    });
+  }
+
+  async updateContact(contact: Contact, callback): Promise<void> {
+    return this.login.myContact().then(cont => {
+      const urlContacts = cont.urlPod + 'profile/card';
+      return PodUtil.readFile(urlContacts).then(res => {
+        if (res != null) {
+          return Serializer.serializeUpdateContact(contact, res).then(res2 => {
             if (res2.trim() === '') {
               throw new Error('error');
             } else {
@@ -57,13 +81,46 @@ export class PodRepository implements Repository {
     });
   }
 
+  async addMediaMessage(content, message: Message, callback) {
+    if (message.text != null && message.isMedia) {
+      message.text = message.text.trim();
+      const arrayName = message.text.split('.');
+      if (arrayName.length === 2 && arrayName[0].match(/[a-f]|[0-9]/g).length === arrayName[0].length) {
+        const myContact = await this.login.myContact();
+        const urlFolder = myContact.urlPod + 'dechat/files';
+        const urlMedia = urlFolder + '/' + message.text;
+        PodUtil.createFolder(urlFolder).then(res1 => {
+          PodUtil.createFile(urlMedia, content).then(res2 => {
+            PodUtil.giveGrantsTo(urlMedia, message.to.urlPod);
+            callback();
+            this.addMessage(message);
+          }, err2 => {});
+        }, err1 => {});
+      }
+    }
+  }
+
+  async deleteFileAttached(fileName: string) {
+    const myContact = await this.login.myContact();
+    const urlMedia = myContact.urlPod + 'dechat/files/' + fileName;
+    PodUtil.removeFile(urlMedia);
+  }
+
+  async updateMessages(messages: Message[], contact: Contact) {
+    const urlMessage = await this.getChatUrl(contact);
+    PodUtil.writeToFile(urlMessage, Serializer.serializeMessages(messages));
+  }
+
   async addMessage(message: Message) {
     const urlMessage = await this.getChatUrl(message.to);
     const text = await PodUtil.readFile(urlMessage);
     const messages: Message[] = text == null ? [] : Serializer.deserializeMessages(text);
     messages.push(message);
-    PodUtil.writeToFile(urlMessage, Serializer.serializeMessages(messages));
-    PodUtil.giveGrantsTo(urlMessage, message.to.urlPod);
+    const urlFolder = (await this.login.myContact()).urlPod + 'dechat';
+    PodUtil.createFolder(urlFolder).then(res1 => {
+      PodUtil.writeToFile(urlMessage, Serializer.serializeMessages(messages));
+      PodUtil.giveGrantsTo(urlMessage, message.to.urlPod);
+    });
   }
 
   async removeUnknownContact(contacts: Contact[], contact, callback) {
@@ -93,7 +150,10 @@ export class PodRepository implements Repository {
     const contacts: Contact[] = text == null ? [] : Serializer.deserializeUnknownContacts(text);
     contact.isUnknown = true;
     contacts.push(contact);
-    PodUtil.writeToFile(pathUrl, Serializer.serializeUnknownContacts(contacts));
+    const urlFolder = (await this.login.myContact()).urlPod + 'dechat';
+    PodUtil.createFolder(urlFolder).then(res1 => {
+      PodUtil.writeToFile(pathUrl, Serializer.serializeUnknownContacts(contacts));
+    });
   }
 
   async getUnknownContacts() {
@@ -153,11 +213,19 @@ export class PodRepository implements Repository {
   }
 
   async addNotification(notification: Notification) {
+    this.auxAddNotification(notification, '');
+  }
+
+  async auxAddNotification(notification: Notification, option: string) {
     const md5Util = new Md5();
     const hashIdentificatorFile = md5Util.appendStr(notification.chatIdentificator).end();
     const urlNotification = notification.message.to.urlPod + 'inbox/dechat.' + hashIdentificatorFile +
-      '.' + notification.message.date.getTime() + '.json';
+      '.' + notification.message.date.getTime() + option + '.json';
     PodUtil.createFile(urlNotification, Serializer.serializeNotification(notification));
+  }
+
+  async addNotificationDeletedMessage(notification: Notification) {
+    this.auxAddNotification(notification, 'delete');
   }
 
   async getNotifications(chatIdentificator: string, deleteAfterRead: boolean): Promise<Notification[]> {

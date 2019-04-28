@@ -4,9 +4,7 @@
 
 
 === Requirements Overview
-The driving force behind this project is to pass the subject of Software architecture (https://arquisoft.github.io/) and trying to archive a decent qualification.
-
-The requirements are to make a SOLID based on-line chat by ourselves.
+The driving force behind this project is to develop a chat using the SOLID decentralized requirements.
 
 === Quality Goals
 [options="header",cols="1,2,2"]
@@ -26,9 +24,14 @@ The requirements are to make a SOLID based on-line chat by ourselves.
 [options="header",cols="1,2,2"]
 |===
 |Role/Name|Contact|Expectations
-| SOLID team |https://solid.mit.edu/|Their expectations are the same as the teachers' expectations, they want an application that uses SOLID principles. This means to be decentralized.
-| ARQUISOFT teachers |https://arquisoft.github.io/| Their expectations are the same as the SOLID team's expectations, they want an application that uses SOLID with the added hurdle of having a limited time and a rigorous use of GitHub.
-| The developer team |this GitHub repository| Since we are trying to pass a subject we can consider that every aspect of this project is important to us.
-| Individual final users | | The final users of the application are looking for one easy to use and a good response speed.
-|Groups of users||Groups of users want to communicate among them to share their experiences.
+| SOLID team 
+|https://solid.mit.edu/
+|Their expectations are the same as the teachers' expectations, they want an application that uses SOLID principles. This means to be decentralized.
+| ARQUISOFT teachers |https://arquisoft.github.io/
+|Their expectations are the same as the SOLID team's expectations, they want an application that uses SOLID with the added hurdle of having a limited time and a rigorous use of GitHub.
+| The developer team |https://github.com/Arquisoft/dechat_es2b
+| The expectations are to finish the most possible of features before then end line.
+| Individual final users 
+| 
+|The final users of the application are looking for one easy to use and a good response speed.
 |===

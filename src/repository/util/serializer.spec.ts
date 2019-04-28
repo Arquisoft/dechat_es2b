@@ -1,14 +1,21 @@
 import {Contact} from '../../model/contact';
 import {Message} from '../../model/message';
 import {Serializer} from './serializer';
+import {Notification} from '../../model/notification';
 
 describe('Serializer', () => {
   let contacts: Contact[];
+  let unContacts: Contact[];
 
   beforeEach(() => {
     contacts = [];
     contacts.push(new Contact('https://test1.mock.up/profile/card#me', 'Test1'));
     contacts.push(new Contact('https://test2.mock.up/profile/card#me', 'Test2'));
+    unContacts = [];
+    unContacts.push(new Contact('https://test1.mock.up/profile/card#me', 'Unknown'));
+    unContacts.push(new Contact('https://test2.mock.up/profile/card#me', 'Unknown'));
+    unContacts[0].isUnknown = true;
+    unContacts[1].isUnknown = true;
   });
 
   it('should deserialize the serializer messages', () => {
@@ -27,6 +34,23 @@ describe('Serializer', () => {
       Serializer.deserializeContacts(str).then(parsed => {
         expect(parsed[0]).toEqual(contacts[0]);
       });
+    });
+  });
+  it('should deserialize the serialized unknown contacts', () => {
+    expect(Serializer.deserializeUnknownContacts(Serializer.serializeUnknownContacts(unContacts))).toEqual(unContacts);
+  });
+  it('should deserialize the serialized notifications', () => {
+    const noti = new Notification( '0', new Message(contacts[0], contacts[1], new Date(), 'First Message'));
+    expect(Serializer.deserializeNotification(Serializer.serializeNotification(noti))).toEqual(noti);
+  });
+  it('should return null', () => {
+    Serializer.serializeDeleteContact(null, '').then(res => {
+      expect(res).toEqual(null);
+    });
+  });
+  it('should serialize Update Contact', () => {
+    Serializer.serializeUpdateContact(contacts[0], ' ').then( (value) => {
+      expect(value).toBe(' ');
     });
   });
 });

@@ -1,8 +1,10 @@
-import {Component, HostListener, Inject, OnInit} from '@angular/core';
+/* tslint:disable:prefer-for-of */
+import {Component, Inject, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {Contact} from '../../model/contact';
-import {AppComponent} from '../app.component';
 import {ContactService} from '../../service/contact.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {MessagingComponent} from '../messaging/messaging.component';
+import {reject} from 'q';
 
 @Component({
   selector: 'app-contacts',
@@ -20,25 +22,28 @@ export class ContactsComponent implements OnInit {
   addMessageResult: string;
   contactID;
   contactNick;
+  @ViewChild('contentModalEdit')
+  private editModal: TemplateRef<any>;
 
-  constructor(@Inject(AppComponent) private parent: AppComponent, public contactService: ContactService,
+  constructor(@Inject(MessagingComponent) private parent: MessagingComponent, public contactService: ContactService,
               private modalService: NgbModal) {
     this.contacts = [];
+    this.allContacts = [];
     this.messageLoadingOrEmpty = true;
-  }
-
-  @HostListener('document:click', ['$event'])
-  clickout(event) {
-    if (!this.parent.messages.eRef.nativeElement.querySelector('#action_menu_btn').contains(event.target)) {
-      if (this.parent.messages.toggleShowed) {
-        this.parent.messages.showMenu();
-      }
-    }
   }
 
   openAddContact(url) {
     document.getElementById('addContactButton').click();
     this.contactID = url + 'profile/card#me';
+  }
+
+  openModifyContact(contact: Contact) {
+    this.contactID = contact.urlPod + 'profile/card#me';
+    this.contactNick = contact.nickname;
+    const previousNick = contact.nickname;
+    this.modalService.open(this.editModal, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+      this.editContact(previousNick);
+    }, err => {});
   }
 
   open(content) {
@@ -47,6 +52,31 @@ export class ContactsComponent implements OnInit {
     }, (reason) => {
       this.addMessageResult = '';
     });
+  }
+
+  editContact(previousNick: string) {
+    if (this.contactNick == null) {
+      this.contactNick = '';
+    }
+    if (this.contactID != null && this.contactID.trim() !== '') {
+      const result = {result: false, message: '', contID: this.contactID, nickContact: this.contactNick.trim()};
+      if (result.nickContact !== previousNick) {
+        if (result.nickContact === '') {
+          result.nickContact = result.contID.split('/')[2];
+        }
+        result.result = true;
+        result.message = 'Alias changed correctly';
+      }
+      if (result.result) {
+        const newContact = new Contact(result.contID, result.nickContact);
+        const res = this.contactService.updateContact(newContact, () => {
+          this.showResultMessage(result.message);
+          this.ngOnInit();
+          newContact.urlPod = newContact.urlPod.replace('profile/card#me', '');
+          this.selectContact(newContact);
+        });
+      }
+    }
   }
 
   addNewContact() {
@@ -137,7 +167,8 @@ export class ContactsComponent implements OnInit {
   checkIfExistContact(url) {
     if (this.allContacts != null) {
       for (let i = 0; i < this.allContacts.length; ++i) {
-        if (!this.allContacts[i].isUnknown && (this.allContacts[i].urlPod + 'profile/card#me' === url || this.allContacts[i].urlPod + 'profile/card#me/' === url)) {
+        if (!this.allContacts[i].isUnknown && (this.allContacts[i].urlPod + 'profile/card#me' === url
+          || this.allContacts[i].urlPod + 'profile/card#me/' === url)) {
           return true;
         }
       }
@@ -151,28 +182,31 @@ export class ContactsComponent implements OnInit {
   }
 
   auxOnInit(contactToSelectURL) {
-    this.contactService.getContacts().then(res => {
-      this.contactService.getUnknownContacts().then(res2 => {
-        res.push(... res2);
-        this.messageLoadingOrEmpty = false;
-        this.contactService.getContactsImages(res);
-        this.allContacts = res;
-        this.contacts = res;
-        this.parent.setContactsComponente(this);
-        if (contactToSelectURL != null) {
-          for (let i = 0; i < this.allContacts.length; ++i) {
-            if (this.allContacts[i].urlPod === contactToSelectURL) {
-              this.selectContact(this.allContacts[i]);
-              break;
+    return new Promise(() => {
+      this.contactService.getContacts().then(res => {
+        this.contactService.getUnknownContacts().then(res2 => {
+          res.push(... res2);
+          this.messageLoadingOrEmpty = false;
+          this.contactService.getContactsImages(res);
+          this.allContacts = res;
+          this.contacts = res;
+          this.parent.setContactsComponente(this);
+          if (contactToSelectURL != null) {
+            for (let i = 0; i < this.allContacts.length; ++i) {
+              if (this.allContacts[i].urlPod === contactToSelectURL) {
+                this.selectContact(this.allContacts[i]);
+                break;
+              }
             }
           }
-        }
-      });
+          return this.contacts;
+        }, err => reject(err));
+      }, err2 => reject(err2));
     });
   }
 
   ngOnInit() {
-    this.auxOnInit(null);
+    return this.auxOnInit(null);
   }
 
   selectContact(contact: Contact) {
