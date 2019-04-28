@@ -30,5 +30,9 @@ describe('NotificationService', () => {
     service.getAllNotifications().then(notifications => expect(notifications).toEqual(mock.notifications));
   });
 
+  it('should get notifications for a single chat', async () => {
+    service.getCurrentChatNotifications(mock.contacts[0]).then(notifications => expect(notifications).toContain(mock.notifications[0]));
+  });
+
 
 });
