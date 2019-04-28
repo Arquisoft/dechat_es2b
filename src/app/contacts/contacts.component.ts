@@ -1,8 +1,10 @@
-import {Component, HostListener, Inject, OnInit, TemplateRef, ViewChild} from '@angular/core';
+/* tslint:disable:prefer-for-of */
+import {Component, Inject, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {Contact} from '../../model/contact';
 import {ContactService} from '../../service/contact.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {MessagingComponent} from '../messaging/messaging.component';
+import {reject} from 'q';
 
 @Component({
   selector: 'app-contacts',
@@ -26,16 +28,8 @@ export class ContactsComponent implements OnInit {
   constructor(@Inject(MessagingComponent) private parent: MessagingComponent, public contactService: ContactService,
               private modalService: NgbModal) {
     this.contacts = [];
+    this.allContacts = [];
     this.messageLoadingOrEmpty = true;
-  }
-
-  @HostListener('document:click', ['$event'])
-  clickout(event) {
-    if (!this.parent.messages.eRef.nativeElement.querySelector('#action_menu_btn').contains(event.target)) {
-      if (this.parent.messages.toggleShowed) {
-        this.parent.messages.showMenu();
-      }
-    }
   }
 
   openAddContact(url) {
@@ -173,7 +167,8 @@ export class ContactsComponent implements OnInit {
   checkIfExistContact(url) {
     if (this.allContacts != null) {
       for (let i = 0; i < this.allContacts.length; ++i) {
-        if (!this.allContacts[i].isUnknown && (this.allContacts[i].urlPod + 'profile/card#me' === url || this.allContacts[i].urlPod + 'profile/card#me/' === url)) {
+        if (!this.allContacts[i].isUnknown && (this.allContacts[i].urlPod + 'profile/card#me' === url
+          || this.allContacts[i].urlPod + 'profile/card#me/' === url)) {
           return true;
         }
       }
@@ -187,28 +182,31 @@ export class ContactsComponent implements OnInit {
   }
 
   auxOnInit(contactToSelectURL) {
-    this.contactService.getContacts().then(res => {
-      this.contactService.getUnknownContacts().then(res2 => {
-        res.push(... res2);
-        this.messageLoadingOrEmpty = false;
-        this.contactService.getContactsImages(res);
-        this.allContacts = res;
-        this.contacts = res;
-        this.parent.setContactsComponente(this);
-        if (contactToSelectURL != null) {
-          for (let i = 0; i < this.allContacts.length; ++i) {
-            if (this.allContacts[i].urlPod === contactToSelectURL) {
-              this.selectContact(this.allContacts[i]);
-              break;
+    return new Promise(() => {
+      this.contactService.getContacts().then(res => {
+        this.contactService.getUnknownContacts().then(res2 => {
+          res.push(... res2);
+          this.messageLoadingOrEmpty = false;
+          this.contactService.getContactsImages(res);
+          this.allContacts = res;
+          this.contacts = res;
+          this.parent.setContactsComponente(this);
+          if (contactToSelectURL != null) {
+            for (let i = 0; i < this.allContacts.length; ++i) {
+              if (this.allContacts[i].urlPod === contactToSelectURL) {
+                this.selectContact(this.allContacts[i]);
+                break;
+              }
             }
           }
-        }
-      });
+          return this.contacts;
+        }, err => reject(err));
+      }, err2 => reject(err2));
     });
   }
 
   ngOnInit() {
-    this.auxOnInit(null);
+    return this.auxOnInit(null);
   }
 
   selectContact(contact: Contact) {

@@ -1,4 +1,5 @@
-import {Component, ElementRef, Inject, OnInit, SimpleChanges, TemplateRef, ViewChild} from '@angular/core';
+/* tslint:disable:prefer-for-of */
+import {Component, ElementRef, HostListener, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {Contact} from '../../model/contact';
 import {Message} from '../../model/message';
 import {MessageService} from '../../service/message.service';
@@ -22,15 +23,14 @@ export class MessagesComponent implements OnInit {
   hashMessages: Map<string, Message[]>;
   controlFind: boolean;
   appComponent: MessagingComponent;
-  @ViewChild('messages') private messagesContainer: ElementRef;
   toggleShowed: boolean;
   optUploaded: string;
   optionUploaded: string;
   @ViewChild('contentModal')
   private editModal: TemplateRef<any>;
 
-  constructor(public repositoryFactoryService: RepositoryFactoryService, private messageService: MessageService, private contactService: ContactService,
-              private notificationService: NotificationService, public eRef: ElementRef, private modalService: NgbModal) {
+  constructor(public repositoryFactoryService: RepositoryFactoryService, private messageService: MessageService,
+              private contactService: ContactService, private notificationService: NotificationService, private modalService: NgbModal) {
     this.makeSureLogin();
     this.hashMessages = new Map<string, Message[]>();
     this.controlFind = false;
@@ -38,9 +38,18 @@ export class MessagesComponent implements OnInit {
     this.toggleShowed = false;
   }
 
+  @HostListener('document:click', ['$event'])
+  clickout(event) {
+    if (event.target.id !== 'action_menu_btn' && event.target.id !== 'action_menu_btn2') {
+      if (this.toggleShowed) {
+        this.showMenu();
+      }
+    }
+  }
+
   makeSureLogin = async () => {
     this.myContact = await this.repositoryFactoryService.repository.getMyContact();
-  };
+  }
 
   showDeleteAllOwnMessages(content) {
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
@@ -217,7 +226,7 @@ export class MessagesComponent implements OnInit {
 
   showMessages = async () => {
     this.messages = this.hashMessages.get(this.contact.urlPod);
-  };
+  }
 
   findNewMessages = async () => {
     if (!this.controlFind) {
@@ -300,7 +309,7 @@ export class MessagesComponent implements OnInit {
         }
       });
     }
-  };
+  }
 
   checkAndSaveNewUnknownContacts(contacts, key) {
     let unknown = true;

@@ -34,8 +34,7 @@ export class ContactBase {
   }
 
   async getUnknownContacts() {
-    const contacts = await this.repository.repository.getUnknownContacts();
-    return contacts;
+    return this.repository.repository.getUnknownContacts();
   }
 
   getContactsImages(contact: Contact[]) {
