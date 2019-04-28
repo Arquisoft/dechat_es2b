@@ -8,6 +8,7 @@ ignore:
   - "src/repository/impl"
   - "src/repository/util/pod-util.ts"
   - "src/service/*base*"
+  - "src/service/*login*"
   - "test.ts"
   - "src/cli/.*"
   - "src/cli"
