@@ -55,7 +55,7 @@ describe('ContactsComponent', () => {
     component.contactID = 'https://mkock.up/profile/card#me';
     component.contactNick = 'Prueba';
     component.addNewContact();
-    delay(3000).then(() => {
+    delay(10000).then(() => {
       expect(repo.contacts.map(c => c.nickname)).toContain('Prueba');
     });
   });

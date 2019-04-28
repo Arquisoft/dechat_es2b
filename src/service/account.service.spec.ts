@@ -29,4 +29,9 @@ describe('AccountService', () => {
   it ('should log out with function', () => {
     service.logout(() => expect(service.logedIn).toBeFalsy());
   });
+
+  it ('should log out without function', () => {
+    service.logout();
+    expect(service.logedIn).toBeFalsy();
+  });
 });
