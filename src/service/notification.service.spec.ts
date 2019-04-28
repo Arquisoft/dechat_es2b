@@ -26,5 +26,9 @@ describe('NotificationService', () => {
     expect(service).toBeTruthy();
   });
 
+  it('should list notifications', () => {
+    service.getAllNotifications().then(notifications => expect(notifications).toEqual(mock.notifications));
+  });
+
 
 });
