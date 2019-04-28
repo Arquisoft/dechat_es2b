@@ -9,6 +9,7 @@ import {ContactService} from '../../service/contact.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {Md5} from 'ts-md5';
 import {MessagingComponent} from '../messaging/messaging.component';
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-messages',
@@ -28,6 +29,7 @@ export class MessagesComponent implements OnInit {
   optionUploaded: string;
   @ViewChild('contentModal')
   private editModal: TemplateRef<any>;
+  error = false;
 
   constructor(public repositoryFactoryService: RepositoryFactoryService, private messageService: MessageService,
               private contactService: ContactService, private notificationService: NotificationService, private modalService: NgbModal) {
@@ -160,8 +162,10 @@ export class MessagesComponent implements OnInit {
       } else {
         this.appComponent.getContactsComponent().showResultMessage(errorMessage);
         alert(errorMessage);
+        this.error = true;
       }
     } else {
+      this.error = true;
       this.appComponent.getContactsComponent().showResultMessage('Uploading error');
       alert('Uploading error');
     }
@@ -216,8 +220,8 @@ export class MessagesComponent implements OnInit {
     message.isDeleted = true;
     for (let i = 0; i < this.messages.length; ++i) {
       if (this.messages[i].id === message.id) {
-        this.messages[i].isDeleted = true;
-        this.messages[i].isMedia = false;
+        this.messages[i].isDeleted = message.isDeleted;
+        this.messages[i].isMedia = message.isMedia;
       }
     }
     this.notificationService.deleteMessageNotification(message);
