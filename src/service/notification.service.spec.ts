@@ -38,5 +38,9 @@ describe('NotificationService', () => {
     service.getAllNotifications().then(notifications => expect(service.classifyNotificationsPerChat(notifications).length).toBe(2));
   });
 
-
+  it('should delete notifications of a chat', async () => {
+    service.deleteChatNotifications(mock.contacts[0].urlPod);
+    service.getCurrentChatNotifications(mock.contacts[0]).then(notifications =>
+      expect(notifications).not.toContain(mock.notifications[0]));
+  });
 });
