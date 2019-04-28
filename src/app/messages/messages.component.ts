@@ -9,6 +9,7 @@ import {ContactService} from '../../service/contact.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {Md5} from 'ts-md5';
 import {MessagingComponent} from '../messaging/messaging.component';
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-messages',

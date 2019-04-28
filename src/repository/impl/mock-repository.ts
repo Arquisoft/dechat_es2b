@@ -7,6 +7,7 @@ import {Notification} from '../../model/notification';
 export class MockRepository implements Repository {
   contacts: Contact[] = [];
   messages: Message[] = [];
+  notifications: Notification[] = [];
   myContact: Contact = null;
   logedIn = false;
   nextAddContactError = false;
@@ -61,15 +62,17 @@ export class MockRepository implements Repository {
   }
 
   addNotification(notification: Notification) {
+    this.notifications.push(notification);
   }
 
   getNotifications(chatIdentificator: string, deleteAfterRead: boolean): Promise<Notification[]> {
     return new Promise<Notification[]>(() => {
-      return [];
+      return this.notifications;
     });
   }
 
   deleteNotifications(chatIdentificator: string) {
+    this.notifications = this.notifications.filter(n => n.chatIdentificator !== chatIdentificator);
   }
 
 
