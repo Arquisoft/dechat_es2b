@@ -105,4 +105,22 @@ describe('MessagesComponent', () => {
       expect(repo.messages[0]).toBe(null);
     });
   });
+  it('should erase all messages', () => {
+    let text = 'Hi, this is a test';
+    const contact = new Contact('htpps://prueba.mock.up/profile/card#me', 'prueba');
+    component.selectConversation(contact, null);
+    component.myContact = new Contact('htpps://prueba2.mock.up/profile/card#me', 'prueba2');
+    component.message = text;
+    component.sendMessage(null).then(() => {});
+    component.findNewMessages();
+    text = 'Hi, this is a test2';
+    component.selectConversation(contact, null);
+    component.myContact = new Contact('htpps://prueba2.mock.up/profile/card#me', 'prueba2');
+    component.message = text;
+    component.sendMessage(null).then(() => {
+      component.showDeleteAllOwnMessages(null);
+      expect(repo.messages.length).toBe(0);
+      expect(repo.messages[0]).toBe(null);
+    });
+  });
 });

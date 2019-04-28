@@ -220,8 +220,8 @@ export class MessagesComponent implements OnInit {
     message.isDeleted = true;
     for (let i = 0; i < this.messages.length; ++i) {
       if (this.messages[i].id === message.id) {
-        this.messages[i].isDeleted = true;
-        this.messages[i].isMedia = false;
+        this.messages[i].isDeleted = message.isDeleted;
+        this.messages[i].isMedia = message.isMedia;
       }
     }
     this.notificationService.deleteMessageNotification(message);
