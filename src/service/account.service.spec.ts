@@ -25,4 +25,8 @@ describe('AccountService', () => {
     mock.login(contact);
     service.getMyContact().then(myContact => expect(myContact).toEqual(contact));
   });
+
+  it ('should log out with function', () => {
+    service.logout(() => expect(service.logedIn).toBeFalsy());
+  });
 });
