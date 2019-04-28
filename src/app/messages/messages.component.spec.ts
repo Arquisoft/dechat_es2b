@@ -81,4 +81,28 @@ describe('MessagesComponent', () => {
       expect(repo.messages[0].text).toBe(text);
     });
   });
+
+  it('should show the menu', () => {
+    const s = component.toggleShowed;
+    component.showMenu();
+    expect(s).toEqual(!component.toggleShowed);
+  });
+
+  it('should show an error', () => {
+    component.manageFileUpload(null, 0, null);
+    expect(component.error).toEqual(true);
+  });
+
+  it('should erase a message', () => {
+    const text = 'Hi, this is a test';
+    const contact = new Contact('htpps://prueba.mock.up/profile/card#me', 'prueba');
+    component.selectConversation(contact, null);
+    component.myContact = new Contact('htpps://prueba2.mock.up/profile/card#me', 'prueba2');
+    component.message = text;
+    component.sendMessage(null).then(() => {
+      component.deleteMessage(repo.messages[1]);
+      expect(repo.messages.length).toBe(0);
+      expect(repo.messages[0]).toBe(null);
+    });
+  });
 });
