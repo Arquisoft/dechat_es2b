@@ -22,6 +22,17 @@ Once executed, the application should be available at: http://127.0.0.1:4200
 
 == Command Line Interface
 
+
+=== Requirements
+
+In order to use the cli version you have two do next things:
+
+* You have to be installed NodeJS
+* OpenSSL must be in your computed and configured in the system path
+
+
+=== Usage
+
 You can compile the project to execute it into command line. The command line application can be compiled by executing:
 ----
  tsc -p src/cli --outDir dist/cli
