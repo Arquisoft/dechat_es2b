@@ -40,4 +40,7 @@ describe('MessageComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+  it('should confirm it"s not media', () => {
+    expect(component.isRepresentable(component.message)).toBeFalsy();
+  });
 });

@@ -48,4 +48,9 @@ describe('Serializer', () => {
       expect(res).toEqual(null);
     });
   });
+  it('should serialize Update Contact', () => {
+    Serializer.serializeUpdateContact(contacts[0], ' ').then( (value) => {
+      expect(value).toBe(' ');
+    });
+  });
 });
