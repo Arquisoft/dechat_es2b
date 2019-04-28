@@ -123,4 +123,24 @@ describe('MessagesComponent', () => {
       expect(repo.messages[0]).toBe(null);
     });
   });
+  it('should logout', () => {
+    const s = component.toggleShowed;
+    component.logout();
+    expect(s).toEqual(!component.toggleShowed);
+  });
+  it('should check And Save New Unknown Contacts', () => {
+    let contacts: Contact[];
+    contacts = [];
+    contacts.push(new Contact('htpps://prueba.mock.up/profile/card#me', 'prueba'));
+    contacts.push(new Contact('htpps://prueba2.mock.up/profile/card#me', 'prueba2'));
+    component.checkAndSaveNewUnknownContacts(contacts, 'htpps://prueba.mock.up/profile/card#me');
+    component.checkAndSaveNewUnknownContacts(contacts, 'htpps://prueba3.mock.up/profile/card#me');
+    repo.getUnknownContacts().then(value => {
+      for (const vao of value) {
+        if (vao.urlPod === 'htpps://prueba3.mock.up/profile/card#me') {
+          expect(vao.urlPod ).toEqual('htpps://prueba3.mock.up/profile/card#me');
+        }
+      }
+    });
+  });
 });
