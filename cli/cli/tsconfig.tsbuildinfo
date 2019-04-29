@@ -1,0 +1,348 @@
+{
+  "program": {
+    "fileInfos": {
+      "c:/users/enolg/appdata/roaming/npm/node_modules/typescript/lib/lib.es5.d.ts": {
+        "version": "c8665e66018917580e71792b91022bcaf53fb946fab4aaf8dfb0738ed564db88",
+        "signature": "c8665e66018917580e71792b91022bcaf53fb946fab4aaf8dfb0738ed564db88"
+      },
+      "c:/users/enolg/appdata/roaming/npm/node_modules/typescript/lib/lib.es2015.d.ts": {
+        "version": "7994d44005046d1413ea31d046577cdda33b8b2470f30281fd9c8b3c99fe2d96",
+        "signature": "7994d44005046d1413ea31d046577cdda33b8b2470f30281fd9c8b3c99fe2d96"
+      },
+      "c:/users/enolg/appdata/roaming/npm/node_modules/typescript/lib/lib.es2016.d.ts": {
+        "version": "5f217838d25704474d9ef93774f04164889169ca31475fe423a9de6758f058d1",
+        "signature": "5f217838d25704474d9ef93774f04164889169ca31475fe423a9de6758f058d1"
+      },
+      "c:/users/enolg/appdata/roaming/npm/node_modules/typescript/lib/lib.es2017.d.ts": {
+        "version": "459097c7bdd88fc5731367e56591e4f465f2c9de81a35427a7bd473165c34743",
+        "signature": "459097c7bdd88fc5731367e56591e4f465f2c9de81a35427a7bd473165c34743"
+      },
+      "c:/users/enolg/appdata/roaming/npm/node_modules/typescript/lib/lib.es2018.d.ts": {
+        "version": "2edd3ddf436ef8e12df876dcae4ecd6a8748577944c477bf4b20d5596e0c9843",
+        "signature": "2edd3ddf436ef8e12df876dcae4ecd6a8748577944c477bf4b20d5596e0c9843"
+      },
+      "c:/users/enolg/appdata/roaming/npm/node_modules/typescript/lib/lib.es2015.core.d.ts": {
+        "version": "384f66a3422d80014c51de2682159bb26f1e35854029880ccd5f6d1f00e6a36d",
+        "signature": "384f66a3422d80014c51de2682159bb26f1e35854029880ccd5f6d1f00e6a36d"
+      },
+      "c:/users/enolg/appdata/roaming/npm/node_modules/typescript/lib/lib.es2015.collection.d.ts": {
+        "version": "dd94d8ef48c562389eb58af8df3a3a34d11367f7c818192aa5f16470d469e3f0",
+        "signature": "dd94d8ef48c562389eb58af8df3a3a34d11367f7c818192aa5f16470d469e3f0"
+      },
+      "c:/users/enolg/appdata/roaming/npm/node_modules/typescript/lib/lib.es2015.generator.d.ts": {
+        "version": "828413486bdcaa342558e8e4570b1b287b776cb61b4b70b0214bd10c5d9a94c3",
+        "signature": "828413486bdcaa342558e8e4570b1b287b776cb61b4b70b0214bd10c5d9a94c3"
+      },
+      "c:/users/enolg/appdata/roaming/npm/node_modules/typescript/lib/lib.es2015.iterable.d.ts": {
+        "version": "4d1f39313a169b8599b8817688f504b56ba8204c2ebafd03f66ff77ddb1899a4",
+        "signature": "4d1f39313a169b8599b8817688f504b56ba8204c2ebafd03f66ff77ddb1899a4"
+      },
+      "c:/users/enolg/appdata/roaming/npm/node_modules/typescript/lib/lib.es2015.promise.d.ts": {
+        "version": "7c07d934680d0e33275a44d22fb11a4ff31d46c8c26a8d056828a478753f1efe",
+        "signature": "7c07d934680d0e33275a44d22fb11a4ff31d46c8c26a8d056828a478753f1efe"
+      },
+      "c:/users/enolg/appdata/roaming/npm/node_modules/typescript/lib/lib.es2015.proxy.d.ts": {
+        "version": "5e72f949a89717db444e3bd9433468890068bb21a5638d8ab15a1359e05e54fe",
+        "signature": "5e72f949a89717db444e3bd9433468890068bb21a5638d8ab15a1359e05e54fe"
+      },
+      "c:/users/enolg/appdata/roaming/npm/node_modules/typescript/lib/lib.es2015.reflect.d.ts": {
+        "version": "f5b242136ae9bfb1cc99a5971cccc44e99947ae6b5ef6fd8aa54b5ade553b976",
+        "signature": "f5b242136ae9bfb1cc99a5971cccc44e99947ae6b5ef6fd8aa54b5ade553b976"
+      },
+      "c:/users/enolg/appdata/roaming/npm/node_modules/typescript/lib/lib.es2015.symbol.d.ts": {
+        "version": "9ae2860252d6b5f16e2026d8a2c2069db7b2a3295e98b6031d01337b96437230",
+        "signature": "9ae2860252d6b5f16e2026d8a2c2069db7b2a3295e98b6031d01337b96437230"
+      },
+      "c:/users/enolg/appdata/roaming/npm/node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts": {
+        "version": "3e0a459888f32b42138d5a39f706ff2d55d500ab1031e0988b5568b0f67c2303",
+        "signature": "3e0a459888f32b42138d5a39f706ff2d55d500ab1031e0988b5568b0f67c2303"
+      },
+      "c:/users/enolg/appdata/roaming/npm/node_modules/typescript/lib/lib.es2016.array.include.d.ts": {
+        "version": "3f96f1e570aedbd97bf818c246727151e873125d0512e4ae904330286c721bc0",
+        "signature": "3f96f1e570aedbd97bf818c246727151e873125d0512e4ae904330286c721bc0"
+      },
+      "c:/users/enolg/appdata/roaming/npm/node_modules/typescript/lib/lib.es2017.object.d.ts": {
+        "version": "ff8ad203e83338289b0f5defc1a5b5c253fb7d251b464db497383f915a0df3f4",
+        "signature": "ff8ad203e83338289b0f5defc1a5b5c253fb7d251b464db497383f915a0df3f4"
+      },
+      "c:/users/enolg/appdata/roaming/npm/node_modules/typescript/lib/lib.es2017.sharedmemory.d.ts": {
+        "version": "b8667586a618c5cf64523d4e500ae39e781428abfb28f3de441fc66b56144b6f",
+        "signature": "b8667586a618c5cf64523d4e500ae39e781428abfb28f3de441fc66b56144b6f"
+      },
+      "c:/users/enolg/appdata/roaming/npm/node_modules/typescript/lib/lib.es2017.string.d.ts": {
+        "version": "21df2e0059f14dcb4c3a0e125859f6b6ff01332ee24b0065a741d121250bc71c",
+        "signature": "21df2e0059f14dcb4c3a0e125859f6b6ff01332ee24b0065a741d121250bc71c"
+      },
+      "c:/users/enolg/appdata/roaming/npm/node_modules/typescript/lib/lib.es2017.intl.d.ts": {
+        "version": "c1759cb171c7619af0d2234f2f8fb2a871ee88e956e2ed91bb61778e41f272c6",
+        "signature": "c1759cb171c7619af0d2234f2f8fb2a871ee88e956e2ed91bb61778e41f272c6"
+      },
+      "c:/users/enolg/appdata/roaming/npm/node_modules/typescript/lib/lib.es2017.typedarrays.d.ts": {
+        "version": "28569d59e07d4378cb3d54979c4c60f9f06305c9bb6999ffe6cab758957adc46",
+        "signature": "28569d59e07d4378cb3d54979c4c60f9f06305c9bb6999ffe6cab758957adc46"
+      },
+      "c:/users/enolg/appdata/roaming/npm/node_modules/typescript/lib/lib.es2018.asynciterable.d.ts": {
+        "version": "42102aaeb1bfec213be1e9777466a6d551eeba8567fed18c0cdbca8c35e3c6e4",
+        "signature": "42102aaeb1bfec213be1e9777466a6d551eeba8567fed18c0cdbca8c35e3c6e4"
+      },
+      "c:/users/enolg/appdata/roaming/npm/node_modules/typescript/lib/lib.es2018.intl.d.ts": {
+        "version": "1b820b57379c726f94af50cd60053674af53ff9d079c1563cc70071e8b757dd0",
+        "signature": "1b820b57379c726f94af50cd60053674af53ff9d079c1563cc70071e8b757dd0"
+      },
+      "c:/users/enolg/appdata/roaming/npm/node_modules/typescript/lib/lib.es2018.promise.d.ts": {
+        "version": "efe049114bad1035b0aa9a4a0359f50ab776e3897c411521e51d3013079cbd62",
+        "signature": "efe049114bad1035b0aa9a4a0359f50ab776e3897c411521e51d3013079cbd62"
+      },
+      "c:/users/enolg/appdata/roaming/npm/node_modules/typescript/lib/lib.es2018.regexp.d.ts": {
+        "version": "e7780d04cd4120ee554c665829db2bbdd6b947cbaa3c150b7d9ea74df3beb2e8",
+        "signature": "e7780d04cd4120ee554c665829db2bbdd6b947cbaa3c150b7d9ea74df3beb2e8"
+      },
+      "c:/users/enolg/documents/git/dechat/src/model/contact.ts": {
+        "version": "788632cc3e9f1e2b854b4084b7cc7ef99a2af716299bcd77f0f28e4218a46083",
+        "signature": "7916b80522b8816240e72e11d75d87e7adc48e6c792f0458ab5948f235aa1576"
+      },
+      "c:/users/enolg/documents/git/dechat/node_modules/ts-md5/dist/md5.d.ts": {
+        "version": "65a17481af3a67296174db34dde02c772ba46333b588b5a291f39467884b13fe",
+        "signature": "65a17481af3a67296174db34dde02c772ba46333b588b5a291f39467884b13fe"
+      },
+      "c:/users/enolg/documents/git/dechat/src/model/message.ts": {
+        "version": "babbf8bf6c3d4d553246a7a93486c4ea9a449424cca5993f5e8a2ccaa68ecc8e",
+        "signature": "df721ce70c5fd75e0ad20f2dc25e995a578987381394dade4a464c8d9e2ec802"
+      },
+      "c:/users/enolg/documents/git/dechat/src/model/notification.ts": {
+        "version": "4a3287a1d3ceecbcad7fb6246a50c878f372e4e95cd6d35014da2ce55c41aa8c",
+        "signature": "3de3363f9bf5f7572eba0e350ebc8e73966b75a6375165a2fe39c6f869514bc8"
+      },
+      "c:/users/enolg/documents/git/dechat/src/repository/repository.ts": {
+        "version": "6ba1447533d79215e94e23402398f2320df3e57dbb59d9b939988d27c1207b32",
+        "signature": "5556af6483fe83bf025432d687bfba8c078db26dbfafde45e2dad46f413f4a79"
+      },
+      "c:/users/enolg/documents/git/dechat/src/repository/util/serializer.ts": {
+        "version": "cd3aff0817aac113f8275fec30453ca9faa0a581ba3613a05c8a1a3ef182c2ae",
+        "signature": "c408c93b00b0e2fa7aecbfdb710e6b88e408df21bdc36f1f566d5690e6434ed9"
+      },
+      "c:/users/enolg/documents/git/dechat/src/repository/util/pod-util.ts": {
+        "version": "5ef7d411fe70261ecbdd65dbbb2dea74cda54c65ef33ec98f2a34a6ca9b76666",
+        "signature": "7ee0c9063ef092432650ce23e8c1f5de751059c31402f2a950ccc2e0db15d09c"
+      },
+      "c:/users/enolg/documents/git/dechat/node_modules/@types/q/index.d.ts": {
+        "version": "026aa0540cf6376b64fff7c22f4dc127c2bbe7885daeabbc88f0a3513faaf78a",
+        "signature": "026aa0540cf6376b64fff7c22f4dc127c2bbe7885daeabbc88f0a3513faaf78a"
+      },
+      "c:/users/enolg/documents/git/dechat/src/service/iloginservice.ts": {
+        "version": "08a6b85d132c1e9079452f5a58075668fd7f5cd2d83e900fa4d16d0fc9c58e5e",
+        "signature": "7a7a5551e96eef28dc1c219f5efc626fb4eb48c7a85631945deb281cf7e1b386"
+      },
+      "c:/users/enolg/documents/git/dechat/src/repository/impl/pod-repository.ts": {
+        "version": "272af9f12dfc58750e096a4c292bbeb9089c3c8b15329f8527244c5fee47aaea",
+        "signature": "e6a65a8698d349b2144585cc7528ead61036f96a33e680adce0808da2e142fc1"
+      },
+      "c:/users/enolg/documents/git/dechat/src/repository/repository-factory.base.ts": {
+        "version": "c718ac846dfafb1adb44e172b1a8a0b4335aef8c6e0477cdf11d78dfa6712943",
+        "signature": "2ec35288936684b0a73314a3a7c236fe7445b49ffd8f093acd3a0332da5da061"
+      },
+      "c:/users/enolg/documents/git/dechat/src/service/contact.base.ts": {
+        "version": "c02c251579bb13cca9e19e0a65d0d6c0fa49e9e9d11b1ad28e615deebcd3526f",
+        "signature": "8230343cfd87f67c378702304cc9dc667e2058ea3ea9ea408bfc257d5e1ec822"
+      },
+      "c:/users/enolg/documents/git/dechat/src/cli/cliloginservice.ts": {
+        "version": "38ca44533fa5be15a52b49c6111230f7de79f9752bc5b0d53265172a6556e6a2",
+        "signature": "3b4101533a795817aaa1168031ded1a10246c4c5542f73933880eb38703a39fe"
+      },
+      "c:/users/enolg/documents/git/dechat/src/service/message.base.ts": {
+        "version": "fae46a219462a70cd0f809000c3a1071f7cdead161b9d4fde82a65f4a61f0c85",
+        "signature": "53aedf37be6d08b9dcf0cdf5fc5d732e66ecd1de1b9197abce8e4f6d826e9e1a"
+      },
+      "c:/users/enolg/documents/git/dechat/src/cli/cli.ts": {
+        "version": "0677ec489987f46bdfb67713eaa115f53d61c4b45583b87ed8eb978e27f1a5fc",
+        "signature": "f761c91419d0a89422a0004ef1a92929dd4d2d5e5c16758654d8b0467d1998c6"
+      },
+      "c:/users/enolg/documents/git/dechat/node_modules/@types/node/inspector.d.ts": {
+        "version": "fc514174d61a5d9a9ccca41424ffd92f36ff3aa4616fd1fd4e26df51563f5749",
+        "signature": "fc514174d61a5d9a9ccca41424ffd92f36ff3aa4616fd1fd4e26df51563f5749"
+      },
+      "c:/users/enolg/documents/git/dechat/node_modules/@types/node/index.d.ts": {
+        "version": "c1822231cac080ba96fb492c55ad4d8b1199ab16c3a074bb61b68c71b1e889a3",
+        "signature": "c1822231cac080ba96fb492c55ad4d8b1199ab16c3a074bb61b68c71b1e889a3"
+      }
+    },
+    "options": {
+      "target": 2,
+      "module": 1,
+      "lib": [
+        "lib.es2018.d.ts"
+      ],
+      "sourceMap": true,
+      "rootDir": "C:/Users/enolg/Documents/git/dechat/src/",
+      "composite": true,
+      "moduleResolution": 2,
+      "types": [
+        "node"
+      ],
+      "project": "src/cli",
+      "outDir": "dist/cli",
+      "configFilePath": "C:/Users/enolg/Documents/git/dechat/src/cli/tsconfig.json"
+    },
+    "referencedMap": {
+      "c:/users/enolg/documents/git/dechat/src/model/message.ts": [
+        "c:/users/enolg/documents/git/dechat/src/model/contact.ts",
+        "c:/users/enolg/documents/git/dechat/node_modules/ts-md5/dist/md5.d.ts"
+      ],
+      "c:/users/enolg/documents/git/dechat/src/model/notification.ts": [
+        "c:/users/enolg/documents/git/dechat/src/model/message.ts"
+      ],
+      "c:/users/enolg/documents/git/dechat/src/repository/repository.ts": [
+        "c:/users/enolg/documents/git/dechat/src/model/contact.ts",
+        "c:/users/enolg/documents/git/dechat/src/model/message.ts",
+        "c:/users/enolg/documents/git/dechat/src/model/notification.ts"
+      ],
+      "c:/users/enolg/documents/git/dechat/src/repository/util/serializer.ts": [
+        "c:/users/enolg/documents/git/dechat/src/model/message.ts",
+        "c:/users/enolg/documents/git/dechat/src/model/contact.ts",
+        "c:/users/enolg/documents/git/dechat/src/model/notification.ts"
+      ],
+      "c:/users/enolg/documents/git/dechat/src/service/iloginservice.ts": [
+        "c:/users/enolg/documents/git/dechat/src/model/contact.ts"
+      ],
+      "c:/users/enolg/documents/git/dechat/src/repository/impl/pod-repository.ts": [
+        "c:/users/enolg/documents/git/dechat/src/repository/repository.ts",
+        "c:/users/enolg/documents/git/dechat/src/model/contact.ts",
+        "c:/users/enolg/documents/git/dechat/src/model/message.ts",
+        "c:/users/enolg/documents/git/dechat/src/repository/util/serializer.ts",
+        "c:/users/enolg/documents/git/dechat/src/repository/util/pod-util.ts",
+        "c:/users/enolg/documents/git/dechat/node_modules/@types/q/index.d.ts",
+        "c:/users/enolg/documents/git/dechat/src/model/notification.ts",
+        "c:/users/enolg/documents/git/dechat/node_modules/ts-md5/dist/md5.d.ts",
+        "c:/users/enolg/documents/git/dechat/src/service/iloginservice.ts"
+      ],
+      "c:/users/enolg/documents/git/dechat/src/repository/repository-factory.base.ts": [
+        "c:/users/enolg/documents/git/dechat/src/repository/repository.ts",
+        "c:/users/enolg/documents/git/dechat/src/repository/impl/pod-repository.ts",
+        "c:/users/enolg/documents/git/dechat/src/service/iloginservice.ts"
+      ],
+      "c:/users/enolg/documents/git/dechat/src/service/contact.base.ts": [
+        "c:/users/enolg/documents/git/dechat/src/model/contact.ts",
+        "c:/users/enolg/documents/git/dechat/src/repository/repository-factory.base.ts"
+      ],
+      "c:/users/enolg/documents/git/dechat/src/cli/cliloginservice.ts": [
+        "c:/users/enolg/documents/git/dechat/src/service/iloginservice.ts",
+        "c:/users/enolg/documents/git/dechat/src/model/contact.ts"
+      ],
+      "c:/users/enolg/documents/git/dechat/src/service/message.base.ts": [
+        "c:/users/enolg/documents/git/dechat/src/model/message.ts",
+        "c:/users/enolg/documents/git/dechat/src/model/contact.ts",
+        "c:/users/enolg/documents/git/dechat/src/repository/repository-factory.base.ts"
+      ],
+      "c:/users/enolg/documents/git/dechat/src/cli/cli.ts": [
+        "c:/users/enolg/documents/git/dechat/src/service/contact.base.ts",
+        "c:/users/enolg/documents/git/dechat/src/model/contact.ts",
+        "c:/users/enolg/documents/git/dechat/src/cli/cliloginservice.ts",
+        "c:/users/enolg/documents/git/dechat/src/repository/repository-factory.base.ts",
+        "c:/users/enolg/documents/git/dechat/src/service/message.base.ts"
+      ],
+      "c:/users/enolg/documents/git/dechat/node_modules/@types/node/inspector.d.ts": [
+        "c:/users/enolg/documents/git/dechat/node_modules/@types/node/index.d.ts"
+      ],
+      "c:/users/enolg/documents/git/dechat/node_modules/@types/node/index.d.ts": [
+        "c:/users/enolg/documents/git/dechat/node_modules/@types/node/index.d.ts",
+        "c:/users/enolg/documents/git/dechat/node_modules/@types/node/inspector.d.ts"
+      ]
+    },
+    "exportedModulesMap": {
+      "c:/users/enolg/documents/git/dechat/src/service/message.base.ts": [
+        "c:/users/enolg/documents/git/dechat/src/repository/repository-factory.base.ts",
+        "c:/users/enolg/documents/git/dechat/src/model/message.ts",
+        "c:/users/enolg/documents/git/dechat/src/model/contact.ts"
+      ],
+      "c:/users/enolg/documents/git/dechat/src/cli/cliloginservice.ts": [
+        "c:/users/enolg/documents/git/dechat/src/model/contact.ts",
+        "c:/users/enolg/documents/git/dechat/src/service/iloginservice.ts"
+      ],
+      "c:/users/enolg/documents/git/dechat/src/service/contact.base.ts": [
+        "c:/users/enolg/documents/git/dechat/src/repository/repository-factory.base.ts",
+        "c:/users/enolg/documents/git/dechat/src/model/contact.ts"
+      ],
+      "c:/users/enolg/documents/git/dechat/src/repository/impl/pod-repository.ts": [
+        "c:/users/enolg/documents/git/dechat/src/service/iloginservice.ts",
+        "c:/users/enolg/documents/git/dechat/src/model/contact.ts",
+        "c:/users/enolg/documents/git/dechat/src/model/message.ts",
+        "c:/users/enolg/documents/git/dechat/src/model/notification.ts",
+        "c:/users/enolg/documents/git/dechat/src/repository/repository.ts"
+      ],
+      "c:/users/enolg/documents/git/dechat/src/repository/repository-factory.base.ts": [
+        "c:/users/enolg/documents/git/dechat/src/service/iloginservice.ts",
+        "c:/users/enolg/documents/git/dechat/src/repository/repository.ts"
+      ],
+      "c:/users/enolg/documents/git/dechat/src/service/iloginservice.ts": [
+        "c:/users/enolg/documents/git/dechat/src/model/contact.ts"
+      ],
+      "c:/users/enolg/documents/git/dechat/src/repository/util/serializer.ts": [
+        "c:/users/enolg/documents/git/dechat/src/model/message.ts",
+        "c:/users/enolg/documents/git/dechat/src/model/contact.ts",
+        "c:/users/enolg/documents/git/dechat/src/model/notification.ts"
+      ],
+      "c:/users/enolg/documents/git/dechat/src/repository/repository.ts": [
+        "c:/users/enolg/documents/git/dechat/src/model/contact.ts",
+        "c:/users/enolg/documents/git/dechat/src/model/notification.ts",
+        "c:/users/enolg/documents/git/dechat/src/model/message.ts"
+      ],
+      "c:/users/enolg/documents/git/dechat/src/model/message.ts": [
+        "c:/users/enolg/documents/git/dechat/src/model/contact.ts"
+      ],
+      "c:/users/enolg/documents/git/dechat/src/model/notification.ts": [
+        "c:/users/enolg/documents/git/dechat/src/model/message.ts"
+      ],
+      "c:/users/enolg/documents/git/dechat/node_modules/@types/node/inspector.d.ts": [
+        "c:/users/enolg/documents/git/dechat/node_modules/@types/node/index.d.ts"
+      ],
+      "c:/users/enolg/documents/git/dechat/node_modules/@types/node/index.d.ts": [
+        "c:/users/enolg/documents/git/dechat/node_modules/@types/node/index.d.ts",
+        "c:/users/enolg/documents/git/dechat/node_modules/@types/node/inspector.d.ts"
+      ]
+    },
+    "semanticDiagnosticsPerFile": [
+      "c:/users/enolg/appdata/roaming/npm/node_modules/typescript/lib/lib.es5.d.ts",
+      "c:/users/enolg/appdata/roaming/npm/node_modules/typescript/lib/lib.es2015.d.ts",
+      "c:/users/enolg/appdata/roaming/npm/node_modules/typescript/lib/lib.es2016.d.ts",
+      "c:/users/enolg/appdata/roaming/npm/node_modules/typescript/lib/lib.es2017.d.ts",
+      "c:/users/enolg/appdata/roaming/npm/node_modules/typescript/lib/lib.es2018.d.ts",
+      "c:/users/enolg/appdata/roaming/npm/node_modules/typescript/lib/lib.es2015.core.d.ts",
+      "c:/users/enolg/appdata/roaming/npm/node_modules/typescript/lib/lib.es2015.collection.d.ts",
+      "c:/users/enolg/appdata/roaming/npm/node_modules/typescript/lib/lib.es2015.generator.d.ts",
+      "c:/users/enolg/appdata/roaming/npm/node_modules/typescript/lib/lib.es2015.iterable.d.ts",
+      "c:/users/enolg/appdata/roaming/npm/node_modules/typescript/lib/lib.es2015.promise.d.ts",
+      "c:/users/enolg/appdata/roaming/npm/node_modules/typescript/lib/lib.es2015.proxy.d.ts",
+      "c:/users/enolg/appdata/roaming/npm/node_modules/typescript/lib/lib.es2015.reflect.d.ts",
+      "c:/users/enolg/appdata/roaming/npm/node_modules/typescript/lib/lib.es2015.symbol.d.ts",
+      "c:/users/enolg/appdata/roaming/npm/node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts",
+      "c:/users/enolg/appdata/roaming/npm/node_modules/typescript/lib/lib.es2016.array.include.d.ts",
+      "c:/users/enolg/appdata/roaming/npm/node_modules/typescript/lib/lib.es2017.object.d.ts",
+      "c:/users/enolg/appdata/roaming/npm/node_modules/typescript/lib/lib.es2017.sharedmemory.d.ts",
+      "c:/users/enolg/appdata/roaming/npm/node_modules/typescript/lib/lib.es2017.string.d.ts",
+      "c:/users/enolg/appdata/roaming/npm/node_modules/typescript/lib/lib.es2017.intl.d.ts",
+      "c:/users/enolg/appdata/roaming/npm/node_modules/typescript/lib/lib.es2017.typedarrays.d.ts",
+      "c:/users/enolg/appdata/roaming/npm/node_modules/typescript/lib/lib.es2018.asynciterable.d.ts",
+      "c:/users/enolg/appdata/roaming/npm/node_modules/typescript/lib/lib.es2018.intl.d.ts",
+      "c:/users/enolg/appdata/roaming/npm/node_modules/typescript/lib/lib.es2018.promise.d.ts",
+      "c:/users/enolg/appdata/roaming/npm/node_modules/typescript/lib/lib.es2018.regexp.d.ts",
+      "c:/users/enolg/documents/git/dechat/src/model/contact.ts",
+      "c:/users/enolg/documents/git/dechat/node_modules/ts-md5/dist/md5.d.ts",
+      "c:/users/enolg/documents/git/dechat/src/model/message.ts",
+      "c:/users/enolg/documents/git/dechat/src/model/notification.ts",
+      "c:/users/enolg/documents/git/dechat/src/repository/repository.ts",
+      "c:/users/enolg/documents/git/dechat/src/repository/util/serializer.ts",
+      "c:/users/enolg/documents/git/dechat/src/repository/util/pod-util.ts",
+      "c:/users/enolg/documents/git/dechat/node_modules/@types/q/index.d.ts",
+      "c:/users/enolg/documents/git/dechat/src/service/iloginservice.ts",
+      "c:/users/enolg/documents/git/dechat/src/repository/impl/pod-repository.ts",
+      "c:/users/enolg/documents/git/dechat/src/repository/repository-factory.base.ts",
+      "c:/users/enolg/documents/git/dechat/src/service/contact.base.ts",
+      "c:/users/enolg/documents/git/dechat/src/cli/cliloginservice.ts",
+      "c:/users/enolg/documents/git/dechat/src/service/message.base.ts",
+      "c:/users/enolg/documents/git/dechat/src/cli/cli.ts",
+      "c:/users/enolg/documents/git/dechat/node_modules/@types/node/inspector.d.ts",
+      "c:/users/enolg/documents/git/dechat/node_modules/@types/node/index.d.ts"
+    ]
+  },
+  "version": "3.4.2"
+}
