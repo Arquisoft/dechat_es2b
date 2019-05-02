@@ -8,11 +8,13 @@ import {CLILoginService} from './CLILoginService';
 import {RepositoryFactoryBase} from '../repository/repository-factory.base';
 import {MessageBase} from '../service/message.base';
 import {Message} from '../model/message';
+import {NotificationBase} from '../service/notification.base';
 
 const loginService = new CLILoginService();
 const repository = new RepositoryFactoryBase(loginService);
 const contactService = new ContactBase(repository);
 const messageService = new MessageBase(repository);
+const notificationService = new NotificationBase(repository);
 
 function printLogo() {
   console.log('\n' +
@@ -180,7 +182,9 @@ function sendMessage() {
       type: 'input',
       message: 'Text of the message'
     }]).then(async answers => {
-      messageService.addMessage(new Message(await loginService.myContact(), contact, new Date(), answers['text']));
+      const message = new Message(await loginService.myContact(), contact, new Date(), answers['text']);
+      messageService.addMessage(message);
+      notificationService.sendNewMessageNotification(message);
       showMenu();
     });
   });
