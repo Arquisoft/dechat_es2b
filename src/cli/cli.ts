@@ -163,7 +163,7 @@ function showMessagesOf(contact: Contact) {
       } else {
         console.log('---------------------------------');
       }
-      if (message.from.nickname === contact.urlPod) {
+      if (message.from.urlPod !== contact.urlPod) {
         console.log('From: I');
       } else {
         console.log('From: ' + contact.nickname);
