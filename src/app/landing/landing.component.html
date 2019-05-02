@@ -64,3 +64,33 @@
     </div>
   </div>
 </section>
+
+<ng-template #contentModalEdit let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Login</h4>
+    <button type="button" style="color:black;" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      x
+    </button>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="form-group">
+        <label for="identityProvider">Contact ID</label>
+        <div class="input-group">
+          <input id="identityProvider" [(ngModel)]="identityProvider" class="form-control" placeholder="https://inrupt.net" name="identityProvider" readonly/>
+        </div>
+        <label for="username">username</label>
+        <div class="input-group">
+          <input id="username" [(ngModel)]="username" class="form-control" placeholder="'username'" name="username"/>
+        </div>
+        <label for="password">password</label>
+        <div class="input-group">
+          <input id="password" [(ngModel)]="password" class="form-control" placeholder="'password'" name="password"/>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Login</button>
+  </div>
+</ng-template>
