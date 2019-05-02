@@ -7,6 +7,7 @@ import {Contact} from '../model/contact';
 import {CLILoginService} from './CLILoginService';
 import {RepositoryFactoryBase} from '../repository/repository-factory.base';
 import {MessageBase} from '../service/message.base';
+import {Message} from '../model/message';
 
 const loginService = new CLILoginService();
 const repository = new RepositoryFactoryBase(loginService);
@@ -62,6 +63,7 @@ async function showLoggedMenu() {
     choices: [
       'List all my contacts',
       'Show messages of a contact',
+      'Send new message',
       'Log out',
       'Exit'
     ],
@@ -73,6 +75,9 @@ async function showLoggedMenu() {
         break;
       case 'Show messages of a contact':
         chooseContact(showMessagesOf);
+        break;
+      case 'Send new message':
+        sendMessage();
         break;
       case 'Log out':
         logout();
@@ -134,7 +139,7 @@ function chooseContact(callback) {
     inquirer.prompt([{
       name: 'contacts-menu',
       type: 'list',
-      message: 'What do you want to do?',
+      message: 'Select a contact',
       choices: options,
       default: 0
     }]).then(answers => {
@@ -165,6 +170,19 @@ function showMessagesOf(contact: Contact) {
       console.log(message.text);
     });
     showMenu();
+  });
+}
+
+function sendMessage() {
+  chooseContact(contact => {
+    inquirer.prompt([{
+      name: 'text',
+      type: 'input',
+      message: 'Text of the message'
+    }]).then(async answers => {
+      messageService.addMessage(new Message(await loginService.myContact(), contact, new Date(), answers['text']));
+      showMenu();
+    });
   });
 }
 
