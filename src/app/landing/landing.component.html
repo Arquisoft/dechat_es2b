@@ -6,7 +6,7 @@
         <p class="lead">A simple chat that uses SOLID to try to decentralize the data as much as possible. With this
           chat, you yourself are the owner of your information.</p>
         <p>
-          <a href="/messaging" class="btn btn-primary shadow mr-2" (click)="open(contentModalLogin)">Login and access to the app</a>
+          <a class="btn btn-primary shadow mr-2" (click)="open(contentModalLogin)">Login and access to the app</a>
           <a href="https://arquisoft.github.io/dechat_es2b/docs/" style="background-color: whitesmoke; color: black" class="btn btn-default shadow mr-2">Documentation</a>
         </p>
         <p class="text-muted mb-5">You have to allow to show popups in order to login into the POD. After clicking on
@@ -77,15 +77,15 @@
       <div class="form-group">
         <label for="identityProvider">Contact ID</label>
         <div class="input-group">
-          <input id="identityProvider" [(ngModel)]="identityProvider" class="form-control" placeholder="https://inrupt.net" name="identityProvider"/>
+          <input id="identityProvider" [(ngModel)]="identityProvider" class="form-control" placeholder="https://yourserver.ext" name="identityProvider"/>
         </div>
-        <label for="username">username</label>
+        <label for="username">Username</label>
         <div class="input-group">
-          <input id="username" [(ngModel)]="username" class="form-control" placeholder="'username'" name="username"/>
+          <input id="username" [(ngModel)]="username" class="form-control" placeholder="username" name="username"/>
         </div>
-        <label for="password">password</label>
+        <label for="password">Password</label>
         <div class="input-group">
-          <input id="password" [(ngModel)]="password" class="form-control" placeholder="'password'" name="password"/>
+          <input id="password" [(ngModel)]="password" class="form-control" placeholder="password" name="password"/>
         </div>
       </div>
     </form>
