@@ -11,12 +11,13 @@ export class CLILoginService implements ILoginService {
     const session = await auth.login({
       idp: answers['identityProvider'],
       username: answers['username'],
-      password: answers['password']});
+      password: answers['password']
+    });
     this.contact = new Contact(session.webId.replace('#me', '').replace('profile/card', ''), 'I');
   }
 
-  async myContact(): Promise<Contact> {
-    return this.contact;
+  async myContact() {
+    return new Promise<Contact>((resolve) => resolve(this.contact));
   }
 
   logout(action) {

@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {LoginService} from '../../service/login.service';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-landing',
@@ -6,10 +9,44 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./landing.component.css']
 })
 export class LandingComponent implements OnInit {
+  identityProvider;
 
-  constructor() { }
+  constructor(private modalService: NgbModal, private login: LoginService) {
+  }
 
   ngOnInit() {
+    const objParams = this.getParamsUrl();
+    if (objParams['access_token'] != null) {
+      this.login.login(this.identityProvider, () => window.location.href = '/messaging');
+    }
+  }
+
+  getParamsUrl() {
+    const rawParams = window.location.hash.substr(1, window.location.hash.length);
+    const arrayParams = rawParams.split('&');
+    const objParams = {};
+    for (let i = 0; i < arrayParams.length; ++i) {
+      const splitedParam = arrayParams[i].split('=');
+      const nameKey = splitedParam[0];
+      const value = splitedParam[1];
+      objParams[nameKey] = value;
+    }
+    return objParams;
+  }
+
+  open(content) {
+    this.login.myContact().then(contact => {
+      if (contact == null) {
+        // Si no está la cookie de inicio de sesión habilitada en inrupt mostrar la ventana
+        this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+          this.login.login(this.identityProvider, () => window.location.href = '/messaging');
+        }, (reason) => {
+          // If the modal is closed using the cross button or clicking out of it
+        });
+      } else {
+        window.location.href = '/messaging';
+      }
+    });
   }
 
 }
