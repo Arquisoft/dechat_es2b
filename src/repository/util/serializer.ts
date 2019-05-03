@@ -159,6 +159,8 @@ export class Serializer {
     });
     let resultTurtle = '';
     parsePromisePrefixes.then(res => {
+      writer.addPrefix('', '#', null);
+      writer.addPrefix('n0', 'http://xmlns.com/foaf/0.1/', null);
       parsePromiseQuads.then(res2 => {
         writer.end((error, result) => {
           i = 100;
@@ -249,7 +251,7 @@ export class Serializer {
             } else {
               if (modify) {
                 if (!controlHad) {
-                  writer.addQuad(namedNode(subjectValue + '/me'),
+                  writer.addQuad(namedNode(subjectValue),
                     namedNode('n0:nick'), literal(changeContact.nickname));
                 }
                 writer.addPrefixes(prefixes);

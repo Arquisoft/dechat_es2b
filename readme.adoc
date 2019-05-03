@@ -12,12 +12,18 @@ As students of the https://github.com/Arquisoft/[Software Architecture course at
 
 == Compile and run
 
-The skeleton project is a simple https://angular.io[Angular] application which can be run as:
+The skeleton project is a simple https://angular.io[Angular] application which can be executed after you run `npm install` to update the dependencies and you have done one of the followings:
+
+· If you use UNIX: Run `sed -i 's/node: false/node: {stream: true, crypto: true}/g' node_modules/@angular-devkit/build-angular/src/angular-cli-files/models/webpack-configs/browser.js`
+
+· Go to `node_modules/@angular-devkit/build-angular/src/angular-cli-files/models/webpack-configs/browser.js` and use `node: {crypto: true, stream: true}` at the end of the file replacing `node: false`.
+
+Finally run:
 ----
  ng serve
 ----
 
-Once executed, the application should be available at: http://127.0.0.1:4200
+Once executed, the application should be available at: http://localhost:4200/
 
 
 == Command Line Interface

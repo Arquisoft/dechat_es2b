@@ -43,7 +43,10 @@ export class ContactsComponent implements OnInit {
     const previousNick = contact.nickname;
     this.modalService.open(this.editModal, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
       this.editContact(previousNick);
-    }, err => {});
+    }, err => {
+      this.contactNick = '';
+      this.contactID = '';
+    });
   }
 
   open(content) {
@@ -66,6 +69,8 @@ export class ContactsComponent implements OnInit {
         }
         result.result = true;
         result.message = 'Alias changed correctly';
+        this.contactNick = '';
+        this.contactID = '';
       }
       if (result.result) {
         const newContact = new Contact(result.contID, result.nickContact);
