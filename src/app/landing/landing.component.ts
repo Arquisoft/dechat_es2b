@@ -11,16 +11,14 @@ import {ActivatedRoute, Router} from '@angular/router';
 export class LandingComponent implements OnInit {
   identityProvider;
 
-  constructor(private modalService: NgbModal, private login: LoginService, private router: Router) {
+  constructor(private modalService: NgbModal, private login: LoginService) {
   }
 
   ngOnInit() {
-      const objParams = this.getParamsUrl();
-      if (objParams['access_token'] != null) {
-        this.login.login(this.identityProvider, function() {
-          this.router.navigateByUrl('/messaging');
-        }.bind(this));
-      }
+    const objParams = this.getParamsUrl();
+    if (objParams['access_token'] != null) {
+      this.login.login(this.identityProvider, () => window.location.href = '/messaging');
+    }
   }
 
   getParamsUrl() {
@@ -37,18 +35,16 @@ export class LandingComponent implements OnInit {
   }
 
   open(content) {
-    this.login.myContact().then( contact => {
+    this.login.myContact().then(contact => {
       if (contact == null) {
         // Si no está la cookie de inicio de sesión habilitada en inrupt mostrar la ventana
         this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
-          this.login.login(this.identityProvider, function() {
-            this.router.navigateByUrl('/messaging');
-          }.bind(this));
+          this.login.login(this.identityProvider, () => window.location.href = '/messaging');
         }, (reason) => {
           // If the modal is closed using the cross button or clicking out of it
         });
-      } else  {
-        this.router.navigateByUrl('/messaging');
+      } else {
+        window.location.href = '/messaging';
       }
     });
   }

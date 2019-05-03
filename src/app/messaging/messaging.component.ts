@@ -1,25 +1,19 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {MessagesComponent} from '../messages/messages.component';
 import {ContactsComponent} from '../contacts/contacts.component';
 import {LoginService} from '../../service/login.service';
 import {Contact} from '../../model/contact';
-import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-messaging',
   templateUrl: './messaging.component.html',
   styleUrls: ['./messaging.component.css']
 })
-export class MessagingComponent {
+export class MessagingComponent implements OnInit {
   @ViewChild(MessagesComponent) messages: MessagesComponent;
   contactsComponent: ContactsComponent;
 
-  constructor(protected loginService: LoginService, private router: Router) {
-    loginService.myContact().then(contact => {
-      if (contact == null) {
-        router.navigateByUrl('/index');
-      }
-    });
+  constructor(protected loginService: LoginService) {
   }
 
   getContactsComponent() {
@@ -34,5 +28,13 @@ export class MessagingComponent {
   selectContact(contact: Contact, contactsComponent): void {
     this.contactsComponent = contactsComponent;
     this.messages.selectConversation(contact, this);
+  }
+
+  ngOnInit(): void {
+    this.loginService.myContact().then(contact => {
+      if (contact == null) {
+        window.location.href = '/index';
+      }
+    });
   }
 }

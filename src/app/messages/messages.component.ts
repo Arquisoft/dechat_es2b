@@ -1,5 +1,5 @@
 /* tslint:disable:prefer-for-of */
-import {Component, ElementRef, HostListener, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {Component, HostListener, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {Contact} from '../../model/contact';
 import {Message} from '../../model/message';
 import {MessageService} from '../../service/message.service';
@@ -10,7 +10,6 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {Md5} from 'ts-md5';
 import {MessagingComponent} from '../messaging/messaging.component';
 import * as $ from 'jquery';
-import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-messages',
@@ -34,7 +33,7 @@ export class MessagesComponent implements OnInit {
 
   constructor(public repositoryFactoryService: RepositoryFactoryService, private messageService: MessageService,
               private contactService: ContactService, private notificationService: NotificationService,
-              private modalService: NgbModal, private router: Router) {
+              private modalService: NgbModal) {
     this.makeSureLogin();
     this.hashMessages = new Map<string, Message[]>();
     this.controlFind = false;
@@ -81,7 +80,7 @@ export class MessagesComponent implements OnInit {
   logout() {
     this.showMenu();
     this.repositoryFactoryService.repository.logout(function() {
-      this.router.navigateByUrl('/index');
+      window.location.href = '/index';
     }.bind(this));
   }
 
