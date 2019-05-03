@@ -1,5 +1,5 @@
 /* tslint:disable:prefer-for-of */
-import {Component, ElementRef, HostListener, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {Component, HostListener, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {Contact} from '../../model/contact';
 import {Message} from '../../model/message';
 import {MessageService} from '../../service/message.service';
@@ -32,7 +32,8 @@ export class MessagesComponent implements OnInit {
   error = false;
 
   constructor(public repositoryFactoryService: RepositoryFactoryService, private messageService: MessageService,
-              private contactService: ContactService, private notificationService: NotificationService, private modalService: NgbModal) {
+              private contactService: ContactService, private notificationService: NotificationService,
+              private modalService: NgbModal) {
     this.makeSureLogin();
     this.hashMessages = new Map<string, Message[]>();
     this.controlFind = false;
@@ -78,7 +79,9 @@ export class MessagesComponent implements OnInit {
 
   logout() {
     this.showMenu();
-    this.repositoryFactoryService.repository.logout(null);
+    this.repositoryFactoryService.repository.logout(function() {
+      window.location.href = '/index';
+    }.bind(this));
   }
 
   manageFileUploadEvent(event) {

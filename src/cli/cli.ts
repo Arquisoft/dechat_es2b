@@ -7,11 +7,14 @@ import {Contact} from '../model/contact';
 import {CLILoginService} from './CLILoginService';
 import {RepositoryFactoryBase} from '../repository/repository-factory.base';
 import {MessageBase} from '../service/message.base';
+import {Message} from '../model/message';
+import {NotificationBase} from '../service/notification.base';
 
 const loginService = new CLILoginService();
 const repository = new RepositoryFactoryBase(loginService);
 const contactService = new ContactBase(repository);
 const messageService = new MessageBase(repository);
+const notificationService = new NotificationBase(repository);
 
 function printLogo() {
   console.log('\n' +
@@ -62,6 +65,7 @@ async function showLoggedMenu() {
     choices: [
       'List all my contacts',
       'Show messages of a contact',
+      'Send new message',
       'Log out',
       'Exit'
     ],
@@ -73,6 +77,9 @@ async function showLoggedMenu() {
         break;
       case 'Show messages of a contact':
         chooseContact(showMessagesOf);
+        break;
+      case 'Send new message':
+        sendMessage();
         break;
       case 'Log out':
         logout();
@@ -134,7 +141,7 @@ function chooseContact(callback) {
     inquirer.prompt([{
       name: 'contacts-menu',
       type: 'list',
-      message: 'What do you want to do?',
+      message: 'Select a contact',
       choices: options,
       default: 0
     }]).then(answers => {
@@ -156,7 +163,7 @@ function showMessagesOf(contact: Contact) {
       } else {
         console.log('---------------------------------');
       }
-      if (message.from.nickname === contact.urlPod) {
+      if (message.from.urlPod !== contact.urlPod) {
         console.log('From: I');
       } else {
         console.log('From: ' + contact.nickname);
@@ -165,6 +172,21 @@ function showMessagesOf(contact: Contact) {
       console.log(message.text);
     });
     showMenu();
+  });
+}
+
+function sendMessage() {
+  chooseContact(contact => {
+    inquirer.prompt([{
+      name: 'text',
+      type: 'input',
+      message: 'Text of the message'
+    }]).then(async answers => {
+      const message = new Message(await loginService.myContact(), contact, new Date(), answers['text']);
+      messageService.addMessage(message);
+      notificationService.sendNewMessageNotification(message);
+      showMenu();
+    });
   });
 }
 
