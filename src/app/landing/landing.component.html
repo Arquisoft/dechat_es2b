@@ -1,4 +1,4 @@
-<section class="bg-light">
+<section class="bg-light" style="padding-bottom: 0px;">
   <div class="container">
     <div class="row">
       <div class="col-lg-8 order-2 order-lg-1">
@@ -18,15 +18,15 @@
     </div>
   </div>
 </section>
-<section style="margin: 0 auto">
-    <video width="512px" style="display: block; margin: 0 auto;" autoplay loop>
+<section style="margin: 0 auto; padding: 0px;">
+    <video controls width="512px" style="display: block; margin: 0 auto;" autoplay loop>
       <source src="/assets/PromotionalVideo.mp4" />
     </video>
 </section>
-<section>
+<section style="padding-top: 2em;">
   <div class="container">
     <h2>SOLID</h2>
-    <p class="mb-5">Solid was created by the inventor of the World Wide Web, Sir Tim Berners-Lee. Its mission
+    <p class="mb-5" style="margin-bottom: 0px !important;">Solid was created by the inventor of the World Wide Web, Sir Tim Berners-Lee. Its mission
       is to reshape the web as we know it. Solid will foster a new breed of applications with capabilities above and
       beyond anything that exists today.</p>
     <div class="row">
@@ -80,17 +80,9 @@
   <div class="modal-body">
     <form>
       <div class="form-group">
-        <label for="identityProvider">Contact ID</label>
+        <label for="identityProvider">POD Provider</label>
         <div class="input-group">
           <input id="identityProvider" [(ngModel)]="identityProvider" class="form-control" placeholder="https://yourserver.ext" name="identityProvider"/>
-        </div>
-        <label for="username">Username</label>
-        <div class="input-group">
-          <input id="username" [(ngModel)]="username" class="form-control" placeholder="username" name="username"/>
-        </div>
-        <label for="password">Password</label>
-        <div class="input-group">
-          <input id="password" [(ngModel)]="password" class="form-control" placeholder="password" name="password"/>
         </div>
       </div>
     </form>
