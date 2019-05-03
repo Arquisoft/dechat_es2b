@@ -82,7 +82,7 @@ export class MessagesComponent implements OnInit {
     this.showMenu();
     this.repositoryFactoryService.repository.logout(function() {
       this.router.navigateByUrl('/index');
-    });
+    }.bind(this));
   }
 
   manageFileUploadEvent(event) {
