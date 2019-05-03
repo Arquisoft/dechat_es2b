@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {LoginService} from '../../service/login.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {CookieService} from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-landing',
@@ -13,29 +12,16 @@ export class LandingComponent implements OnInit {
   identityProvider;
 
   constructor(private modalService: NgbModal, private login: LoginService, private router: Router,
-              private activatedRoute: ActivatedRoute, private cookieService: CookieService) {
+              private activatedRoute: ActivatedRoute) {
   }
 
   ngOnInit() {
-    if (this.cookieService.check('identityProvider')) {
-      let objParams = this.getParamsUrl();
-      if (!this.cookieService.check('objParams')) {
-        if (objParams['access_token'] != null) {
-          this.cookieService.set('objParams', JSON.stringify(objParams));
-        } else {
-          this.cookieService.deleteAll();
-          this.router.navigateByUrl('/messaging');
-        }
-      } else {
-        objParams = JSON.parse(this.cookieService.get('objParams'));
-      }
-      this.identityProvider = this.cookieService.get('identityProvider');
+      const objParams = this.getParamsUrl();
       if (objParams['access_token'] != null) {
         this.login.login(this.identityProvider, function() {
           this.router.navigateByUrl('/messaging');
         }.bind(this));
       }
-    }
   }
 
   getParamsUrl() {
@@ -52,16 +38,15 @@ export class LandingComponent implements OnInit {
   }
 
   open(content) {
-    if (!this.cookieService.check('identityProvider')) {
+    // Si no está la cookie de inicio de sesión habilitada en inrupt mostrar la ventana
       this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
-        this.cookieService.set('identityProvider', this.identityProvider);
         this.login.login(this.identityProvider, function() {
           this.router.navigateByUrl('/messaging');
         }.bind(this));
       }, (reason) => {
         // If the modal is closed using the cross button or clicking out of it
       });
-    }
+    //}
   }
 
 }

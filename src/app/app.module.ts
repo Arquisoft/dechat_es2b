@@ -11,7 +11,6 @@ import { MessagingComponent } from './messaging/messaging.component';
 import { LandingComponent } from './landing/landing.component';
 import {RouterModule, Routes} from '@angular/router';
 import {APP_BASE_HREF} from '@angular/common';
-import { CookieService } from 'ngx-cookie-service';
 
 const routes: Routes = [
   {
@@ -46,7 +45,7 @@ const routes: Routes = [
     RouterModule.forRoot(routes)
   ],
   exports: [RouterModule],
-  providers: [{provide: APP_BASE_HREF, useValue : '/' }, CookieService],
+  providers: [{provide: APP_BASE_HREF, useValue : '/' }],
   bootstrap: [AppComponent]
 })
 export class AppModule {

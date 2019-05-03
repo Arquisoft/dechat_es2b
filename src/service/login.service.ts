@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Contact} from '../model/contact';
 import * as auth from 'solid-auth-client';
 import {ILoginService} from './ILoginService';
-import {CookieService} from 'ngx-cookie-service';
+
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +10,7 @@ import {CookieService} from 'ngx-cookie-service';
 export class LoginService implements ILoginService {
   session;
 
-  constructor(private cookieService: CookieService) {
+  constructor() {
     this.session = null;
   }
 
@@ -34,7 +34,6 @@ export class LoginService implements ILoginService {
   }
 
   logout(action) {
-    this.cookieService.deleteAll();
     auth.logout().then(() => {
       this.session = null;
       if (action) {
