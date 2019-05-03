@@ -123,11 +123,6 @@ describe('MessagesComponent', () => {
       expect(repo.messages[0]).toBe(null);
     });
   });
-  it('should logout', () => {
-    const s = component.toggleShowed;
-    component.logout();
-    expect(s).toEqual(!component.toggleShowed);
-  });
   it('should check And Save New Unknown Contacts', () => {
     let contacts: Contact[];
     contacts = [];
