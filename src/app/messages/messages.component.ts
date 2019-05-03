@@ -10,6 +10,7 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {Md5} from 'ts-md5';
 import {MessagingComponent} from '../messaging/messaging.component';
 import * as $ from 'jquery';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-messages',
@@ -32,7 +33,8 @@ export class MessagesComponent implements OnInit {
   error = false;
 
   constructor(public repositoryFactoryService: RepositoryFactoryService, private messageService: MessageService,
-              private contactService: ContactService, private notificationService: NotificationService, private modalService: NgbModal) {
+              private contactService: ContactService, private notificationService: NotificationService,
+              private modalService: NgbModal, private router: Router) {
     this.makeSureLogin();
     this.hashMessages = new Map<string, Message[]>();
     this.controlFind = false;
@@ -78,7 +80,9 @@ export class MessagesComponent implements OnInit {
 
   logout() {
     this.showMenu();
-    this.repositoryFactoryService.repository.logout(null);
+    this.repositoryFactoryService.repository.logout(function() {
+      this.router.navigateByUrl('/index');
+    });
   }
 
   manageFileUploadEvent(event) {

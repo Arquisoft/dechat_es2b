@@ -11,8 +11,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 export class LandingComponent implements OnInit {
   identityProvider;
 
-  constructor(private modalService: NgbModal, private login: LoginService, private router: Router,
-              private activatedRoute: ActivatedRoute) {
+  constructor(private modalService: NgbModal, private login: LoginService, private router: Router) {
   }
 
   ngOnInit() {
@@ -38,15 +37,20 @@ export class LandingComponent implements OnInit {
   }
 
   open(content) {
-    // Si no está la cookie de inicio de sesión habilitada en inrupt mostrar la ventana
-      this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
-        this.login.login(this.identityProvider, function() {
-          this.router.navigateByUrl('/messaging');
-        }.bind(this));
-      }, (reason) => {
-        // If the modal is closed using the cross button or clicking out of it
-      });
-    //}
+    this.login.myContact().then( contact => {
+      if (contact == null) {
+        // Si no está la cookie de inicio de sesión habilitada en inrupt mostrar la ventana
+        this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+          this.login.login(this.identityProvider, function() {
+            this.router.navigateByUrl('/messaging');
+          }.bind(this));
+        }, (reason) => {
+          // If the modal is closed using the cross button or clicking out of it
+        });
+      } else  {
+        this.router.navigateByUrl('/messaging');
+      }
+    });
   }
 
 }

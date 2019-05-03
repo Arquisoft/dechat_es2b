@@ -15,7 +15,8 @@ export class LoginService implements ILoginService {
   }
 
   myContact() {
-    return new Promise<Contact>((resolve) => {
+    return new Promise<Contact>(async (resolve) => {
+      this.session = await auth.currentSession();
       if (this.session == null) {
         resolve(null);
       } else {

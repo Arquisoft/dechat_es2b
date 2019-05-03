@@ -18,8 +18,6 @@ export class MessagingComponent {
     loginService.myContact().then(contact => {
       if (contact == null) {
         router.navigateByUrl('/index');
-      } else {
-        alert('Login ' + contact);
       }
     });
   }
