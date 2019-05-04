@@ -32,7 +32,7 @@
                  bind-target = "isLast"></app-message>
   </div>
   <div class="card-footer">
-    <div class="input-group">
+    <div class="d-flex justify-content-center input-group">
       <div *ngIf="contact != null" class="lead emoji-picker-container" style="width: 70%;">
       <textarea id="inpArea" [placeholder]="contact != null ? 'Type your message...' : 'Select a contact to continue'"
                 class="form-control type_msg" name="message"
@@ -45,10 +45,11 @@
                 type="text"
                 data-emojiable="false"
                 (keypress)="sendMessage($event)" [(ngModel)]="message" [disabled]="contact == null"></textarea>
-      <div class="input-group-append" (click)="sendMessage(null)" [hidden]="contact == null">
+      <div class="input-group-append" style="margin-right: 1em;" (click)="sendMessage(null)" [hidden]="contact == null">
         <span class="input-group-text send_btn simulateButton"><i class="fas fa-location-arrow"></i></span>
       </div>
-      <div class="input-group-append" style="margin-left: 1em;" (click)="sendImage()" [hidden]="contact == null">
+      <div class="input-group-append" style="margin-top: 1em; min-height: 40px;">
+      <div class="input-group-append" (click)="sendImage()" [hidden]="contact == null">
         <span class="input-group-text send_btnEnd simulateButton"><i class="far fa-image"></i></span>
       </div>
       <div class="input-group-append" (click)="sendAudio()" [hidden]="contact == null">
@@ -56,6 +57,7 @@
       </div>
       <div class="input-group-append" (click)="sendPdf()" [hidden]="contact == null">
         <span class="input-group-text send_btn simulateButton"><i class="far fa-file-pdf"></i></span>
+      </div>
       </div>
     </div>
   </div>
