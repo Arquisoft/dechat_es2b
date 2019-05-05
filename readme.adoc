@@ -10,6 +10,13 @@ image:https://api.codacy.com/project/badge/Grade/fc7dc1da60ee4e9fb67ccff78262579
 As students of the https://github.com/Arquisoft/[Software Architecture course at the University of Oviedo], we were entrusted to develop a decentralized chat as classwork. This chat must be developed using https://solid.inrupt.com[SOLID], the new technology that https://twitter.com/timberners_lee[Tim Berners Lee] presents to us to decentralize the Social Networks in the Web.
 
 
+== Android app
+
+The app is available on Google Play Store as Beta (https://play.google.com/store/apps/details?id=io.github.arquisoft.dechat). You can use it through the app or through a browser except Internet Explorer and Edge.
+
+image::doc/raw/images/googlePlayLogo.png[Google Play logo, 300, auto]
+
+
 == Compile and run
 
 The skeleton project is a simple https://angular.io[Angular] application which can be executed after you run `npm install` to update the dependencies and you have done one of the followings:
